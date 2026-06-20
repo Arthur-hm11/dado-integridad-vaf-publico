@@ -1,0 +1,21 @@
+DADO DE LA INTEGRIDAD
+
+Para usarlo:
+1. Abre el archivo index.html en cualquier navegador.
+2. Selecciona Principios I, Principios II o Valores.
+3. Presiona "Lanzar dado".
+4. El aplicativo mostrará el principio o valor obtenido y una pregunta o reto al azar.
+
+Para cambiar preguntas o retos:
+1. Abre el archivo banco-preguntas.js con Bloc de notas.
+2. Edita los textos dentro de las listas preguntas o retos.
+3. Guarda el archivo.
+4. Vuelve a abrir index.html o actualiza el navegador.
+
+Importante:
+- No borres las comillas de cada pregunta.
+- No borres las comas entre preguntas.
+- Si escribes {tema}, el aplicativo lo reemplazará por el principio o valor obtenido.
+
+Para compartirlo:
+Envía la carpeta completa o el archivo dado-virtual-integridad.zip.
