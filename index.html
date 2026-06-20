@@ -2544,89 +2544,178 @@ function getNextRotation(current, desired, turns){
   return current + (turns * 360) + delta;
 }
 
+async function getRollAudioContext(){
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+  if(!AudioCtx) return null;
+  if(!rollAudioContext){
+    rollAudioContext = new AudioCtx();
+  }
+  if(rollAudioContext.state === "suspended"){
+    await rollAudioContext.resume();
+  }
+  return rollAudioContext;
+}
+
+function createRollNoiseBuffer(ctx){
+  if(rollNoiseBuffer) return rollNoiseBuffer;
+  const duration = 1.8;
+  const buffer = ctx.createBuffer(1, Math.floor(ctx.sampleRate * duration), ctx.sampleRate);
+  const channel = buffer.getChannelData(0);
+  for(let i = 0; i < channel.length; i += 1){
+    const progress = i / channel.length;
+    const decay = 1 - (progress * 0.58);
+    const grain = Math.sin(i * 0.095) * 0.18;
+    channel[i] = ((Math.random() * 2 - 1) * 0.82 + grain) * decay;
+  }
+  rollNoiseBuffer = buffer;
+  return rollNoiseBuffer;
+}
+
 async function playRollSound(){
  if(!soundEnabled) return;
  try{
-   const AudioCtx = window.AudioContext || window.webkitAudioContext;
-   if(!AudioCtx) return;
-   if(!rollAudioContext){
-     rollAudioContext = new AudioCtx();
-   }
+   const ctx = await getRollAudioContext();
+   if(!ctx) return;
 
-   const ctx = rollAudioContext;
-   if(ctx.state === "suspended"){
-     await ctx.resume();
-   }
-
-   if(!rollNoiseBuffer){
-     const duration = 1.45;
-     const buffer = ctx.createBuffer(1, Math.floor(ctx.sampleRate * duration), ctx.sampleRate);
-     const channel = buffer.getChannelData(0);
-     for(let i = 0; i < channel.length; i += 1){
-       const decay = 1 - (i / channel.length) * 0.52;
-       channel[i] = (Math.random() * 2 - 1) * decay;
-     }
-     rollNoiseBuffer = buffer;
-   }
-
+   const noiseBuffer = createRollNoiseBuffer(ctx);
    const start = ctx.currentTime;
    const master = ctx.createGain();
    master.gain.setValueAtTime(0.0001, start);
-   master.gain.exponentialRampToValueAtTime(0.24, start + 0.045);
-   master.gain.exponentialRampToValueAtTime(0.085, start + 0.72);
-   master.gain.exponentialRampToValueAtTime(0.0001, start + 1.22);
+   master.gain.exponentialRampToValueAtTime(0.3, start + 0.04);
+   master.gain.exponentialRampToValueAtTime(0.14, start + 0.84);
+   master.gain.exponentialRampToValueAtTime(0.0001, start + 1.5);
    master.connect(ctx.destination);
 
    const noiseSource = ctx.createBufferSource();
-   noiseSource.buffer = rollNoiseBuffer;
-   const noiseFilter = ctx.createBiquadFilter();
-   noiseFilter.type = "bandpass";
-   noiseFilter.frequency.setValueAtTime(980, start);
-   noiseFilter.frequency.exponentialRampToValueAtTime(250, start + 1.1);
-   noiseFilter.Q.value = 1.1;
+   noiseSource.buffer = noiseBuffer;
+   const bandpass = ctx.createBiquadFilter();
+   bandpass.type = "bandpass";
+   bandpass.frequency.setValueAtTime(1350, start);
+   bandpass.frequency.exponentialRampToValueAtTime(260, start + 1.28);
+   bandpass.Q.value = 1.4;
 
-   const noiseLowpass = ctx.createBiquadFilter();
-   noiseLowpass.type = "lowpass";
-   noiseLowpass.frequency.setValueAtTime(3200, start);
-   noiseLowpass.frequency.exponentialRampToValueAtTime(680, start + 1.08);
+   const lowpass = ctx.createBiquadFilter();
+   lowpass.type = "lowpass";
+   lowpass.frequency.setValueAtTime(3800, start);
+   lowpass.frequency.exponentialRampToValueAtTime(820, start + 1.24);
+
+   const highpass = ctx.createBiquadFilter();
+   highpass.type = "highpass";
+   highpass.frequency.setValueAtTime(90, start);
+
+   noiseSource.connect(bandpass);
+   bandpass.connect(lowpass);
+   lowpass.connect(highpass);
+   highpass.connect(master);
+   noiseSource.start(start);
+   noiseSource.stop(start + 1.42);
 
    const rumble = ctx.createOscillator();
    const rumbleGain = ctx.createGain();
-   rumble.type = "triangle";
-   rumble.frequency.setValueAtTime(96, start);
-   rumble.frequency.exponentialRampToValueAtTime(48, start + 0.42);
+   rumble.type = "sawtooth";
+   rumble.frequency.setValueAtTime(88, start);
+   rumble.frequency.exponentialRampToValueAtTime(42, start + 0.56);
    rumbleGain.gain.setValueAtTime(0.0001, start);
-   rumbleGain.gain.exponentialRampToValueAtTime(0.032, start + 0.03);
-   rumbleGain.gain.exponentialRampToValueAtTime(0.0001, start + 0.48);
+   rumbleGain.gain.exponentialRampToValueAtTime(0.05, start + 0.025);
+   rumbleGain.gain.exponentialRampToValueAtTime(0.0001, start + 0.58);
    rumble.connect(rumbleGain);
    rumbleGain.connect(master);
    rumble.start(start);
-   rumble.stop(start + 0.52);
+   rumble.stop(start + 0.62);
 
-   noiseSource.connect(noiseFilter);
-   noiseFilter.connect(noiseLowpass);
-   noiseLowpass.connect(master);
-   noiseSource.start(start);
-   noiseSource.stop(start + 1.2);
-
-   const hitTimes = [0.06, 0.15, 0.24, 0.34, 0.46, 0.59, 0.73, 0.88];
+   const hitTimes = [0.05, 0.13, 0.22, 0.32, 0.44, 0.57, 0.72, 0.88, 1.05];
    hitTimes.forEach((offset, index) => {
      const hitStart = start + offset;
      const osc = ctx.createOscillator();
      const hitGain = ctx.createGain();
-     osc.type = index % 2 === 0 ? "square" : "triangle";
-     const baseFreq = 220 - (index * 14);
+     const clickNoise = ctx.createBufferSource();
+     clickNoise.buffer = noiseBuffer;
+     const clickFilter = ctx.createBiquadFilter();
+     clickFilter.type = "highpass";
+     clickFilter.frequency.value = 540 + index * 26;
+
+     osc.type = index % 3 === 0 ? "square" : "triangle";
+     const baseFreq = 250 - (index * 15);
      osc.frequency.setValueAtTime(baseFreq, hitStart);
-     osc.frequency.exponentialRampToValueAtTime(Math.max(78, baseFreq * 0.52), hitStart + 0.12);
+     osc.frequency.exponentialRampToValueAtTime(Math.max(92, baseFreq * 0.5), hitStart + 0.11);
+
      hitGain.gain.setValueAtTime(0.0001, hitStart);
-     hitGain.gain.exponentialRampToValueAtTime(0.095, hitStart + 0.01);
-     hitGain.gain.exponentialRampToValueAtTime(0.0001, hitStart + 0.13);
+     hitGain.gain.exponentialRampToValueAtTime(0.11, hitStart + 0.008);
+     hitGain.gain.exponentialRampToValueAtTime(0.0001, hitStart + 0.12);
+
      osc.connect(hitGain);
+     clickNoise.connect(clickFilter);
+     clickFilter.connect(hitGain);
      hitGain.connect(master);
+
      osc.start(hitStart);
-     osc.stop(hitStart + 0.15);
+     osc.stop(hitStart + 0.13);
+     clickNoise.start(hitStart);
+     clickNoise.stop(hitStart + 0.045);
    });
  }catch(e){}
+}
+
+async function playResultSound(){
+  if(!soundEnabled) return;
+  try{
+    const ctx = await getRollAudioContext();
+    if(!ctx) return;
+
+    const start = ctx.currentTime;
+    const master = ctx.createGain();
+    master.gain.setValueAtTime(0.0001, start);
+    master.gain.exponentialRampToValueAtTime(0.24, start + 0.02);
+    master.gain.exponentialRampToValueAtTime(0.0001, start + 0.58);
+    master.connect(ctx.destination);
+
+    const burstBuffer = createRollNoiseBuffer(ctx);
+    const burst = ctx.createBufferSource();
+    burst.buffer = burstBuffer;
+    const burstFilter = ctx.createBiquadFilter();
+    burstFilter.type = "bandpass";
+    burstFilter.frequency.setValueAtTime(1650, start);
+    burstFilter.frequency.exponentialRampToValueAtTime(620, start + 0.26);
+    const burstGain = ctx.createGain();
+    burstGain.gain.setValueAtTime(0.0001, start);
+    burstGain.gain.exponentialRampToValueAtTime(0.18, start + 0.01);
+    burstGain.gain.exponentialRampToValueAtTime(0.0001, start + 0.24);
+    burst.connect(burstFilter);
+    burstFilter.connect(burstGain);
+    burstGain.connect(master);
+    burst.start(start);
+    burst.stop(start + 0.22);
+
+    [0, 4, 7].forEach((interval, index) => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      const freq = 523.25 * Math.pow(2, interval / 12);
+      const toneStart = start + (index * 0.03);
+      osc.type = index === 0 ? "triangle" : "sine";
+      osc.frequency.setValueAtTime(freq, toneStart);
+      osc.frequency.exponentialRampToValueAtTime(freq * 1.18, toneStart + 0.16);
+      gain.gain.setValueAtTime(0.0001, toneStart);
+      gain.gain.exponentialRampToValueAtTime(0.09, toneStart + 0.015);
+      gain.gain.exponentialRampToValueAtTime(0.0001, toneStart + 0.34);
+      osc.connect(gain);
+      gain.connect(master);
+      osc.start(toneStart);
+      osc.stop(toneStart + 0.36);
+    });
+
+    const boom = ctx.createOscillator();
+    const boomGain = ctx.createGain();
+    boom.type = "triangle";
+    boom.frequency.setValueAtTime(132, start);
+    boom.frequency.exponentialRampToValueAtTime(58, start + 0.22);
+    boomGain.gain.setValueAtTime(0.0001, start);
+    boomGain.gain.exponentialRampToValueAtTime(0.08, start + 0.012);
+    boomGain.gain.exponentialRampToValueAtTime(0.0001, start + 0.25);
+    boom.connect(boomGain);
+    boomGain.connect(master);
+    boom.start(start);
+    boom.stop(start + 0.28);
+  }catch(e){}
 }
 
     const dice = {
@@ -2776,6 +2865,7 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
         resultText.textContent = selected.name;
         promptType.textContent = prompt.type;
         promptText.textContent = prompt.text;
+        playResultSound();
         button.disabled = false;
         rollTimeoutId = 0;
         renderSessionStrip();
