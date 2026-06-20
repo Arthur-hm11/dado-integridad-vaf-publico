@@ -1564,19 +1564,19 @@
         </article>
       </div>
 
-      <div class="facilitator-admin">
-        <div class="counter-control">
-          <div class="counter-copy">
-            <strong>Ajustar participaciones</strong>
-            <span>Usa este control para registrar intervenciones manualmente durante la sesión.</span>
-          </div>
-
-          <div class="counter-buttons">
-            <button class="counter-button" type="button" id="participationDecrease" aria-label="Restar participación">Restar</button>
-            <button class="counter-button counter-button--primary" type="button" id="participationIncrease" aria-label="Sumar participación">Sumar</button>
-          </div>
+      <div class="counter-control">
+        <div class="counter-copy">
+          <strong>Ajustar participaciones</strong>
+          <span>Usa este control para registrar intervenciones manualmente durante la sesión.</span>
         </div>
 
+        <div class="counter-buttons">
+          <button class="counter-button" type="button" id="participationDecrease" aria-label="Restar participación">Restar</button>
+          <button class="counter-button counter-button--primary" type="button" id="participationIncrease" aria-label="Sumar participación">Sumar</button>
+        </div>
+      </div>
+
+      <div class="facilitator-admin">
         <div class="bank-loader">
           <div class="bank-loader-head">
             <strong>Banco editable</strong>
@@ -1820,8 +1820,6 @@ function syncProtectedControls(){
   const isUnlocked = protectedAccessUnlocked === true;
 
   facilitatorPanel.classList.toggle("is-unlocked", isUnlocked);
-  participationIncrease.disabled = !isUnlocked;
-  participationDecrease.disabled = !isUnlocked;
   bankUploadButton.disabled = !isUnlocked;
   bankRestoreButton.disabled = !isUnlocked || !bankState.isCustom;
   bankUploadInput.disabled = !isUnlocked;
