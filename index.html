@@ -32,16 +32,27 @@
       --half-cube: calc(var(--cube-size) / 2);
     }
 
+    html {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      overscroll-behavior: none;
+    }
+
     * {
       box-sizing: border-box;
     }
 
     body {
+      position: fixed;
+      inset: 0;
+      width: 100%;
       height: 100vh;
       min-height: 100vh;
       min-width: 1440px;
       margin: 0;
       overflow: hidden;
+      overscroll-behavior: none;
       color: var(--ink);
       font-family: "Avenir Next", "Segoe UI", "Trebuchet MS", sans-serif;
       -webkit-text-size-adjust: 100%;
@@ -54,8 +65,10 @@
     }
 
     .page {
+      position: relative;
       height: 100vh;
       min-height: 100vh;
+      width: 100%;
       min-width: 1440px;
       display: grid;
       grid-template-rows: 12px minmax(0, 1fr) auto auto;
@@ -2531,7 +2544,7 @@ function getNextRotation(current, desired, turns){
   return current + (turns * 360) + delta;
 }
 
-function playRollSound(){
+async function playRollSound(){
  if(!soundEnabled) return;
  try{
    const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -2542,15 +2555,16 @@ function playRollSound(){
 
    const ctx = rollAudioContext;
    if(ctx.state === "suspended"){
-     ctx.resume();
+     await ctx.resume();
    }
 
    if(!rollNoiseBuffer){
-     const duration = 1.2;
+     const duration = 1.45;
      const buffer = ctx.createBuffer(1, Math.floor(ctx.sampleRate * duration), ctx.sampleRate);
      const channel = buffer.getChannelData(0);
      for(let i = 0; i < channel.length; i += 1){
-       channel[i] = (Math.random() * 2 - 1) * (1 - (i / channel.length) * 0.45);
+       const decay = 1 - (i / channel.length) * 0.52;
+       channel[i] = (Math.random() * 2 - 1) * decay;
      }
      rollNoiseBuffer = buffer;
    }
@@ -2558,46 +2572,59 @@ function playRollSound(){
    const start = ctx.currentTime;
    const master = ctx.createGain();
    master.gain.setValueAtTime(0.0001, start);
-   master.gain.exponentialRampToValueAtTime(0.16, start + 0.05);
-   master.gain.exponentialRampToValueAtTime(0.055, start + 0.62);
-   master.gain.exponentialRampToValueAtTime(0.0001, start + 1.02);
+   master.gain.exponentialRampToValueAtTime(0.24, start + 0.045);
+   master.gain.exponentialRampToValueAtTime(0.085, start + 0.72);
+   master.gain.exponentialRampToValueAtTime(0.0001, start + 1.22);
    master.connect(ctx.destination);
 
    const noiseSource = ctx.createBufferSource();
    noiseSource.buffer = rollNoiseBuffer;
    const noiseFilter = ctx.createBiquadFilter();
    noiseFilter.type = "bandpass";
-   noiseFilter.frequency.setValueAtTime(820, start);
-   noiseFilter.frequency.exponentialRampToValueAtTime(280, start + 0.95);
-   noiseFilter.Q.value = 0.8;
+   noiseFilter.frequency.setValueAtTime(980, start);
+   noiseFilter.frequency.exponentialRampToValueAtTime(250, start + 1.1);
+   noiseFilter.Q.value = 1.1;
 
    const noiseLowpass = ctx.createBiquadFilter();
    noiseLowpass.type = "lowpass";
-   noiseLowpass.frequency.setValueAtTime(2300, start);
-   noiseLowpass.frequency.exponentialRampToValueAtTime(720, start + 0.95);
+   noiseLowpass.frequency.setValueAtTime(3200, start);
+   noiseLowpass.frequency.exponentialRampToValueAtTime(680, start + 1.08);
+
+   const rumble = ctx.createOscillator();
+   const rumbleGain = ctx.createGain();
+   rumble.type = "triangle";
+   rumble.frequency.setValueAtTime(96, start);
+   rumble.frequency.exponentialRampToValueAtTime(48, start + 0.42);
+   rumbleGain.gain.setValueAtTime(0.0001, start);
+   rumbleGain.gain.exponentialRampToValueAtTime(0.032, start + 0.03);
+   rumbleGain.gain.exponentialRampToValueAtTime(0.0001, start + 0.48);
+   rumble.connect(rumbleGain);
+   rumbleGain.connect(master);
+   rumble.start(start);
+   rumble.stop(start + 0.52);
 
    noiseSource.connect(noiseFilter);
    noiseFilter.connect(noiseLowpass);
    noiseLowpass.connect(master);
    noiseSource.start(start);
-   noiseSource.stop(start + 1.05);
+   noiseSource.stop(start + 1.2);
 
-   const hitTimes = [0.08, 0.19, 0.31, 0.45, 0.61, 0.79];
+   const hitTimes = [0.06, 0.15, 0.24, 0.34, 0.46, 0.59, 0.73, 0.88];
    hitTimes.forEach((offset, index) => {
      const hitStart = start + offset;
      const osc = ctx.createOscillator();
      const hitGain = ctx.createGain();
-     osc.type = index % 2 === 0 ? "triangle" : "sine";
-     const baseFreq = 180 - (index * 16);
+     osc.type = index % 2 === 0 ? "square" : "triangle";
+     const baseFreq = 220 - (index * 14);
      osc.frequency.setValueAtTime(baseFreq, hitStart);
-     osc.frequency.exponentialRampToValueAtTime(Math.max(72, baseFreq * 0.58), hitStart + 0.11);
+     osc.frequency.exponentialRampToValueAtTime(Math.max(78, baseFreq * 0.52), hitStart + 0.12);
      hitGain.gain.setValueAtTime(0.0001, hitStart);
-     hitGain.gain.exponentialRampToValueAtTime(0.06, hitStart + 0.012);
-     hitGain.gain.exponentialRampToValueAtTime(0.0001, hitStart + 0.14);
+     hitGain.gain.exponentialRampToValueAtTime(0.095, hitStart + 0.01);
+     hitGain.gain.exponentialRampToValueAtTime(0.0001, hitStart + 0.13);
      osc.connect(hitGain);
      hitGain.connect(master);
      osc.start(hitStart);
-     osc.stop(hitStart + 0.16);
+     osc.stop(hitStart + 0.15);
    });
  }catch(e){}
 }
