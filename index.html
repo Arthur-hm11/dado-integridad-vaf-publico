@@ -37,10 +37,11 @@
     }
 
     body {
+      height: 100vh;
       min-height: 100vh;
       min-width: 1440px;
       margin: 0;
-      overflow: auto;
+      overflow: hidden;
       color: var(--ink);
       font-family: "Avenir Next", "Segoe UI", "Trebuchet MS", sans-serif;
       -webkit-text-size-adjust: 100%;
@@ -53,11 +54,12 @@
     }
 
     .page {
+      height: 100vh;
       min-height: 100vh;
       min-width: 1440px;
       display: grid;
       grid-template-rows: 12px minmax(0, 1fr) auto auto;
-      padding-bottom: 150px;
+      overflow: hidden;
     }
 
     .band {
