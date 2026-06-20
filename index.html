@@ -57,6 +57,7 @@
       min-width: 1440px;
       display: grid;
       grid-template-rows: 12px minmax(0, 1fr) auto auto;
+      padding-bottom: 150px;
     }
 
     .band {
@@ -1147,15 +1148,18 @@
     }
 
     .session-strip {
-      position: relative;
-      z-index: 1;
+      position: fixed;
+      left: 50%;
+      bottom: 30px;
+      z-index: 20;
       width: min(calc(100% - 40px), 1240px);
-      margin: 0 auto 10px;
+      margin: 0;
       padding: 8px 10px;
       display: grid;
       grid-template-columns: minmax(242px, 1.42fr) repeat(4, minmax(170px, .92fr)) auto;
       gap: 0;
       align-items: center;
+      transform: translateX(-50%);
       border-radius: 20px;
       background: linear-gradient(180deg, rgba(255, 255, 255, .98), rgba(246, 250, 254, .96));
       border: 1px solid rgba(198, 211, 225, .82);
@@ -1265,9 +1269,14 @@
     }
 
     .session-spectrum {
+      position: fixed;
+      left: 50%;
+      bottom: 14px;
+      z-index: 19;
       width: min(calc(100% - 40px), 1240px);
       height: 6px;
-      margin: -2px auto 12px;
+      margin: 0;
+      transform: translateX(-50%);
       border-radius: 999px;
       background:
         linear-gradient(90deg, #1f8cb7 0 14%, #47aa52 14% 28%, #f0b324 28% 44%, #f2692c 44% 58%, #c63f87 58% 72%, #6f58b8 72% 86%, #1e7fc0 86% 100%);
@@ -1678,6 +1687,8 @@ let bankState=loadBankState();
 let banco=cloneBank(bankState.bank);
 let facilitatorState=loadFacilitatorState();
 const imagePreloadCache = new Map();
+let rollAudioContext = null;
+let rollNoiseBuffer = null;
 
 function formatCounter(value){
   return String(Math.max(0, value)).padStart(2, "0");
@@ -2521,18 +2532,71 @@ function getNextRotation(current, desired, turns){
 function playRollSound(){
  if(!soundEnabled) return;
  try{
-   const ctx=new (window.AudioContext||window.webkitAudioContext)();
-   const osc=ctx.createOscillator();
-   const gain=ctx.createGain();
-   osc.type="triangle";
-   osc.frequency.setValueAtTime(180,ctx.currentTime);
-   osc.frequency.exponentialRampToValueAtTime(70,ctx.currentTime+0.6);
-   gain.gain.setValueAtTime(0.03,ctx.currentTime);
-   gain.gain.exponentialRampToValueAtTime(0.0001,ctx.currentTime+0.6);
-   osc.connect(gain);
-   gain.connect(ctx.destination);
-   osc.start();
-   osc.stop(ctx.currentTime+0.6);
+   const AudioCtx = window.AudioContext || window.webkitAudioContext;
+   if(!AudioCtx) return;
+   if(!rollAudioContext){
+     rollAudioContext = new AudioCtx();
+   }
+
+   const ctx = rollAudioContext;
+   if(ctx.state === "suspended"){
+     ctx.resume();
+   }
+
+   if(!rollNoiseBuffer){
+     const duration = 1.2;
+     const buffer = ctx.createBuffer(1, Math.floor(ctx.sampleRate * duration), ctx.sampleRate);
+     const channel = buffer.getChannelData(0);
+     for(let i = 0; i < channel.length; i += 1){
+       channel[i] = (Math.random() * 2 - 1) * (1 - (i / channel.length) * 0.45);
+     }
+     rollNoiseBuffer = buffer;
+   }
+
+   const start = ctx.currentTime;
+   const master = ctx.createGain();
+   master.gain.setValueAtTime(0.0001, start);
+   master.gain.exponentialRampToValueAtTime(0.16, start + 0.05);
+   master.gain.exponentialRampToValueAtTime(0.055, start + 0.62);
+   master.gain.exponentialRampToValueAtTime(0.0001, start + 1.02);
+   master.connect(ctx.destination);
+
+   const noiseSource = ctx.createBufferSource();
+   noiseSource.buffer = rollNoiseBuffer;
+   const noiseFilter = ctx.createBiquadFilter();
+   noiseFilter.type = "bandpass";
+   noiseFilter.frequency.setValueAtTime(820, start);
+   noiseFilter.frequency.exponentialRampToValueAtTime(280, start + 0.95);
+   noiseFilter.Q.value = 0.8;
+
+   const noiseLowpass = ctx.createBiquadFilter();
+   noiseLowpass.type = "lowpass";
+   noiseLowpass.frequency.setValueAtTime(2300, start);
+   noiseLowpass.frequency.exponentialRampToValueAtTime(720, start + 0.95);
+
+   noiseSource.connect(noiseFilter);
+   noiseFilter.connect(noiseLowpass);
+   noiseLowpass.connect(master);
+   noiseSource.start(start);
+   noiseSource.stop(start + 1.05);
+
+   const hitTimes = [0.08, 0.19, 0.31, 0.45, 0.61, 0.79];
+   hitTimes.forEach((offset, index) => {
+     const hitStart = start + offset;
+     const osc = ctx.createOscillator();
+     const hitGain = ctx.createGain();
+     osc.type = index % 2 === 0 ? "triangle" : "sine";
+     const baseFreq = 180 - (index * 16);
+     osc.frequency.setValueAtTime(baseFreq, hitStart);
+     osc.frequency.exponentialRampToValueAtTime(Math.max(72, baseFreq * 0.58), hitStart + 0.11);
+     hitGain.gain.setValueAtTime(0.0001, hitStart);
+     hitGain.gain.exponentialRampToValueAtTime(0.06, hitStart + 0.012);
+     hitGain.gain.exponentialRampToValueAtTime(0.0001, hitStart + 0.14);
+     osc.connect(hitGain);
+     hitGain.connect(master);
+     osc.start(hitStart);
+     osc.stop(hitStart + 0.16);
+   });
  }catch(e){}
 }
 
