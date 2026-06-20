@@ -4,6 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=1440">
   <title>Dado de la Integridad</title>
+  <link rel="preload" as="image" href="assets/dados/principios-1-06.png?v=1">
+  <link rel="preload" as="image" href="assets/dados/principios-1-04.png?v=1">
+  <link rel="preload" as="image" href="assets/dados/principios-1-03.png?v=1">
+  <link rel="preload" as="image" href="assets/dados/principios-1-05.png?v=1">
+  <link rel="preload" as="image" href="assets/dados/principios-1-01.png?v=1">
+  <link rel="preload" as="image" href="assets/dados/principios-1-02.png?v=1">
   <style>
     :root {
       --bg: #dde4eb;
@@ -92,6 +98,12 @@
       place-items: center;
       transform-style: preserve-3d;
       transform-origin: center center;
+      opacity: 1;
+      transition: opacity .2s ease;
+    }
+
+    .cube-shell.is-loading {
+      opacity: 0;
     }
 
     .cube-shell::after {
@@ -1386,14 +1398,14 @@
 
       <section class="stage" aria-label="Dado virtual">
         <div class="stage-visual" aria-hidden="true">
-          <div class="cube-shell">
+          <div class="cube-shell is-loading">
             <div class="cube" id="cube">
-              <div class="face front"><img id="face-front" alt=""></div>
-              <div class="face back"><img id="face-back" alt=""></div>
-              <div class="face right"><img id="face-right" alt=""></div>
-              <div class="face left"><img id="face-left" alt=""></div>
-              <div class="face top"><img id="face-top" alt=""></div>
-              <div class="face bottom"><img id="face-bottom" alt=""></div>
+              <div class="face front"><img id="face-front" src="assets/dados/principios-1-06.png?v=1" alt="Lealtad" decoding="sync" fetchpriority="high"></div>
+              <div class="face back"><img id="face-back" src="assets/dados/principios-1-05.png?v=1" alt="Eficiencia" decoding="sync" fetchpriority="high"></div>
+              <div class="face right"><img id="face-right" src="assets/dados/principios-1-04.png?v=1" alt="Profesionalismo" decoding="sync" fetchpriority="high"></div>
+              <div class="face left"><img id="face-left" src="assets/dados/principios-1-02.png?v=1" alt="Rendición de Cuentas" decoding="sync" fetchpriority="high"></div>
+              <div class="face top"><img id="face-top" src="assets/dados/principios-1-03.png?v=1" alt="Legalidad" decoding="sync" fetchpriority="high"></div>
+              <div class="face bottom"><img id="face-bottom" src="assets/dados/principios-1-01.png?v=1" alt="Respeto a los Derechos Humanos" decoding="sync" fetchpriority="high"></div>
             </div>
           </div>
           <div class="pedestal">
@@ -1651,6 +1663,7 @@
     const resultTiltX = 0;
     const resultTiltY = 0;
     const resultTiltZ = 0;
+    const assetVersion = "1";
     const fullscreenButton=document.getElementById("fullscreenButton");
 const soundToggle=document.getElementById("soundToggle");
 let soundEnabled=true;
@@ -1660,12 +1673,13 @@ let currentPose="preview";
 let rollTimeoutId=0;
 let protectedAccessUnlocked=false;
 let protectedAccessListening=false;
-let protectedAccessBuffer="";
+    let protectedAccessBuffer="";
 let latestResolvedTopic="Sin resultado";
 const defaultBank = normalizeBank(window.DADO_INTEGRIDAD_BANCO || createEmptyBank());
 let bankState=loadBankState();
 let banco=cloneBank(bankState.bank);
 let facilitatorState=loadFacilitatorState();
+const imagePreloadCache = new Map();
 
 function formatCounter(value){
   return String(Math.max(0, value)).padStart(2, "0");
@@ -2456,6 +2470,48 @@ function normalizeAngleAroundTarget(angle, target){
   return target + delta;
 }
 
+function withAssetVersion(path){
+  return `${path}?v=${assetVersion}`;
+}
+
+function preloadImage(src){
+  if(imagePreloadCache.has(src)){
+    return imagePreloadCache.get(src);
+  }
+
+  const promise = new Promise(resolve => {
+    const img = new Image();
+    img.decoding = "async";
+    img.onload = () => resolve(src);
+    img.onerror = () => resolve(src);
+    img.src = src;
+  });
+
+  imagePreloadCache.set(src, promise);
+  return promise;
+}
+
+function preloadDiceFaces(key){
+  return Promise.allSettled(
+    dice[key].faces.map(face => preloadImage(withAssetVersion(face.image)))
+  );
+}
+
+function preloadAllDiceFaces(){
+  return Promise.allSettled(
+    Object.values(dice).flatMap(group =>
+      group.faces.map(face => preloadImage(withAssetVersion(face.image)))
+    )
+  );
+}
+
+function renderDiceFaces(selectedDice){
+  selectedDice.faces.forEach((face, index) => {
+    faceSlots[index].src = withAssetVersion(face.image);
+    faceSlots[index].alt = face.name;
+  });
+}
+
 function getNextRotation(current, desired, turns){
   let delta = desired - normalizeAngle(current);
   if(delta < 0){
@@ -2541,10 +2597,7 @@ function playRollSound(){
         applyCubeRotation(currentRotationX, currentRotationY, { animate: false, pose: currentPose });
       }
 
-      selectedDice.faces.forEach((face, index) => {
-        faceSlots[index].src = `${face.image}?v=1`;
-        faceSlots[index].alt = face.name;
-      });
+      renderDiceFaces(selectedDice);
 
       tabs.forEach(tab => {
         tab.setAttribute("aria-pressed", String(tab.dataset.dice === key));
@@ -2781,12 +2834,20 @@ document.addEventListener("keydown", event => {
   }
 });
 
-    renderBankState();
-    renderFacilitatorState();
-    setProtectedAccessUnlocked(false);
-    setFacilitatorOpen(facilitatorState.open);
-    setDice(currentDiceKey);
-    renderSessionStrip();
+    async function initializeApp(){
+      cubeShell.classList.add("is-loading");
+      await preloadDiceFaces(currentDiceKey);
+      renderBankState();
+      renderFacilitatorState();
+      setProtectedAccessUnlocked(false);
+      setFacilitatorOpen(facilitatorState.open);
+      setDice(currentDiceKey);
+      renderSessionStrip();
+      cubeShell.classList.remove("is-loading");
+      preloadAllDiceFaces();
+    }
+
+    initializeApp();
   </script>
 </body>
 </html>
