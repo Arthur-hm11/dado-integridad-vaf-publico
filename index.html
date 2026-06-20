@@ -98,12 +98,6 @@
       place-items: center;
       transform-style: preserve-3d;
       transform-origin: center center;
-      opacity: 1;
-      transition: opacity .2s ease;
-    }
-
-    .cube-shell.is-loading {
-      opacity: 0;
     }
 
     .cube-shell::after {
@@ -1107,6 +1101,10 @@
       margin-top: 2px;
     }
 
+    .outcome[hidden] {
+      display: none;
+    }
+
     .theme,
     .prompt {
       border-radius: 22px;
@@ -1398,7 +1396,7 @@
 
       <section class="stage" aria-label="Dado virtual">
         <div class="stage-visual" aria-hidden="true">
-          <div class="cube-shell is-loading">
+          <div class="cube-shell">
             <div class="cube" id="cube">
               <div class="face front"><img id="face-front" src="assets/dados/principios-1-06.png?v=1" alt="Lealtad" decoding="sync" fetchpriority="high"></div>
               <div class="face back"><img id="face-back" src="assets/dados/principios-1-05.png?v=1" alt="Eficiencia" decoding="sync" fetchpriority="high"></div>
@@ -1456,12 +1454,12 @@
         <div class="outcome" aria-live="polite" hidden>
           <div class="theme">
             <span class="eyebrow">Tema actual</span>
-            <strong id="resultText">Elige un dado y lánzalo</strong>
+            <strong id="resultText">Principios I seleccionado</strong>
           </div>
 
           <div class="prompt">
             <span class="eyebrow" id="promptType">Pregunta o reto</span>
-            <strong id="promptText">Aquí aparecerá la consigna para abrir la conversación.</strong>
+            <strong id="promptText">Lanza el dado para ver la consigna.</strong>
           </div>
         </div>
       </section>
@@ -2835,7 +2833,6 @@ document.addEventListener("keydown", event => {
 });
 
     async function initializeApp(){
-      cubeShell.classList.add("is-loading");
       await preloadDiceFaces(currentDiceKey);
       renderBankState();
       renderFacilitatorState();
@@ -2843,7 +2840,6 @@ document.addEventListener("keydown", event => {
       setFacilitatorOpen(facilitatorState.open);
       setDice(currentDiceKey);
       renderSessionStrip();
-      cubeShell.classList.remove("is-loading");
       preloadAllDiceFaces();
     }
 
