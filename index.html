@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=1440">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Dado de la Integridad</title>
   <link rel="preload" as="image" href="assets/dados/principios-1-06.png?v=1">
   <link rel="preload" as="image" href="assets/dados/principios-1-04.png?v=1">
@@ -1382,6 +1382,334 @@
       100% {
         transform: translateX(360%) skewX(-22deg);
         opacity: 0;
+      }
+    }
+
+    @media (max-width: 1100px) {
+      :root {
+        --page-side: 16px;
+        --cube-size: clamp(228px, 58vw, 320px);
+        --facilitator-width: min(92vw, 420px);
+      }
+
+      html {
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+
+      body {
+        position: relative;
+        inset: auto;
+        min-width: 0;
+        height: auto;
+        min-height: 100dvh;
+        overflow-x: hidden;
+        overflow-y: auto;
+        background:
+          radial-gradient(circle at 20% 18%, rgba(255, 255, 255, .94), rgba(255, 255, 255, .26) 22%, transparent 48%),
+          radial-gradient(circle at 64% 12%, rgba(245, 232, 211, .42), transparent 20%),
+          linear-gradient(180deg, #edf3f8 0%, #dce6ef 58%, #d1dce7 100%);
+      }
+
+      .page {
+        min-width: 0;
+        height: auto;
+        min-height: 100dvh;
+        grid-template-rows: 10px auto auto auto;
+        overflow: visible;
+      }
+
+      .page::before {
+        inset: 8px 8px 20px;
+        border-radius: 24px;
+        background:
+          radial-gradient(circle at 18% 34%, rgba(130, 183, 219, .22), transparent 34%),
+          radial-gradient(circle at 78% 16%, rgba(241, 229, 209, .42), transparent 24%),
+          linear-gradient(180deg, rgba(243, 248, 252, .985) 0%, rgba(227, 236, 244, .96) 100%);
+      }
+
+      .page::after {
+        height: 28px;
+      }
+
+      main {
+        width: 100%;
+        max-width: none;
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "brand"
+          "stage"
+          "controls";
+        gap: 18px;
+        align-items: start;
+        padding: 20px var(--page-side) 8px;
+        overflow: visible;
+      }
+
+      .page.has-facilitator-open main {
+        width: 100%;
+        padding-right: var(--page-side);
+      }
+
+      .brand-panel {
+        width: min(100%, 620px);
+        margin: 0 auto;
+        padding-top: 4px;
+        justify-items: start;
+        align-content: start;
+        gap: 14px;
+      }
+
+      .brand-badge {
+        width: min(310px, 76vw);
+      }
+
+      .brand-copy {
+        width: 100%;
+        max-width: none;
+        gap: 12px;
+      }
+
+      h1 {
+        font-size: clamp(2.9rem, 12vw, 4.45rem);
+        line-height: .9;
+      }
+
+      .brand-divider {
+        width: min(100%, 360px);
+      }
+
+      .brand-points {
+        font-size: 1rem;
+      }
+
+      .lead {
+        max-width: 22ch;
+        font-size: 1rem;
+      }
+
+      .stage {
+        min-height: auto;
+        padding: 4px 0 128px;
+      }
+
+      .stage::before {
+        inset: 12% 3% 20% 3%;
+      }
+
+      .stage::after {
+        left: 4%;
+        right: 4%;
+        top: 10%;
+        bottom: 16%;
+      }
+
+      .stage-visual {
+        min-height: 0;
+        transform: none;
+      }
+
+      .stage-visual::before {
+        bottom: -60px;
+        width: min(520px, 96%);
+        height: 112px;
+      }
+
+      .pedestal {
+        width: min(520px, 98%);
+        bottom: -96px;
+      }
+
+      .controls {
+        width: min(100%, 620px);
+        margin: 0 auto;
+        padding: 52px 14px 16px;
+      }
+
+      .session-strip {
+        position: static;
+        left: auto;
+        bottom: auto;
+        width: min(calc(100% - 24px), 620px);
+        margin: 14px auto 0;
+        transform: none;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+        padding: 10px;
+      }
+
+      .session-chip,
+      .session-action {
+        padding: 10px 12px;
+        border-radius: 16px;
+      }
+
+      .session-chip::before,
+      .session-action::before {
+        display: none;
+      }
+
+      .session-chip--wide,
+      .session-action {
+        grid-column: 1 / -1;
+      }
+
+      .session-icon {
+        width: 40px;
+        height: 40px;
+      }
+
+      .session-icon svg {
+        width: 34px;
+        height: 34px;
+      }
+
+      .session-label {
+        font-size: .68rem;
+      }
+
+      .session-value {
+        font-size: .98rem;
+      }
+
+      .session-chip--wide .session-value {
+        font-size: 1.08rem;
+      }
+
+      .session-action {
+        padding-left: 0;
+      }
+
+      .session-reset {
+        width: 100%;
+        min-width: 0;
+      }
+
+      .session-spectrum {
+        position: static;
+        left: auto;
+        bottom: auto;
+        width: min(calc(100% - 24px), 620px);
+        margin: 8px auto calc(18px + env(safe-area-inset-bottom, 0px));
+        transform: none;
+      }
+
+      .facilitator-toggle {
+        top: 14px;
+        right: 14px;
+      }
+
+      .facilitator-panel {
+        top: 68px;
+        right: 12px;
+        width: min(420px, calc(100vw - 24px));
+        max-height: calc(100dvh - 84px);
+      }
+    }
+
+    @media (max-width: 700px) {
+      :root {
+        --cube-size: clamp(220px, 64vw, 292px);
+      }
+
+      .brand-badge {
+        width: min(286px, 78vw);
+      }
+
+      .controls {
+        padding: 48px 12px 14px;
+      }
+
+      .dice-tab {
+        min-height: 78px;
+      }
+
+      .tab-copy {
+        font-size: .75rem;
+      }
+
+      .theme {
+        min-height: 80px;
+        padding: 14px 16px;
+      }
+
+      .prompt {
+        min-height: 124px;
+        padding: 14px 16px;
+      }
+
+      .session-strip {
+        grid-template-columns: 1fr;
+      }
+
+      .session-chip--wide,
+      .session-action {
+        grid-column: auto;
+      }
+    }
+
+    @media (max-width: 1100px) and (orientation: landscape) {
+      :root {
+        --cube-size: clamp(190px, 28vw, 250px);
+      }
+
+      main {
+        grid-template-columns: minmax(0, 1fr) minmax(286px, 334px);
+        grid-template-areas:
+          "brand controls"
+          "stage controls";
+        gap: 16px;
+        align-items: start;
+      }
+
+      .brand-panel {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        gap: 12px;
+      }
+
+      .brand-badge {
+        width: min(240px, 40vw);
+      }
+
+      h1 {
+        font-size: clamp(2.2rem, 6vw, 3.5rem);
+      }
+
+      .lead {
+        max-width: 28ch;
+        font-size: .96rem;
+      }
+
+      .stage {
+        min-height: 320px;
+        padding: 0 0 110px;
+      }
+
+      .pedestal {
+        width: min(430px, 96%);
+        bottom: -84px;
+      }
+
+      .controls {
+        width: 100%;
+        max-width: none;
+        padding-top: 46px;
+      }
+
+      .dice-tab {
+        min-height: 72px;
+      }
+
+      .howto-card {
+        padding: 14px 16px;
+      }
+
+      .session-strip,
+      .session-spectrum {
+        width: calc(100% - 24px);
+        max-width: none;
       }
     }
 
