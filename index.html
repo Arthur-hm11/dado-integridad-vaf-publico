@@ -1942,53 +1942,281 @@
     }
 
     html.is-compact-mobile.is-compact-landscape main {
-      grid-template-columns: minmax(0, 1fr) minmax(286px, 334px) !important;
-      grid-template-areas:
-        "brand controls"
-        "stage controls" !important;
-      gap: 16px !important;
-      align-items: start !important;
+      grid-template-columns: minmax(180px, .74fr) minmax(210px, 1fr) minmax(250px, .86fr) !important;
+      grid-template-areas: "brand stage controls" !important;
+      gap: 14px !important;
+      align-items: center !important;
+      height: calc(100dvh - 10px) !important;
+      padding: 14px 12px 96px !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape body {
+      overflow: hidden !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .page {
+      height: 100dvh !important;
+      min-height: 100dvh !important;
+      overflow: hidden !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .brand-panel {
       width: 100% !important;
       max-width: none !important;
       margin: 0 !important;
-      gap: 12px !important;
+      gap: 10px !important;
+      align-self: center !important;
+      padding-top: 0 !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .brand-badge {
-      width: min(240px, 40vw) !important;
+      width: min(170px, 18vw) !important;
     }
 
     html.is-compact-mobile.is-compact-landscape h1 {
-      font-size: clamp(2.2rem, 6vw, 3.5rem) !important;
+      font-size: clamp(1.95rem, 4.2vw, 2.85rem) !important;
+      line-height: .9 !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .lead {
-      max-width: 28ch !important;
-      font-size: .96rem !important;
+      max-width: 20ch !important;
+      font-size: .84rem !important;
+      line-height: 1.34 !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .brand-points {
+      font-size: .88rem !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .brand-overline {
+      min-height: 26px !important;
+      padding: 0 12px !important;
+      font-size: .62rem !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .stage {
-      min-height: 320px !important;
-      padding: 0 0 110px !important;
+      min-height: 0 !important;
+      height: 100% !important;
+      padding: 0 0 74px !important;
+      align-self: center !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .stage::before {
+      inset: 10% 6% 18% !important;
+      opacity: .52 !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .stage::after {
+      left: 6% !important;
+      right: 6% !important;
+      top: 12% !important;
+      bottom: 14% !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .stage-visual::before {
+      bottom: -44px !important;
+      width: min(360px, 86%) !important;
+      height: 78px !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .cube-shell {
+      transform: scale(.82) !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .pedestal {
-      width: min(430px, 96%) !important;
-      bottom: -84px !important;
+      width: min(324px, 88%) !important;
+      bottom: -56px !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .controls {
       width: 100% !important;
-      padding-top: 46px !important;
+      max-height: calc(100dvh - 122px) !important;
+      padding: 44px 10px 10px !important;
+      gap: 10px !important;
+      overflow-x: hidden !important;
+      overflow-y: auto !important;
+      align-self: center !important;
+      overscroll-behavior: contain !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .controls-kicker {
+      min-height: 30px !important;
+      font-size: .84rem !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .dice-tabs {
+      gap: 8px !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .dice-tab {
+      min-height: 68px !important;
+      padding: 8px 6px !important;
+      gap: 6px !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .tab-icon {
+      width: 34px !important;
+      height: 34px !important;
+      font-size: .88rem !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .tab-copy {
+      font-size: .7rem !important;
+      line-height: 1.08 !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .howto-card {
+      gap: 8px !important;
+      padding: 12px 12px !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .howto-card h2 {
+      font-size: .96rem !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .howto-list {
+      gap: 8px !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .howto-item {
+      grid-template-columns: 28px minmax(0, 1fr) !important;
+      gap: 8px !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .howto-item p {
+      font-size: .78rem !important;
+      line-height: 1.22 !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .howto-step {
+      width: 28px !important;
+      height: 28px !important;
+      font-size: .9rem !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .roll-button {
+      min-height: 42px !important;
+      font-size: .92rem !important;
+      border-radius: 18px !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .outcome {
+      gap: 10px !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .theme {
+      min-height: 70px !important;
+      padding: 12px 14px !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .prompt {
+      min-height: 104px !important;
+      padding: 12px 14px !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .theme strong {
+      font-size: 1.06rem !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .prompt strong {
+      font-size: .86rem !important;
+      line-height: 1.26 !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .facilitator-toggle {
+      top: 10px !important;
+      right: 10px !important;
+      min-height: 34px !important;
+      padding: 0 14px !important;
+      font-size: .78rem !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .session-strip,
     html.is-compact-mobile.is-compact-landscape .session-spectrum {
-      width: calc(100% - 24px) !important;
       max-width: none !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .session-strip {
+      position: fixed !important;
+      left: 12px !important;
+      right: 12px !important;
+      bottom: 12px !important;
+      width: auto !important;
+      margin: 0 !important;
+      transform: none !important;
+      display: flex !important;
+      flex-wrap: nowrap !important;
+      gap: 8px !important;
+      padding: 8px !important;
+      overflow-x: auto !important;
+      overflow-y: hidden !important;
+      border-radius: 16px !important;
+      scrollbar-width: none !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .session-strip::-webkit-scrollbar {
+      display: none !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .session-chip {
+      flex: 0 0 148px !important;
+      min-height: 58px !important;
+      grid-template-columns: 34px minmax(0, 1fr) !important;
+      gap: 8px !important;
+      padding: 8px 10px !important;
+      align-items: center !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .session-chip--wide {
+      flex-basis: 190px !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .session-action {
+      flex: 0 0 156px !important;
+      padding: 0 !important;
+      align-self: stretch !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .session-icon {
+      width: 34px !important;
+      height: 34px !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .session-icon svg {
+      width: 28px !important;
+      height: 28px !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .session-copy {
+      gap: 2px !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .session-label {
+      font-size: .6rem !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .session-value,
+    html.is-compact-mobile.is-compact-landscape .session-chip--wide .session-value {
+      font-size: .78rem !important;
+      line-height: 1.08 !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .session-reset {
+      min-height: 58px !important;
+      padding: 0 14px !important;
+      font-size: .86rem !important;
+      border-radius: 12px !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .session-spectrum {
+      position: fixed !important;
+      left: 12px !important;
+      right: 12px !important;
+      bottom: 4px !important;
+      width: auto !important;
+      margin: 0 !important;
+      transform: none !important;
+      height: 4px !important;
     }
 
     @media (prefers-reduced-motion: reduce) {
