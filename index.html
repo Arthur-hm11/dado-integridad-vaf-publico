@@ -1713,6 +1713,284 @@
       }
     }
 
+    html.is-compact-mobile {
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    html.is-compact-mobile body {
+      position: relative !important;
+      inset: auto !important;
+      width: 100% !important;
+      min-width: 0 !important;
+      height: auto !important;
+      min-height: 100dvh !important;
+      overflow-x: hidden !important;
+      overflow-y: auto !important;
+      background:
+        radial-gradient(circle at 20% 18%, rgba(255, 255, 255, .94), rgba(255, 255, 255, .26) 22%, transparent 48%),
+        radial-gradient(circle at 64% 12%, rgba(245, 232, 211, .42), transparent 20%),
+        linear-gradient(180deg, #edf3f8 0%, #dce6ef 58%, #d1dce7 100%) !important;
+    }
+
+    html.is-compact-mobile .page {
+      min-width: 0 !important;
+      width: 100% !important;
+      height: auto !important;
+      min-height: 100dvh !important;
+      grid-template-rows: 10px auto auto auto !important;
+      overflow: visible !important;
+    }
+
+    html.is-compact-mobile .page::before {
+      inset: 8px 8px 20px !important;
+      border-radius: 24px !important;
+      background:
+        radial-gradient(circle at 18% 34%, rgba(130, 183, 219, .22), transparent 34%),
+        radial-gradient(circle at 78% 16%, rgba(241, 229, 209, .42), transparent 24%),
+        linear-gradient(180deg, rgba(243, 248, 252, .985) 0%, rgba(227, 236, 244, .96) 100%) !important;
+    }
+
+    html.is-compact-mobile .page::after {
+      height: 28px !important;
+    }
+
+    html.is-compact-mobile main {
+      width: 100% !important;
+      max-width: none !important;
+      grid-template-columns: 1fr !important;
+      grid-template-areas:
+        "brand"
+        "stage"
+        "controls" !important;
+      gap: 18px !important;
+      align-items: start !important;
+      padding: 20px var(--page-side) 8px !important;
+      overflow: visible !important;
+    }
+
+    html.is-compact-mobile .page.has-facilitator-open main {
+      width: 100% !important;
+      max-width: none !important;
+      padding-right: var(--page-side) !important;
+    }
+
+    html.is-compact-mobile .brand-panel {
+      width: min(100%, 620px) !important;
+      margin: 0 auto !important;
+      padding-top: 4px !important;
+      justify-items: start !important;
+      align-content: start !important;
+      align-self: start !important;
+      gap: 14px !important;
+    }
+
+    html.is-compact-mobile .brand-badge {
+      width: min(310px, 76vw) !important;
+    }
+
+    html.is-compact-mobile .brand-copy {
+      width: 100% !important;
+      max-width: none !important;
+      gap: 12px !important;
+    }
+
+    html.is-compact-mobile h1 {
+      font-size: clamp(2.7rem, 11.5vw, 4.45rem) !important;
+      line-height: .9 !important;
+    }
+
+    html.is-compact-mobile .brand-divider {
+      width: min(100%, 360px) !important;
+    }
+
+    html.is-compact-mobile .brand-points {
+      font-size: 1rem !important;
+    }
+
+    html.is-compact-mobile .lead {
+      max-width: 22ch !important;
+      font-size: 1rem !important;
+    }
+
+    html.is-compact-mobile .stage {
+      min-height: auto !important;
+      padding: 4px 0 128px !important;
+    }
+
+    html.is-compact-mobile .stage::before {
+      inset: 12% 3% 20% 3% !important;
+    }
+
+    html.is-compact-mobile .stage::after {
+      left: 4% !important;
+      right: 4% !important;
+      top: 10% !important;
+      bottom: 16% !important;
+    }
+
+    html.is-compact-mobile .stage-visual {
+      min-height: 0 !important;
+      transform: none !important;
+    }
+
+    html.is-compact-mobile .stage-visual::before {
+      bottom: -60px !important;
+      width: min(520px, 96%) !important;
+      height: 112px !important;
+    }
+
+    html.is-compact-mobile .pedestal {
+      width: min(520px, 98%) !important;
+      bottom: -96px !important;
+    }
+
+    html.is-compact-mobile .controls {
+      width: min(100%, 620px) !important;
+      max-width: none !important;
+      margin: 0 auto !important;
+      padding: 52px 14px 16px !important;
+    }
+
+    html.is-compact-mobile .session-strip {
+      position: static !important;
+      left: auto !important;
+      bottom: auto !important;
+      width: min(calc(100% - 24px), 620px) !important;
+      margin: 14px auto 0 !important;
+      transform: none !important;
+      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+      gap: 8px !important;
+      padding: 10px !important;
+    }
+
+    html.is-compact-mobile .session-chip,
+    html.is-compact-mobile .session-action {
+      padding: 10px 12px !important;
+      border-radius: 16px !important;
+    }
+
+    html.is-compact-mobile .session-chip::before,
+    html.is-compact-mobile .session-action::before {
+      display: none !important;
+    }
+
+    html.is-compact-mobile .session-chip--wide,
+    html.is-compact-mobile .session-action {
+      grid-column: 1 / -1 !important;
+    }
+
+    html.is-compact-mobile .session-icon {
+      width: 40px !important;
+      height: 40px !important;
+    }
+
+    html.is-compact-mobile .session-icon svg {
+      width: 34px !important;
+      height: 34px !important;
+    }
+
+    html.is-compact-mobile .session-label {
+      font-size: .68rem !important;
+    }
+
+    html.is-compact-mobile .session-value {
+      font-size: .98rem !important;
+    }
+
+    html.is-compact-mobile .session-chip--wide .session-value {
+      font-size: 1.08rem !important;
+    }
+
+    html.is-compact-mobile .session-action {
+      padding-left: 0 !important;
+    }
+
+    html.is-compact-mobile .session-reset {
+      width: 100% !important;
+      min-width: 0 !important;
+    }
+
+    html.is-compact-mobile .session-spectrum {
+      position: static !important;
+      left: auto !important;
+      bottom: auto !important;
+      width: min(calc(100% - 24px), 620px) !important;
+      margin: 8px auto calc(18px + env(safe-area-inset-bottom, 0px)) !important;
+      transform: none !important;
+    }
+
+    html.is-compact-mobile .facilitator-toggle {
+      top: 14px !important;
+      right: 14px !important;
+    }
+
+    html.is-compact-mobile .facilitator-panel {
+      top: 68px !important;
+      right: 12px !important;
+      width: min(420px, calc(100vw - 24px)) !important;
+      max-height: calc(100dvh - 84px) !important;
+    }
+
+    html.is-compact-mobile.is-compact-narrow .session-strip {
+      grid-template-columns: 1fr !important;
+    }
+
+    html.is-compact-mobile.is-compact-narrow .session-chip--wide,
+    html.is-compact-mobile.is-compact-narrow .session-action {
+      grid-column: auto !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape main {
+      grid-template-columns: minmax(0, 1fr) minmax(286px, 334px) !important;
+      grid-template-areas:
+        "brand controls"
+        "stage controls" !important;
+      gap: 16px !important;
+      align-items: start !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .brand-panel {
+      width: 100% !important;
+      max-width: none !important;
+      margin: 0 !important;
+      gap: 12px !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .brand-badge {
+      width: min(240px, 40vw) !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape h1 {
+      font-size: clamp(2.2rem, 6vw, 3.5rem) !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .lead {
+      max-width: 28ch !important;
+      font-size: .96rem !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .stage {
+      min-height: 320px !important;
+      padding: 0 0 110px !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .pedestal {
+      width: min(430px, 96%) !important;
+      bottom: -84px !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .controls {
+      width: 100% !important;
+      padding-top: 46px !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .session-strip,
+    html.is-compact-mobile.is-compact-landscape .session-spectrum {
+      width: calc(100% - 24px) !important;
+      max-width: none !important;
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .cube,
       .cube-shell,
@@ -1970,6 +2248,7 @@
   <script src="banco-preguntas.js?v=3"></script>
   <script>
     const page = document.querySelector(".page");
+    const root = document.documentElement;
     const cube = document.getElementById("cube");
     const cubeShell = document.querySelector(".cube-shell");
     const controlsPanel = document.querySelector(".controls");
@@ -2013,6 +2292,35 @@
     const resultTiltX = 0;
     const resultTiltY = 0;
     const resultTiltZ = 0;
+
+    function syncCompactViewportMode(){
+      const viewportWidth = Math.min(
+        window.innerWidth || Number.POSITIVE_INFINITY,
+        window.visualViewport?.width || Number.POSITIVE_INFINITY
+      );
+      const viewportHeight = Math.min(
+        window.innerHeight || Number.POSITIVE_INFINITY,
+        window.visualViewport?.height || Number.POSITIVE_INFINITY
+      );
+      const screenShortSide = Math.min(
+        window.screen?.width || viewportWidth,
+        window.screen?.height || viewportHeight
+      );
+      const coarsePointer = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+      const compactMobile = coarsePointer && (screenShortSide <= 900 || Math.min(viewportWidth, viewportHeight) <= 820);
+      const compactLandscape = compactMobile && viewportWidth > viewportHeight;
+      const compactNarrow = compactMobile && Math.min(viewportWidth, viewportHeight) <= 520;
+
+      root.classList.toggle("is-compact-mobile", compactMobile);
+      root.classList.toggle("is-compact-landscape", compactLandscape);
+      root.classList.toggle("is-compact-narrow", compactNarrow);
+    }
+
+    syncCompactViewportMode();
+    window.addEventListener("resize", syncCompactViewportMode, { passive: true });
+    window.addEventListener("orientationchange", () => {
+      window.setTimeout(syncCompactViewportMode, 80);
+    });
     const assetVersion = "1";
     const fullscreenButton=document.getElementById("fullscreenButton");
 const soundToggle=document.getElementById("soundToggle");
