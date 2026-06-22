@@ -2586,7 +2586,7 @@
       left: 50%;
       bottom: 0;
       z-index: 18;
-      width: calc(100% - 2px);
+      width: min(calc(100% - 8px), 1860px);
       aspect-ratio: 1980 / 301;
       transform: translateX(-50%);
       pointer-events: none;
@@ -2602,23 +2602,39 @@
     }
 
     .session-strip {
-      bottom: clamp(108px, 10.8vw, 214px);
-      width: min(calc(100% - 38px), 1448px);
-      padding: 12px 14px;
-      border-radius: 24px;
-      border: 1px solid rgba(198, 210, 205, .88);
-      box-shadow: 0 24px 44px rgba(10, 25, 28, .14);
-      background: linear-gradient(180deg, rgba(255, 255, 255, .99), rgba(248, 250, 247, .98));
+      bottom: clamp(18px, 2vw, 28px);
+      width: min(calc(100% - 220px), 1110px);
+      padding: 8px 10px;
+      border-radius: 22px;
+      border: 1px solid rgba(204, 216, 207, .9);
+      box-shadow:
+        0 18px 30px rgba(7, 20, 24, .18),
+        0 0 0 7px rgba(6, 37, 32, .12),
+        inset 0 1px 0 rgba(255, 255, 255, .9);
+      background: linear-gradient(180deg, rgba(255, 255, 255, .97), rgba(248, 250, 247, .94));
       overflow: hidden;
       isolation: isolate;
     }
 
     .session-strip::before {
-      display: none;
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(180deg, rgba(255, 255, 255, .28), rgba(255, 255, 255, 0));
+      pointer-events: none;
+      z-index: 0;
     }
 
     .session-strip::after {
-      display: none;
+      content: "";
+      position: absolute;
+      inset: -10px 16px auto;
+      height: 18px;
+      border-radius: 999px;
+      background: radial-gradient(circle at center, rgba(4, 26, 24, .18), rgba(4, 26, 24, 0) 72%);
+      pointer-events: none;
+      z-index: 0;
     }
 
     .session-chip,
@@ -2628,8 +2644,8 @@
     }
 
     .session-chip {
-      padding-top: 8px;
-      padding-bottom: 12px;
+      padding-top: 4px;
+      padding-bottom: 6px;
     }
 
     .session-label {
@@ -2637,7 +2653,7 @@
     }
 
     .session-action {
-      padding: 0 0 12px 18px;
+      padding: 0 0 6px 12px;
       align-self: stretch;
     }
 
@@ -2673,6 +2689,56 @@
         gap: clamp(20px, 2vw, 36px);
       }
 
+      .page-pleca {
+        width: min(calc(100% - 8px), 1820px);
+      }
+
+      .session-strip {
+        bottom: 18px;
+        width: min(calc(100% - 240px), 1080px);
+        padding: 8px 12px;
+        border-radius: 22px;
+      }
+
+      .session-chip {
+        padding-top: 4px;
+        padding-bottom: 6px;
+      }
+
+      .session-icon {
+        width: 44px;
+        height: 44px;
+      }
+
+      .session-icon svg {
+        width: 36px;
+        height: 36px;
+      }
+
+      .session-label {
+        font-size: .68rem;
+      }
+
+      .session-value {
+        font-size: 1rem;
+      }
+
+      .session-chip--wide .session-value {
+        font-size: 1.08rem;
+      }
+
+      .session-action {
+        padding: 0 0 6px 14px;
+      }
+
+      .session-reset {
+        min-width: 126px;
+        min-height: 46px;
+        padding: 0 24px;
+        border-radius: 13px;
+        font-size: .96rem;
+      }
+
       .stage {
         padding-bottom: 214px;
       }
@@ -2701,13 +2767,14 @@
       }
 
       .session-strip {
-        bottom: clamp(84px, 14vw, 152px);
-        padding: 10px 10px;
+        bottom: clamp(18px, 4.8vw, 28px);
+        width: calc(100% - 18px);
+        padding: 8px 8px;
         border-radius: 20px;
       }
 
       .page-pleca {
-        width: calc(100% - 4px);
+        width: calc(100% - 2px);
       }
 
       .session-chip,
@@ -2726,14 +2793,15 @@
     }
 
     html.is-compact-mobile .session-strip {
-      bottom: clamp(78px, 18vw, 140px) !important;
-      padding: 10px 10px !important;
+      bottom: calc(12px + env(safe-area-inset-bottom, 0px)) !important;
+      width: calc(100% - 12px) !important;
+      padding: 8px 8px !important;
       border-radius: 20px !important;
       overflow: hidden !important;
     }
 
     html.is-compact-mobile .page-pleca {
-      width: calc(100% - 4px) !important;
+      width: calc(100% - 2px) !important;
       bottom: 0 !important;
     }
 
@@ -2760,8 +2828,8 @@
     }
 
     html.is-compact-mobile.is-compact-landscape .session-strip {
-      width: calc(100% - 18px) !important;
-      bottom: calc(56px + env(safe-area-inset-bottom, 0px)) !important;
+      width: calc(100% - 12px) !important;
+      bottom: calc(8px + env(safe-area-inset-bottom, 0px)) !important;
       padding: 6px 6px !important;
       grid-template-columns: minmax(136px, 1.3fr) repeat(3, minmax(76px, .88fr)) minmax(100px, .86fr) !important;
       border-radius: 14px !important;
