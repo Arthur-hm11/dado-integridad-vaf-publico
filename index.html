@@ -2466,6 +2466,12 @@
 
     .brand-panel {
       padding-left: clamp(18px, 1.6vw, 34px);
+      gap: 8px;
+      padding-top: 0;
+    }
+
+    .brand-badge {
+      display: none !important;
     }
 
     .brand-copy {
@@ -2602,8 +2608,10 @@
     }
 
     .session-strip {
+      left: 18px;
+      right: auto;
       bottom: clamp(18px, 2vw, 28px);
-      width: min(calc(100% - 220px), 1110px);
+      width: min(calc(100% - 520px), 940px);
       padding: 8px 10px;
       border-radius: 22px;
       border: 1px solid rgba(204, 216, 207, .9);
@@ -2614,6 +2622,7 @@
       background: linear-gradient(180deg, rgba(255, 255, 255, .97), rgba(248, 250, 247, .94));
       overflow: hidden;
       isolation: isolate;
+      transform: none;
     }
 
     .session-strip::before {
@@ -2694,10 +2703,13 @@
       }
 
       .session-strip {
+        left: 18px;
+        right: auto;
         bottom: 18px;
-        width: min(calc(100% - 240px), 1080px);
+        width: min(calc(100% - 560px), 920px);
         padding: 8px 12px;
         border-radius: 22px;
+        transform: none;
       }
 
       .session-chip {
@@ -2767,10 +2779,13 @@
       }
 
       .session-strip {
+        left: 10px;
+        right: auto;
         bottom: clamp(18px, 4.8vw, 28px);
-        width: calc(100% - 18px);
+        width: calc(100% - 210px);
         padding: 8px 8px;
         border-radius: 20px;
+        transform: none;
       }
 
       .page-pleca {
