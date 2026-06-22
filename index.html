@@ -380,6 +380,12 @@
       background: linear-gradient(135deg, var(--green), #24483d);
     }
 
+    .page:not(.is-admin-unlocked) .facilitator-toggle {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-8px);
+    }
+
     .facilitator-panel {
       position: fixed;
       top: 72px;
@@ -2142,10 +2148,16 @@
       gap: 8px !important;
       align-self: start !important;
       padding-top: 0 !important;
+      padding-left: 14px !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .brand-badge {
       width: min(132px, 14vw) !important;
+      margin-left: 8px !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .brand-copy {
+      padding-left: 8px !important;
     }
 
     html.is-compact-mobile.is-compact-landscape h1 {
@@ -2323,20 +2335,21 @@
     }
 
     html.is-compact-mobile.is-compact-landscape .session-strip {
-      position: static !important;
-      left: auto !important;
+      position: fixed !important;
+      left: 50% !important;
       right: auto !important;
-      bottom: auto !important;
+      bottom: calc(10px + env(safe-area-inset-bottom, 0px)) !important;
       width: calc(100% - 20px) !important;
-      margin: 10px auto 0 !important;
-      transform: none !important;
+      margin: 0 !important;
+      transform: translateX(-50%) !important;
       display: grid !important;
-      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      grid-template-columns: minmax(164px, 1.5fr) repeat(4, minmax(86px, .9fr)) minmax(112px, .92fr) !important;
       flex-wrap: initial !important;
-      gap: 6px !important;
+      gap: 0 !important;
       padding: 6px !important;
       overflow: visible !important;
       border-radius: 14px !important;
+      z-index: 26 !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .session-strip::-webkit-scrollbar {
@@ -2345,7 +2358,7 @@
 
     html.is-compact-mobile.is-compact-landscape .session-chip {
       flex: initial !important;
-      min-height: 54px !important;
+      min-height: 50px !important;
       grid-template-columns: 28px minmax(0, 1fr) !important;
       gap: 6px !important;
       padding: 8px !important;
@@ -2359,7 +2372,7 @@
     html.is-compact-mobile.is-compact-landscape .session-action {
       flex: initial !important;
       grid-column: auto !important;
-      padding: 0 !important;
+      padding: 0 0 0 10px !important;
       align-self: stretch !important;
     }
 
@@ -2378,33 +2391,34 @@
     }
 
     html.is-compact-mobile.is-compact-landscape .session-label {
-      font-size: .54rem !important;
+      font-size: .5rem !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .session-value,
     html.is-compact-mobile.is-compact-landscape .session-chip--wide .session-value {
-      font-size: .72rem !important;
-      line-height: 1.08 !important;
+      font-size: .66rem !important;
+      line-height: 1.02 !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .session-reset {
-      min-height: 54px !important;
+      min-height: 50px !important;
       min-width: 0 !important;
       width: 100% !important;
       padding: 0 10px !important;
-      font-size: .78rem !important;
+      font-size: .74rem !important;
       border-radius: 10px !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .session-spectrum {
-      position: static !important;
-      left: auto !important;
+      position: fixed !important;
+      left: 50% !important;
       right: auto !important;
-      bottom: auto !important;
+      bottom: calc(2px + env(safe-area-inset-bottom, 0px)) !important;
       width: calc(100% - 20px) !important;
-      margin: 6px auto calc(16px + env(safe-area-inset-bottom, 0px)) !important;
-      transform: none !important;
+      margin: 0 !important;
+      transform: translateX(-50%) !important;
       height: 4px !important;
+      z-index: 25 !important;
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -2916,6 +2930,8 @@ function syncProtectedControls(){
   const isUnlocked = protectedAccessUnlocked === true;
 
   facilitatorPanel.classList.toggle("is-unlocked", isUnlocked);
+  facilitatorToggle.hidden = !isUnlocked;
+  facilitatorToggle.setAttribute("aria-hidden", String(!isUnlocked));
   bankUploadButton.disabled = !isUnlocked;
   bankRestoreButton.disabled = !isUnlocked || !bankState.isCustom;
   bankUploadInput.disabled = !isUnlocked;
@@ -3468,10 +3484,6 @@ function setFacilitatorOpen(isOpen){
   facilitatorPanel.setAttribute("aria-hidden", String(!isOpen));
   facilitatorToggle.classList.toggle("is-active", isOpen);
   facilitatorToggle.setAttribute("aria-expanded", String(isOpen));
-  
-  if(!isOpen){
-    setProtectedAccessUnlocked(false);
-  }
 }
 
 function updateLaunchCount(delta=1){
@@ -3806,7 +3818,18 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
     }
 
     document.addEventListener("pointerdown", event => {
-      if(protectedAccessUnlocked || !facilitatorPanel.classList.contains("is-open")) return;
+      if(protectedAccessUnlocked) return;
+
+      const target = event.target;
+      if(
+        target instanceof HTMLInputElement ||
+        target instanceof HTMLTextAreaElement ||
+        target instanceof HTMLSelectElement ||
+        target?.isContentEditable
+      ){
+        return;
+      }
+
       beginProtectedAccessCapture();
     });
 
@@ -3883,7 +3906,7 @@ document.addEventListener("fullscreenchange",()=>{
     });
 
 document.addEventListener("keydown", event => {
-  if(!protectedAccessUnlocked && facilitatorPanel.classList.contains("is-open") && protectedAccessListening){
+  if(!protectedAccessUnlocked && protectedAccessListening){
     if(event.key === "Escape"){
       event.preventDefault();
       resetProtectedAccessCapture();
@@ -3895,6 +3918,8 @@ document.addEventListener("keydown", event => {
 
       if(normalizeText(protectedAccessBuffer) === protectedAccessPassword){
         setProtectedAccessUnlocked(true);
+        setFacilitatorOpen(true);
+        renderBankState("Acceso de facilitador habilitado.", "success");
       }else{
         resetProtectedAccessCapture();
       }
@@ -3924,7 +3949,7 @@ document.addEventListener("keydown", event => {
       renderBankState();
       renderFacilitatorState();
       setProtectedAccessUnlocked(false);
-      setFacilitatorOpen(facilitatorState.open);
+      setFacilitatorOpen(false);
       setDice(currentDiceKey);
       renderSessionStrip();
       preloadAllDiceFaces();
