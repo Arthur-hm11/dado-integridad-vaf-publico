@@ -2428,11 +2428,11 @@
     /* Final visual alignment */
     body {
       background:
-        radial-gradient(circle at 18% 26%, rgba(108, 169, 173, .18), transparent 23rem),
-        radial-gradient(circle at 38% 12%, rgba(210, 167, 58, .12), transparent 16rem),
+        radial-gradient(circle at 18% 26%, rgba(89, 143, 136, .16), transparent 23rem),
+        radial-gradient(circle at 38% 12%, rgba(210, 167, 58, .1), transparent 16rem),
         radial-gradient(circle at 74% 26%, rgba(255, 255, 255, .34), transparent 16rem),
-        linear-gradient(91deg, #e7eeef 0 73.5%, #102735 73.5% 100%),
-        linear-gradient(180deg, #edf3f2 0%, #d9e4e4 100%);
+        linear-gradient(91deg, #e9efed 0 73.5%, #0e2427 73.5% 100%),
+        linear-gradient(180deg, #eef3f1 0%, #dce5e1 100%);
     }
 
     .band {
@@ -2453,7 +2453,7 @@
         radial-gradient(circle at 16% 52%, rgba(104, 161, 170, .18), transparent 32%),
         radial-gradient(circle at 34% 16%, rgba(214, 178, 81, .16), transparent 22%),
         radial-gradient(circle at 52% 44%, rgba(255, 255, 255, .22), transparent 24%),
-        linear-gradient(90deg, rgba(232, 239, 239, .995) 0 73.5%, rgba(11, 36, 48, .97) 73.5% 100%);
+        linear-gradient(90deg, rgba(232, 239, 237, .995) 0 73.5%, rgba(10, 33, 36, .97) 73.5% 100%);
       box-shadow:
         inset 0 0 0 1px rgba(255, 255, 255, .44),
         0 30px 72px rgba(12, 28, 41, .18);
@@ -2461,7 +2461,7 @@
 
     .page::after {
       height: 78px;
-      background: linear-gradient(180deg, #0b2622 0%, #071914 100%);
+      background: linear-gradient(180deg, #09211e 0%, #051310 100%);
     }
 
     .brand-panel {
@@ -2493,7 +2493,7 @@
 
     .controls {
       background:
-        linear-gradient(180deg, rgba(16, 47, 63, .975), rgba(8, 28, 38, .97));
+        linear-gradient(180deg, rgba(14, 41, 45, .978), rgba(8, 24, 28, .97));
       border-color: rgba(88, 140, 126, .22);
       box-shadow:
         0 26px 56px rgba(6, 18, 24, .34),
@@ -2502,7 +2502,7 @@
 
     .controls::before {
       background:
-        radial-gradient(circle at 50% 0%, rgba(52, 135, 144, .26), transparent 60%),
+        radial-gradient(circle at 50% 0%, rgba(44, 113, 110, .24), transparent 60%),
         linear-gradient(135deg, rgba(72, 142, 88, .12), rgba(214, 166, 59, .08));
     }
 
@@ -2584,7 +2584,7 @@
     .session-strip {
       bottom: 18px;
       width: min(calc(100% - 38px), 1448px);
-      padding: 12px 14px 68px;
+      padding: 12px 14px 84px;
       border-radius: 24px;
       border: 1px solid rgba(198, 210, 205, .88);
       box-shadow: 0 24px 44px rgba(10, 25, 28, .14);
@@ -2596,11 +2596,10 @@
     .session-strip::before {
       content: "";
       position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 52px;
-      height: 6px;
-      background: linear-gradient(90deg, #9237a2 0 16%, #ff0c91 16% 33%, #ff620f 33% 49%, #f4b31c 49% 66%, #00aad9 66% 84%, #1cb34f 84% 100%);
+      inset: auto 0 0;
+      height: 70px;
+      background:
+        url("assets/ui/pleca-caja-herramientas.png?v=20260622c") center bottom / 100% 100% no-repeat;
       pointer-events: none;
       z-index: 0;
     }
@@ -2610,23 +2609,11 @@
       position: absolute;
       left: 0;
       right: 0;
-      bottom: 0;
-      height: 52px;
-      background:
-        url("assets/ui/pleca-caja-pattern.png?v=20260622b") center bottom / 100% 100% no-repeat;
+      bottom: 70px;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(9, 36, 35, 0), rgba(9, 36, 35, .22) 16%, rgba(9, 36, 35, .22) 84%, rgba(9, 36, 35, 0));
       pointer-events: none;
       z-index: 0;
-    }
-
-    .session-pleca-mark {
-      position: absolute;
-      right: 14px;
-      bottom: 0;
-      width: clamp(280px, 22vw, 360px);
-      height: 52px;
-      background: url("assets/ui/pleca-caja-mark.png?v=20260622b") right bottom / contain no-repeat;
-      pointer-events: none;
-      z-index: 1;
     }
 
     .session-chip,
@@ -2709,23 +2696,16 @@
       }
 
       .session-strip {
-        padding: 10px 10px 54px;
+        padding: 10px 10px 70px;
         border-radius: 20px;
       }
 
       .session-strip::before {
-        bottom: 44px;
-        height: 5px;
+        height: 58px;
       }
 
       .session-strip::after {
-        height: 44px;
-      }
-
-      .session-pleca-mark {
-        right: 10px;
-        width: clamp(190px, 40vw, 244px);
-        height: 44px;
+        bottom: 58px;
       }
 
       .session-chip,
@@ -2744,25 +2724,17 @@
     }
 
     html.is-compact-mobile .session-strip {
-      padding: 10px 10px 54px !important;
+      padding: 10px 10px 70px !important;
       border-radius: 20px !important;
       overflow: hidden !important;
     }
 
     html.is-compact-mobile .session-strip::before {
-      bottom: 44px !important;
-      height: 5px !important;
+      height: 58px !important;
     }
 
     html.is-compact-mobile .session-strip::after {
-      height: 44px !important;
-      background-size: 100% 100% !important;
-    }
-
-    html.is-compact-mobile .session-pleca-mark {
-      right: 10px !important;
-      width: clamp(190px, 40vw, 244px) !important;
-      height: 44px !important;
+      bottom: 58px !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .brand-panel {
@@ -2790,26 +2762,18 @@
     html.is-compact-mobile.is-compact-landscape .session-strip {
       width: calc(100% - 18px) !important;
       bottom: calc(8px + env(safe-area-inset-bottom, 0px)) !important;
-      padding: 6px 6px 36px !important;
+      padding: 6px 6px 48px !important;
       grid-template-columns: minmax(136px, 1.3fr) repeat(3, minmax(76px, .88fr)) minmax(100px, .86fr) !important;
       border-radius: 14px !important;
       overflow: hidden !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .session-strip::before {
-      bottom: 30px !important;
-      height: 4px !important;
+      height: 40px !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .session-strip::after {
-      height: 30px !important;
-      background-size: 100% 100% !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .session-pleca-mark {
-      right: 8px !important;
-      width: 164px !important;
-      height: 30px !important;
+      bottom: 40px !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .session-chip {
@@ -2989,8 +2953,6 @@
       <div class="session-action">
         <button class="session-reset" type="button" id="sessionResetButton">Reiniciar</button>
       </div>
-
-      <div class="session-pleca-mark" aria-hidden="true"></div>
     </section>
 
     <div class="session-spectrum" aria-hidden="true"></div>
