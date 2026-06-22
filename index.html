@@ -1989,7 +1989,7 @@
 
     html.is-compact-mobile .stage {
       min-height: auto !important;
-      padding: 4px 0 128px !important;
+      padding: 8px 0 148px !important;
     }
 
     html.is-compact-mobile .stage::before {
@@ -2009,14 +2009,14 @@
     }
 
     html.is-compact-mobile .stage-visual::before {
-      bottom: -72px !important;
-      width: min(520px, 96%) !important;
-      height: 112px !important;
+      bottom: -82px !important;
+      width: min(500px, 92%) !important;
+      height: 104px !important;
     }
 
     html.is-compact-mobile .pedestal {
-      width: min(520px, 98%) !important;
-      bottom: -114px !important;
+      width: min(494px, 94%) !important;
+      bottom: -132px !important;
     }
 
     html.is-compact-mobile .controls {
@@ -2116,12 +2116,12 @@
     }
 
     html.is-compact-mobile.is-compact-landscape main {
-      grid-template-columns: minmax(180px, .74fr) minmax(210px, 1fr) minmax(250px, .86fr) !important;
+      grid-template-columns: minmax(0, .7fr) minmax(0, .96fr) minmax(230px, .84fr) !important;
       grid-template-areas: "brand stage controls" !important;
-      gap: 14px !important;
+      gap: 10px !important;
       align-items: start !important;
       height: auto !important;
-      padding: 14px 12px 16px !important;
+      padding: 12px 10px 14px !important;
     }
 
     html.is-compact-mobile.is-compact-landscape body {
@@ -2139,40 +2139,44 @@
       width: 100% !important;
       max-width: none !important;
       margin: 0 !important;
-      gap: 10px !important;
-      align-self: center !important;
+      gap: 8px !important;
+      align-self: start !important;
       padding-top: 0 !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .brand-badge {
-      width: min(170px, 18vw) !important;
+      width: min(132px, 14vw) !important;
     }
 
     html.is-compact-mobile.is-compact-landscape h1 {
-      font-size: clamp(1.95rem, 4.2vw, 2.85rem) !important;
+      font-size: clamp(1.52rem, 3.4vw, 2.28rem) !important;
       line-height: .9 !important;
     }
 
+    html.is-compact-mobile.is-compact-landscape .brand-divider {
+      width: min(100%, 250px) !important;
+    }
+
     html.is-compact-mobile.is-compact-landscape .lead {
-      max-width: 20ch !important;
-      font-size: .84rem !important;
-      line-height: 1.34 !important;
+      max-width: 18ch !important;
+      font-size: .75rem !important;
+      line-height: 1.26 !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .brand-points {
-      font-size: .88rem !important;
+      font-size: .78rem !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .brand-overline {
-      min-height: 26px !important;
-      padding: 0 12px !important;
-      font-size: .62rem !important;
+      min-height: 24px !important;
+      padding: 0 10px !important;
+      font-size: .56rem !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .stage {
       min-height: 0 !important;
       height: auto !important;
-      padding: 0 0 112px !important;
+      padding: 16px 0 148px !important;
       align-self: start !important;
     }
 
@@ -2184,30 +2188,37 @@
     html.is-compact-mobile.is-compact-landscape .stage::after {
       left: 6% !important;
       right: 6% !important;
-      top: 12% !important;
-      bottom: 14% !important;
+      top: 13% !important;
+      bottom: 18% !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .stage-visual {
+      min-height: 300px !important;
+      transform: none !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .stage-visual::before {
-      bottom: -66px !important;
-      width: min(360px, 86%) !important;
-      height: 78px !important;
+      bottom: -82px !important;
+      width: min(316px, 78%) !important;
+      height: 68px !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .cube-shell {
-      transform: scale(.82) !important;
+      margin-top: 8px !important;
+      transform: scale(.72) !important;
+      transform-origin: center 42% !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .pedestal {
-      width: min(324px, 88%) !important;
-      bottom: -98px !important;
+      width: min(294px, 72%) !important;
+      bottom: -132px !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .controls {
       width: 100% !important;
       max-height: none !important;
-      padding: 44px 10px 16px !important;
-      gap: 8px !important;
+      padding: 40px 8px 12px !important;
+      gap: 7px !important;
       overflow-x: hidden !important;
       overflow-y: visible !important;
       align-self: start !important;
@@ -2215,38 +2226,38 @@
     }
 
     html.is-compact-mobile.is-compact-landscape .controls-kicker {
-      min-height: 30px !important;
-      font-size: .84rem !important;
+      min-height: 28px !important;
+      font-size: .78rem !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .dice-tabs {
-      gap: 8px !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .dice-tab {
-      min-height: 68px !important;
-      padding: 8px 6px !important;
       gap: 6px !important;
     }
 
+    html.is-compact-mobile.is-compact-landscape .dice-tab {
+      min-height: 62px !important;
+      padding: 6px 4px !important;
+      gap: 5px !important;
+    }
+
     html.is-compact-mobile.is-compact-landscape .tab-icon {
-      width: 34px !important;
-      height: 34px !important;
-      font-size: .88rem !important;
+      width: 30px !important;
+      height: 30px !important;
+      font-size: .78rem !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .tab-copy {
-      font-size: .7rem !important;
+      font-size: .64rem !important;
       line-height: 1.08 !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .howto-card {
-      gap: 8px !important;
-      padding: 10px 12px !important;
+      gap: 7px !important;
+      padding: 9px 10px !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .howto-card h2 {
-      font-size: .96rem !important;
+      font-size: .9rem !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .howto-list {
@@ -2259,20 +2270,20 @@
     }
 
     html.is-compact-mobile.is-compact-landscape .howto-item p {
-      font-size: .78rem !important;
-      line-height: 1.22 !important;
+      font-size: .72rem !important;
+      line-height: 1.16 !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .howto-step {
-      width: 28px !important;
-      height: 28px !important;
-      font-size: .9rem !important;
+      width: 26px !important;
+      height: 26px !important;
+      font-size: .82rem !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .roll-button {
-      min-height: 42px !important;
-      font-size: .92rem !important;
-      border-radius: 18px !important;
+      min-height: 38px !important;
+      font-size: .84rem !important;
+      border-radius: 16px !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .outcome {
@@ -2280,30 +2291,30 @@
     }
 
     html.is-compact-mobile.is-compact-landscape .theme {
-      min-height: 64px !important;
-      padding: 10px 12px !important;
+      min-height: 58px !important;
+      padding: 9px 10px !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .prompt {
-      min-height: 90px !important;
-      padding: 10px 12px !important;
+      min-height: 84px !important;
+      padding: 9px 10px !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .theme strong {
-      font-size: 1rem !important;
+      font-size: .9rem !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .prompt strong {
-      font-size: .8rem !important;
-      line-height: 1.22 !important;
+      font-size: .74rem !important;
+      line-height: 1.16 !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .facilitator-toggle {
-      top: 10px !important;
-      right: 10px !important;
-      min-height: 34px !important;
-      padding: 0 14px !important;
-      font-size: .78rem !important;
+      top: 8px !important;
+      right: 8px !important;
+      min-height: 32px !important;
+      padding: 0 12px !important;
+      font-size: .72rem !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .session-strip,
@@ -2316,16 +2327,16 @@
       left: auto !important;
       right: auto !important;
       bottom: auto !important;
-      width: min(calc(100% - 24px), 920px) !important;
-      margin: 12px auto 0 !important;
+      width: calc(100% - 20px) !important;
+      margin: 10px auto 0 !important;
       transform: none !important;
       display: grid !important;
       grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
       flex-wrap: initial !important;
-      gap: 8px !important;
-      padding: 8px !important;
+      gap: 6px !important;
+      padding: 6px !important;
       overflow: visible !important;
-      border-radius: 16px !important;
+      border-radius: 14px !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .session-strip::-webkit-scrollbar {
@@ -2334,53 +2345,55 @@
 
     html.is-compact-mobile.is-compact-landscape .session-chip {
       flex: initial !important;
-      min-height: 58px !important;
-      grid-template-columns: 34px minmax(0, 1fr) !important;
-      gap: 8px !important;
-      padding: 8px 10px !important;
+      min-height: 54px !important;
+      grid-template-columns: 28px minmax(0, 1fr) !important;
+      gap: 6px !important;
+      padding: 8px !important;
       align-items: center !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .session-chip--wide {
-      grid-column: span 2 !important;
+      grid-column: auto !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .session-action {
       flex: initial !important;
-      grid-column: span 1 !important;
+      grid-column: auto !important;
       padding: 0 !important;
       align-self: stretch !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .session-icon {
-      width: 34px !important;
-      height: 34px !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .session-icon svg {
       width: 28px !important;
       height: 28px !important;
     }
 
+    html.is-compact-mobile.is-compact-landscape .session-icon svg {
+      width: 24px !important;
+      height: 24px !important;
+    }
+
     html.is-compact-mobile.is-compact-landscape .session-copy {
-      gap: 2px !important;
+      gap: 1px !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .session-label {
-      font-size: .6rem !important;
+      font-size: .54rem !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .session-value,
     html.is-compact-mobile.is-compact-landscape .session-chip--wide .session-value {
-      font-size: .78rem !important;
+      font-size: .72rem !important;
       line-height: 1.08 !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .session-reset {
-      min-height: 58px !important;
-      padding: 0 14px !important;
-      font-size: .86rem !important;
-      border-radius: 12px !important;
+      min-height: 54px !important;
+      min-width: 0 !important;
+      width: 100% !important;
+      padding: 0 10px !important;
+      font-size: .78rem !important;
+      border-radius: 10px !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .session-spectrum {
@@ -2388,8 +2401,8 @@
       left: auto !important;
       right: auto !important;
       bottom: auto !important;
-      width: min(calc(100% - 24px), 920px) !important;
-      margin: 8px auto calc(18px + env(safe-area-inset-bottom, 0px)) !important;
+      width: calc(100% - 20px) !important;
+      margin: 6px auto calc(16px + env(safe-area-inset-bottom, 0px)) !important;
       transform: none !important;
       height: 4px !important;
     }
