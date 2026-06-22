@@ -1686,6 +1686,142 @@
       }
     }
 
+    @media (min-width: 768px) and (max-width: 1100px) and (orientation: portrait) {
+      :root {
+        --page-side: 20px;
+        --cube-size: clamp(248px, 42vw, 320px);
+      }
+
+      main {
+        max-width: min(860px, 100%);
+        padding-top: 24px;
+        gap: 22px;
+      }
+
+      .brand-panel,
+      .controls {
+        width: min(100%, 720px);
+      }
+
+      .brand-badge {
+        width: min(320px, 58vw);
+      }
+
+      .lead {
+        max-width: 26ch;
+      }
+
+      .stage {
+        padding: 10px 0 150px;
+      }
+
+      .stage-visual::before {
+        width: min(500px, 92%);
+        bottom: -84px;
+      }
+
+      .pedestal {
+        width: min(500px, 94%);
+        bottom: -128px;
+      }
+
+      .session-strip,
+      .session-spectrum {
+        width: min(calc(100% - 32px), 760px);
+      }
+
+      .session-strip {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .session-chip--wide {
+        grid-column: span 2;
+      }
+
+      .session-action {
+        grid-column: span 1;
+      }
+    }
+
+    @media (min-width: 768px) and (max-width: 1100px) and (orientation: landscape) {
+      :root {
+        --page-side: 18px;
+        --cube-size: clamp(228px, 30vw, 308px);
+      }
+
+      main {
+        max-width: min(1040px, 100%);
+        grid-template-columns: minmax(240px, .78fr) minmax(0, 1fr) minmax(280px, .9fr);
+        grid-template-areas: "brand stage controls";
+        gap: 18px;
+        align-items: center;
+        padding-top: 18px;
+      }
+
+      .brand-panel {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        align-self: center;
+      }
+
+      .brand-badge {
+        width: min(240px, 26vw);
+      }
+
+      h1 {
+        font-size: clamp(2.3rem, 5vw, 3.4rem);
+      }
+
+      .lead {
+        max-width: 22ch;
+        font-size: .94rem;
+      }
+
+      .stage {
+        min-height: 420px;
+        padding: 8px 0 138px;
+      }
+
+      .stage-visual {
+        transform: none;
+      }
+
+      .stage-visual::before {
+        width: min(430px, 90%);
+        height: 96px;
+        bottom: -78px;
+      }
+
+      .pedestal {
+        width: min(430px, 90%);
+        bottom: -124px;
+      }
+
+      .controls {
+        width: 100%;
+        max-width: none;
+        padding: 50px 14px 16px;
+      }
+
+      .session-strip,
+      .session-spectrum {
+        width: min(calc(100% - 36px), 1000px);
+      }
+
+      .session-strip {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .session-chip--wide {
+        grid-column: span 2;
+      }
+
+      .session-action {
+        grid-column: span 1;
+      }
+    }
+
     @media (max-width: 1100px) and (orientation: landscape) {
       :root {
         --cube-size: clamp(190px, 28vw, 250px);
@@ -1983,19 +2119,20 @@
       grid-template-columns: minmax(180px, .74fr) minmax(210px, 1fr) minmax(250px, .86fr) !important;
       grid-template-areas: "brand stage controls" !important;
       gap: 14px !important;
-      align-items: center !important;
-      height: calc(100dvh - 10px) !important;
-      padding: 14px 12px 118px !important;
+      align-items: start !important;
+      height: auto !important;
+      padding: 14px 12px 16px !important;
     }
 
     html.is-compact-mobile.is-compact-landscape body {
-      overflow: hidden !important;
+      overflow-x: hidden !important;
+      overflow-y: auto !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .page {
-      height: 100dvh !important;
+      height: auto !important;
       min-height: 100dvh !important;
-      overflow: hidden !important;
+      overflow: visible !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .brand-panel {
@@ -2034,9 +2171,9 @@
 
     html.is-compact-mobile.is-compact-landscape .stage {
       min-height: 0 !important;
-      height: 100% !important;
+      height: auto !important;
       padding: 0 0 112px !important;
-      align-self: center !important;
+      align-self: start !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .stage::before {
@@ -2068,12 +2205,12 @@
 
     html.is-compact-mobile.is-compact-landscape .controls {
       width: 100% !important;
-      max-height: calc(100dvh - 152px) !important;
+      max-height: none !important;
       padding: 44px 10px 16px !important;
       gap: 8px !important;
       overflow-x: hidden !important;
-      overflow-y: auto !important;
-      align-self: center !important;
+      overflow-y: visible !important;
+      align-self: start !important;
       overscroll-behavior: contain !important;
     }
 
@@ -2175,21 +2312,20 @@
     }
 
     html.is-compact-mobile.is-compact-landscape .session-strip {
-      position: fixed !important;
-      left: 12px !important;
-      right: 12px !important;
-      bottom: 12px !important;
-      width: auto !important;
-      margin: 0 !important;
+      position: static !important;
+      left: auto !important;
+      right: auto !important;
+      bottom: auto !important;
+      width: min(calc(100% - 24px), 920px) !important;
+      margin: 12px auto 0 !important;
       transform: none !important;
-      display: flex !important;
-      flex-wrap: nowrap !important;
+      display: grid !important;
+      grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      flex-wrap: initial !important;
       gap: 8px !important;
       padding: 8px !important;
-      overflow-x: auto !important;
-      overflow-y: hidden !important;
+      overflow: visible !important;
       border-radius: 16px !important;
-      scrollbar-width: none !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .session-strip::-webkit-scrollbar {
@@ -2197,7 +2333,7 @@
     }
 
     html.is-compact-mobile.is-compact-landscape .session-chip {
-      flex: 0 0 148px !important;
+      flex: initial !important;
       min-height: 58px !important;
       grid-template-columns: 34px minmax(0, 1fr) !important;
       gap: 8px !important;
@@ -2206,11 +2342,12 @@
     }
 
     html.is-compact-mobile.is-compact-landscape .session-chip--wide {
-      flex-basis: 190px !important;
+      grid-column: span 2 !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .session-action {
-      flex: 0 0 156px !important;
+      flex: initial !important;
+      grid-column: span 1 !important;
       padding: 0 !important;
       align-self: stretch !important;
     }
@@ -2247,12 +2384,12 @@
     }
 
     html.is-compact-mobile.is-compact-landscape .session-spectrum {
-      position: fixed !important;
-      left: 12px !important;
-      right: 12px !important;
-      bottom: 4px !important;
-      width: auto !important;
-      margin: 0 !important;
+      position: static !important;
+      left: auto !important;
+      right: auto !important;
+      bottom: auto !important;
+      width: min(calc(100% - 24px), 920px) !important;
+      margin: 8px auto calc(18px + env(safe-area-inset-bottom, 0px)) !important;
       transform: none !important;
       height: 4px !important;
     }
@@ -2573,9 +2710,10 @@
         window.screen?.height || viewportHeight
       );
       const coarsePointer = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
-      const compactMobile = coarsePointer && (screenShortSide <= 900 || Math.min(viewportWidth, viewportHeight) <= 820);
+      const shortSide = Math.min(screenShortSide, viewportWidth, viewportHeight);
+      const compactMobile = coarsePointer && shortSide <= 700;
       const compactLandscape = compactMobile && viewportWidth > viewportHeight;
-      const compactNarrow = compactMobile && Math.min(viewportWidth, viewportHeight) <= 520;
+      const compactNarrow = compactMobile && shortSide <= 520;
 
       root.classList.toggle("is-compact-mobile", compactMobile);
       root.classList.toggle("is-compact-landscape", compactLandscape);
