@@ -2425,6 +2425,323 @@
       z-index: 25 !important;
     }
 
+    /* Final visual alignment */
+    body {
+      background:
+        radial-gradient(circle at 16% 24%, rgba(141, 189, 220, .28), transparent 24rem),
+        radial-gradient(circle at 38% 12%, rgba(246, 233, 210, .5), transparent 18rem),
+        radial-gradient(circle at 74% 28%, rgba(255, 255, 255, .34), transparent 18rem),
+        linear-gradient(91deg, #e6eef5 0 73%, #0c2543 73% 100%),
+        linear-gradient(180deg, #eef4f9 0%, #d8e3ee 100%);
+    }
+
+    .band {
+      background:
+        linear-gradient(90deg,
+          #33a6cf 0 16%,
+          #68b241 16% 33%,
+          #f2b228 33% 48%,
+          #f36a22 48% 63%,
+          #d2338e 63% 78%,
+          #0fa5d3 78% 92%,
+          #2fb44c 92% 100%);
+    }
+
+    .page::before {
+      inset: 12px 12px 62px;
+      background:
+        radial-gradient(circle at 18% 48%, rgba(136, 184, 216, .26), transparent 34%),
+        radial-gradient(circle at 35% 18%, rgba(246, 236, 223, .7), transparent 22%),
+        radial-gradient(circle at 52% 44%, rgba(255, 255, 255, .2), transparent 22%),
+        linear-gradient(90deg, rgba(227, 235, 242, .99) 0 73%, rgba(11, 34, 63, .96) 73% 100%);
+      box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, .42),
+        0 30px 70px rgba(16, 33, 56, .18);
+    }
+
+    .page::after {
+      height: 78px;
+      background: linear-gradient(180deg, #0b2340 0%, #071f36 100%);
+    }
+
+    .brand-panel {
+      padding-left: clamp(18px, 1.6vw, 34px);
+    }
+
+    .brand-copy {
+      max-width: clamp(320px, 24vw, 390px);
+    }
+
+    .brand-overline {
+      background: linear-gradient(135deg, rgba(24, 61, 104, .96), rgba(49, 140, 185, .82));
+      box-shadow: 0 12px 24px rgba(22, 55, 92, .18);
+    }
+
+    .brand-divider {
+      background:
+        linear-gradient(90deg, #2ea6cf 0%, #69b342 36%, #f1b229 72%, #f2c039 100%);
+      box-shadow: 0 10px 24px rgba(45, 127, 161, .18);
+    }
+
+    .brand-points {
+      color: #305d8c;
+    }
+
+    .lead {
+      color: #314d6d;
+    }
+
+    .controls {
+      background:
+        linear-gradient(180deg, rgba(11, 35, 62, .975), rgba(8, 25, 46, .97));
+      box-shadow:
+        0 26px 56px rgba(8, 20, 40, .34),
+        inset 0 1px 0 rgba(255, 255, 255, .08);
+    }
+
+    .controls::before {
+      background:
+        radial-gradient(circle at 50% 0%, rgba(46, 167, 214, .28), transparent 60%),
+        linear-gradient(135deg, rgba(106, 179, 67, .08), rgba(241, 178, 40, .08));
+    }
+
+    .controls-kicker {
+      color: #f2f8ff;
+    }
+
+    .roll-button {
+      background: linear-gradient(135deg, #7bc741 0%, #5aa933 48%, #3f8523 100%);
+      box-shadow:
+        0 20px 36px rgba(63, 129, 36, .34),
+        inset 0 1px 0 rgba(255, 255, 255, .28);
+    }
+
+    .roll-button::before {
+      background:
+        linear-gradient(120deg, rgba(255, 255, 255, 0) 22%, rgba(255, 255, 255, .24) 48%, rgba(255, 255, 255, 0) 74%);
+    }
+
+    .theme,
+    .prompt {
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, .985), rgba(246, 250, 254, .96));
+      border-color: rgba(207, 221, 235, .82);
+    }
+
+    .prompt {
+      border-left-color: #d79f20;
+    }
+
+    .session-strip {
+      bottom: 18px;
+      width: min(calc(100% - 38px), 1448px);
+      padding: 12px 14px 72px;
+      border-radius: 24px;
+      border: 1px solid rgba(197, 210, 223, .88);
+      box-shadow: 0 24px 44px rgba(14, 31, 52, .16);
+      background: linear-gradient(180deg, rgba(255, 255, 255, .988), rgba(248, 251, 255, .97));
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .session-strip::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 96px;
+      background:
+        radial-gradient(circle at 16% 0%, rgba(35, 166, 205, .08), transparent 32%),
+        radial-gradient(circle at 84% 0%, rgba(224, 176, 39, .08), transparent 28%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .session-strip::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 60px;
+      background:
+        url("assets/ui/pleca-caja-herramientas.png?v=20260622a") center bottom / 100% auto no-repeat;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .session-chip,
+    .session-action {
+      position: relative;
+      z-index: 1;
+    }
+
+    .session-chip {
+      padding-top: 8px;
+      padding-bottom: 12px;
+    }
+
+    .session-label {
+      color: #6a9d47;
+    }
+
+    .session-action {
+      padding: 0 0 12px 18px;
+      align-self: stretch;
+    }
+
+    .session-reset {
+      background: linear-gradient(135deg, #18365b, #102847);
+      box-shadow: 0 16px 28px rgba(10, 26, 48, .2);
+    }
+
+    .session-spectrum {
+      display: none !important;
+    }
+
+    #facilitatorToggle[hidden] {
+      display: none !important;
+    }
+
+    .facilitator-toggle {
+      background: linear-gradient(135deg, rgba(15, 43, 72, .95), rgba(39, 115, 79, .94));
+    }
+
+    .facilitator-panel {
+      background:
+        linear-gradient(155deg, rgba(255, 255, 255, .985), rgba(246, 249, 252, .95)),
+        linear-gradient(135deg, rgba(15, 142, 189, .06), rgba(189, 143, 24, .08));
+      box-shadow: 0 30px 56px rgba(15, 28, 49, .24);
+    }
+
+    @media (min-width: 1101px) {
+      main {
+        width: min(calc(100% - 36px), 1740px);
+        max-width: 1740px;
+        grid-template-columns: minmax(300px, 380px) minmax(520px, 1.14fr) minmax(308px, 368px);
+        gap: clamp(20px, 2vw, 36px);
+      }
+
+      .stage {
+        padding-bottom: 214px;
+      }
+
+      .stage-visual::before {
+        bottom: -104px;
+      }
+
+      .pedestal {
+        width: min(580px, 88%);
+        bottom: -184px;
+      }
+
+      .controls {
+        max-width: 368px;
+      }
+    }
+
+    @media (max-width: 1100px) {
+      .page::after {
+        height: 60px;
+      }
+
+      .brand-panel {
+        padding-left: clamp(12px, 2vw, 20px);
+      }
+
+      .session-strip {
+        padding: 10px 10px 56px;
+        border-radius: 20px;
+      }
+
+      .session-strip::before {
+        height: 78px;
+      }
+
+      .session-strip::after {
+        height: 44px;
+        background-position: right bottom;
+      }
+
+      .session-chip,
+      .session-action {
+        padding-bottom: 8px;
+      }
+    }
+
+    html.is-compact-mobile .brand-panel {
+      padding-left: 14px !important;
+      padding-right: 4px !important;
+    }
+
+    html.is-compact-mobile .brand-copy {
+      padding-left: 4px !important;
+    }
+
+    html.is-compact-mobile .session-strip {
+      padding: 10px 10px 56px !important;
+      border-radius: 20px !important;
+      overflow: hidden !important;
+    }
+
+    html.is-compact-mobile .session-strip::before {
+      height: 78px !important;
+    }
+
+    html.is-compact-mobile .session-strip::after {
+      height: 44px !important;
+      background-position: right bottom !important;
+      background-size: 100% auto !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .brand-panel {
+      padding-left: 18px !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .brand-copy {
+      padding-left: 10px !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .stage {
+      padding: 14px 0 166px !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .stage-visual {
+      min-height: 312px !important;
+      transform: translateY(-8px) !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .pedestal {
+      width: min(306px, 76%) !important;
+      bottom: -126px !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .session-strip {
+      width: calc(100% - 18px) !important;
+      bottom: calc(8px + env(safe-area-inset-bottom, 0px)) !important;
+      padding: 6px 6px 40px !important;
+      grid-template-columns: minmax(136px, 1.3fr) repeat(3, minmax(76px, .88fr)) minmax(100px, .86fr) !important;
+      border-radius: 14px !important;
+      overflow: hidden !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .session-strip::before {
+      height: 52px !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .session-strip::after {
+      height: 30px !important;
+      background-position: right bottom !important;
+      background-size: 100% auto !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .session-chip {
+      padding: 8px 8px 10px !important;
+    }
+
+    html.is-compact-mobile.is-compact-landscape .session-action {
+      padding: 0 0 10px 8px !important;
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .cube,
       .cube-shell,
@@ -2598,7 +2915,7 @@
 
     <div class="session-spectrum" aria-hidden="true"></div>
 
-    <button class="facilitator-toggle" type="button" id="facilitatorToggle" aria-controls="facilitatorPanel" aria-expanded="false">
+    <button class="facilitator-toggle" type="button" id="facilitatorToggle" aria-controls="facilitatorPanel" aria-expanded="false" hidden>
       Modo facilitador
     </button>
 
