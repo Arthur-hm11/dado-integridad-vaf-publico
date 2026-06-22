@@ -2581,10 +2581,30 @@
       color: #17384b;
     }
 
+    .page-pleca {
+      position: fixed;
+      left: 50%;
+      bottom: 0;
+      z-index: 18;
+      width: calc(100% - 2px);
+      aspect-ratio: 1980 / 301;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .page-pleca img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center bottom;
+      image-rendering: auto;
+    }
+
     .session-strip {
-      bottom: 18px;
+      bottom: clamp(108px, 10.8vw, 214px);
       width: min(calc(100% - 38px), 1448px);
-      padding: 12px 14px 96px;
+      padding: 12px 14px;
       border-radius: 24px;
       border: 1px solid rgba(198, 210, 205, .88);
       box-shadow: 0 24px 44px rgba(10, 25, 28, .14);
@@ -2594,26 +2614,11 @@
     }
 
     .session-strip::before {
-      content: "";
-      position: absolute;
-      inset: auto 0 0;
-      height: 82px;
-      background:
-        url("assets/ui/pleca-caja-herramientas-4k.png?v=20260622e") center bottom / 100% 100% no-repeat;
-      pointer-events: none;
-      z-index: 0;
+      display: none;
     }
 
     .session-strip::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 82px;
-      height: 1px;
-      background: linear-gradient(90deg, rgba(9, 36, 35, 0), rgba(9, 36, 35, .22) 16%, rgba(9, 36, 35, .22) 84%, rgba(9, 36, 35, 0));
-      pointer-events: none;
-      z-index: 0;
+      display: none;
     }
 
     .session-chip,
@@ -2696,16 +2701,13 @@
       }
 
       .session-strip {
-        padding: 10px 10px 82px;
+        bottom: clamp(84px, 14vw, 152px);
+        padding: 10px 10px;
         border-radius: 20px;
       }
 
-      .session-strip::before {
-        height: 70px;
-      }
-
-      .session-strip::after {
-        bottom: 70px;
+      .page-pleca {
+        width: calc(100% - 4px);
       }
 
       .session-chip,
@@ -2724,17 +2726,15 @@
     }
 
     html.is-compact-mobile .session-strip {
-      padding: 10px 10px 82px !important;
+      bottom: clamp(78px, 18vw, 140px) !important;
+      padding: 10px 10px !important;
       border-radius: 20px !important;
       overflow: hidden !important;
     }
 
-    html.is-compact-mobile .session-strip::before {
-      height: 70px !important;
-    }
-
-    html.is-compact-mobile .session-strip::after {
-      bottom: 70px !important;
+    html.is-compact-mobile .page-pleca {
+      width: calc(100% - 4px) !important;
+      bottom: 0 !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .brand-panel {
@@ -2761,19 +2761,16 @@
 
     html.is-compact-mobile.is-compact-landscape .session-strip {
       width: calc(100% - 18px) !important;
-      bottom: calc(8px + env(safe-area-inset-bottom, 0px)) !important;
-      padding: 6px 6px 58px !important;
+      bottom: calc(56px + env(safe-area-inset-bottom, 0px)) !important;
+      padding: 6px 6px !important;
       grid-template-columns: minmax(136px, 1.3fr) repeat(3, minmax(76px, .88fr)) minmax(100px, .86fr) !important;
       border-radius: 14px !important;
       overflow: hidden !important;
     }
 
-    html.is-compact-mobile.is-compact-landscape .session-strip::before {
-      height: 48px !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .session-strip::after {
-      bottom: 48px !important;
+    html.is-compact-mobile.is-compact-landscape .page-pleca {
+      width: calc(100% - 2px) !important;
+      bottom: 0 !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .session-chip {
@@ -2954,6 +2951,10 @@
         <button class="session-reset" type="button" id="sessionResetButton">Reiniciar</button>
       </div>
     </section>
+
+    <div class="page-pleca" aria-hidden="true">
+      <img src="assets/ui/pleca-caja-herramientas.png?v=20260622f" alt="">
+    </div>
 
     <div class="session-spectrum" aria-hidden="true"></div>
 
