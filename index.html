@@ -1215,7 +1215,7 @@
       margin: 0;
       padding: 8px 10px;
       display: grid;
-      grid-template-columns: minmax(242px, 1.42fr) repeat(4, minmax(170px, .92fr)) auto;
+      grid-template-columns: minmax(242px, 1.42fr) repeat(3, minmax(170px, .92fr)) auto;
       gap: 0;
       align-items: center;
       transform: translateX(-50%);
@@ -2188,7 +2188,7 @@
     html.is-compact-mobile.is-compact-landscape .stage {
       min-height: 0 !important;
       height: auto !important;
-      padding: 16px 0 148px !important;
+      padding: 16px 0 160px !important;
       align-self: start !important;
     }
 
@@ -2206,24 +2206,24 @@
 
     html.is-compact-mobile.is-compact-landscape .stage-visual {
       min-height: 300px !important;
-      transform: none !important;
+      transform: translateY(-14px) !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .stage-visual::before {
-      bottom: -82px !important;
+      bottom: -74px !important;
       width: min(316px, 78%) !important;
       height: 68px !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .cube-shell {
-      margin-top: 8px !important;
+      margin-top: 0 !important;
       transform: scale(.72) !important;
       transform-origin: center 42% !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .pedestal {
       width: min(294px, 72%) !important;
-      bottom: -132px !important;
+      bottom: -118px !important;
     }
 
     html.is-compact-mobile.is-compact-landscape .controls {
@@ -2343,7 +2343,7 @@
       margin: 0 !important;
       transform: translateX(-50%) !important;
       display: grid !important;
-      grid-template-columns: minmax(164px, 1.5fr) repeat(4, minmax(86px, .9fr)) minmax(112px, .92fr) !important;
+      grid-template-columns: minmax(164px, 1.5fr) repeat(3, minmax(92px, .94fr)) minmax(112px, .92fr) !important;
       flex-wrap: initial !important;
       gap: 0 !important;
       padding: 6px !important;
@@ -2587,23 +2587,6 @@
         </div>
       </article>
 
-      <article class="session-chip">
-        <span class="session-icon session-icon--accent" aria-hidden="true">
-          <svg viewBox="0 0 48 48">
-            <circle cx="24" cy="16" r="5"></circle>
-            <circle cx="12.5" cy="19" r="4"></circle>
-            <circle cx="35.5" cy="19" r="4"></circle>
-            <path d="M16 34a8 8 0 0 1 16 0"></path>
-            <path d="M5.5 34a7 7 0 0 1 9-6.7"></path>
-            <path d="M42.5 34a7 7 0 0 0-9-6.7"></path>
-          </svg>
-        </span>
-        <div class="session-copy">
-          <span class="session-label">Participaciones</span>
-          <strong class="session-value" id="participationCountInline">00</strong>
-        </div>
-      </article>
-
       <div class="session-action">
         <button class="session-reset" type="button" id="sessionResetButton">Reiniciar</button>
       </div>
@@ -2616,36 +2599,6 @@
     </button>
 
     <aside class="facilitator-panel" id="facilitatorPanel" aria-hidden="true">
-      <div class="facilitator-head">
-        <span class="facilitator-kicker">Panel de apoyo</span>
-        <strong>Modo Facilitador</strong>
-        <p>Controles discretos para conducir la dinámica sin intervenir la experiencia principal.</p>
-      </div>
-
-      <div class="facilitator-metrics">
-        <article class="facilitator-card">
-          <span class="metric-label">Lanzamientos</span>
-          <strong class="metric-value" id="launchCount">00</strong>
-        </article>
-
-        <article class="facilitator-card facilitator-card--accent">
-          <span class="metric-label">Participaciones</span>
-          <strong class="metric-value" id="participationCount">00</strong>
-        </article>
-      </div>
-
-      <div class="counter-control">
-        <div class="counter-copy">
-          <strong>Ajustar participaciones</strong>
-          <span>Usa este control para registrar intervenciones manualmente durante la sesión.</span>
-        </div>
-
-        <div class="counter-buttons">
-          <button class="counter-button" type="button" id="participationDecrease" aria-label="Restar participación">Restar</button>
-          <button class="counter-button counter-button--primary" type="button" id="participationIncrease" aria-label="Sumar participación">Sumar</button>
-        </div>
-      </div>
-
       <div class="facilitator-admin">
         <div class="bank-loader">
           <div class="bank-loader-head">
@@ -3471,10 +3424,18 @@ function saveFacilitatorState(){
 }
 
 function renderFacilitatorState(){
-  launchCount.textContent = formatCounter(facilitatorState.launches);
-  participationCount.textContent = formatCounter(facilitatorState.participations);
-  launchCountInline.textContent = formatCounter(facilitatorState.launches);
-  participationCountInline.textContent = formatCounter(facilitatorState.participations);
+  if(launchCount){
+    launchCount.textContent = formatCounter(facilitatorState.launches);
+  }
+  if(participationCount){
+    participationCount.textContent = formatCounter(facilitatorState.participations);
+  }
+  if(launchCountInline){
+    launchCountInline.textContent = formatCounter(facilitatorState.launches);
+  }
+  if(participationCountInline){
+    participationCountInline.textContent = formatCounter(facilitatorState.participations);
+  }
 }
 
 function setFacilitatorOpen(isOpen){
