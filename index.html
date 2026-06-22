@@ -110,29 +110,31 @@
         inset: 0;
         height: 100vh;
         min-height: 100vh;
-        min-width: 1440px;
+        min-width: 0;
         overflow: hidden;
       }
 
       .page {
         height: 100vh;
         min-height: 100vh;
-        min-width: 1440px;
+        min-width: 0;
         grid-template-rows: 12px minmax(0, 1fr) auto auto;
         overflow: hidden;
       }
 
       main {
-        max-width: calc(var(--main-max) + (var(--page-side) * 2));
+        width: min(calc(100% - (var(--page-side) * 2)), 1660px);
+        max-width: 1660px;
         height: 100%;
-        grid-template-columns: minmax(0, 1fr) minmax(320px, 440px);
-        gap: clamp(20px, 3vw, 48px);
+        grid-template-columns: minmax(260px, 340px) minmax(420px, 1fr) minmax(300px, 360px);
+        gap: clamp(18px, 2.2vw, 34px);
         align-items: center;
       }
 
       .page.has-facilitator-open main {
-        max-width: calc(var(--main-max) + var(--desktop-panel-space) + (var(--page-side) * 2));
-        padding-right: calc(var(--page-side) + var(--desktop-panel-space));
+        width: min(calc(100% - (var(--page-side) * 2)), 1660px);
+        max-width: 1660px;
+        padding-right: var(--page-side);
       }
     }
 
@@ -680,7 +682,7 @@
         radial-gradient(circle at 18% 54%, rgba(136, 184, 216, .24), transparent 34%),
         radial-gradient(circle at 35% 18%, rgba(246, 236, 223, .64), transparent 22%),
         radial-gradient(circle at 44% 48%, rgba(255, 255, 255, .18), transparent 20%),
-        linear-gradient(90deg, rgba(223, 230, 236, .985) 0 67%, rgba(10, 31, 58, .94) 67% 100%);
+        linear-gradient(90deg, rgba(223, 230, 236, .985) 0 72%, rgba(10, 31, 58, .94) 72% 100%);
       box-shadow:
         inset 0 0 0 1px rgba(255, 255, 255, .4),
         0 32px 70px rgba(22, 39, 63, .18);
@@ -702,19 +704,19 @@
     main {
       position: relative;
       z-index: 1;
-      width: calc(1344px + (var(--page-side) * 2));
-      max-width: none;
-      grid-template-columns: minmax(270px, 328px) minmax(360px, 1fr) minmax(300px, 332px);
+      width: min(calc(100% - (var(--page-side) * 2)), 1660px);
+      max-width: 1660px;
+      grid-template-columns: minmax(250px, 340px) minmax(420px, 1fr) minmax(290px, 356px);
       grid-template-areas: "brand stage controls";
-      gap: 28px;
-      align-items: start;
-      padding-top: 18px;
-      padding-bottom: 16px;
+      gap: clamp(18px, 2.2vw, 34px);
+      align-items: center;
+      padding-top: clamp(18px, 2.6vh, 28px);
+      padding-bottom: 18px;
       overflow: visible;
     }
 
     .page.has-facilitator-open main {
-      width: calc(1310px + var(--desktop-panel-space) + (var(--page-side) * 2));
+      width: min(calc(100% - (var(--page-side) * 2)), 1660px);
     }
 
     .brand-panel {
@@ -725,13 +727,14 @@
       align-self: center;
       gap: 18px;
       padding-top: 8px;
-      margin-left: -24px;
+      margin-left: 0;
+      padding-left: clamp(6px, 1vw, 16px);
       color: #19365a;
     }
 
     .brand-badge {
       display: block;
-      width: 338px;
+      width: clamp(250px, 18vw, 338px);
       max-width: 100%;
       justify-self: start;
       position: relative;
@@ -752,7 +755,7 @@
       display: grid;
       gap: 14px;
       width: 100%;
-      max-width: 332px;
+      max-width: clamp(300px, 22vw, 372px);
       justify-self: start;
       padding-left: 0;
     }
@@ -819,7 +822,7 @@
     .stage {
       grid-area: stage;
       position: relative;
-      min-height: 560px;
+      min-height: clamp(520px, 62vh, 700px);
       padding: 18px 0 188px;
       align-self: stretch;
       overflow: visible;
@@ -866,7 +869,7 @@
       min-height: inherit;
       display: grid;
       place-items: center;
-      transform: translateX(-12px);
+      transform: none;
     }
 
     .stage-visual::before {
@@ -924,9 +927,10 @@
       position: relative;
       z-index: 1;
       width: 100%;
-      max-width: none;
+      max-width: 356px;
+      justify-self: end;
       max-height: none;
-      align-self: start;
+      align-self: center;
       align-content: start;
       padding: 54px 14px 16px;
       gap: 14px;
@@ -1211,11 +1215,11 @@
       left: 50%;
       bottom: 30px;
       z-index: 20;
-      width: min(calc(100% - 40px), 1240px);
+      width: min(calc(100% - 40px), 1360px);
       margin: 0;
       padding: 8px 10px;
       display: grid;
-      grid-template-columns: minmax(242px, 1.42fr) repeat(3, minmax(170px, .92fr)) auto;
+      grid-template-columns: minmax(232px, 1.42fr) repeat(3, minmax(136px, .86fr)) minmax(148px, .92fr);
       gap: 0;
       align-items: center;
       transform: translateX(-50%);
@@ -3445,6 +3449,10 @@ function setFacilitatorOpen(isOpen){
   facilitatorPanel.setAttribute("aria-hidden", String(!isOpen));
   facilitatorToggle.classList.toggle("is-active", isOpen);
   facilitatorToggle.setAttribute("aria-expanded", String(isOpen));
+
+  if(!isOpen && protectedAccessUnlocked){
+    setProtectedAccessUnlocked(false);
+  }
 }
 
 function updateLaunchCount(delta=1){
