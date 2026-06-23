@@ -1897,534 +1897,6 @@
       }
     }
 
-    html.is-compact-mobile {
-      overflow-x: hidden;
-      overflow-y: auto;
-    }
-
-    html.is-compact-mobile body {
-      position: relative !important;
-      inset: auto !important;
-      width: 100% !important;
-      min-width: 0 !important;
-      height: auto !important;
-      min-height: 100dvh !important;
-      overflow-x: hidden !important;
-      overflow-y: auto !important;
-      background:
-        radial-gradient(circle at 20% 18%, rgba(255, 255, 255, .94), rgba(255, 255, 255, .26) 22%, transparent 48%),
-        radial-gradient(circle at 64% 12%, rgba(245, 232, 211, .42), transparent 20%),
-        linear-gradient(180deg, #edf3f8 0%, #dce6ef 58%, #d1dce7 100%) !important;
-    }
-
-    html.is-compact-mobile .page {
-      min-width: 0 !important;
-      width: 100% !important;
-      height: auto !important;
-      min-height: 100dvh !important;
-      grid-template-rows: 10px auto auto auto !important;
-      overflow: visible !important;
-    }
-
-    html.is-compact-mobile .page::before {
-      inset: 8px 8px 20px !important;
-      border-radius: 24px !important;
-      background:
-        radial-gradient(circle at 18% 34%, rgba(130, 183, 219, .22), transparent 34%),
-        radial-gradient(circle at 78% 16%, rgba(241, 229, 209, .42), transparent 24%),
-        linear-gradient(180deg, rgba(243, 248, 252, .985) 0%, rgba(227, 236, 244, .96) 100%) !important;
-    }
-
-    html.is-compact-mobile .page::after {
-      height: 28px !important;
-    }
-
-    html.is-compact-mobile main {
-      width: 100% !important;
-      max-width: none !important;
-      grid-template-columns: 1fr !important;
-      grid-template-areas:
-        "brand"
-        "stage"
-        "controls" !important;
-      gap: 18px !important;
-      align-items: start !important;
-      padding: 20px var(--page-side) 8px !important;
-      overflow: visible !important;
-    }
-
-    html.is-compact-mobile .page.has-facilitator-open main {
-      width: 100% !important;
-      max-width: none !important;
-      padding-right: var(--page-side) !important;
-    }
-
-    html.is-compact-mobile .brand-panel {
-      width: min(100%, 620px) !important;
-      margin: 0 auto !important;
-      padding-top: 4px !important;
-      justify-items: start !important;
-      align-content: start !important;
-      align-self: start !important;
-      gap: 14px !important;
-    }
-
-    html.is-compact-mobile .brand-badge {
-      width: min(310px, 76vw) !important;
-    }
-
-    html.is-compact-mobile .brand-copy {
-      width: 100% !important;
-      max-width: none !important;
-      gap: 12px !important;
-    }
-
-    html.is-compact-mobile h1 {
-      font-size: clamp(2.7rem, 11.5vw, 4.45rem) !important;
-      line-height: .9 !important;
-    }
-
-    html.is-compact-mobile .brand-divider {
-      width: min(100%, 360px) !important;
-    }
-
-    html.is-compact-mobile .brand-points {
-      font-size: 1rem !important;
-    }
-
-    html.is-compact-mobile .lead {
-      max-width: 22ch !important;
-      font-size: 1rem !important;
-    }
-
-    html.is-compact-mobile .stage {
-      min-height: auto !important;
-      padding: 8px 0 148px !important;
-    }
-
-    html.is-compact-mobile .stage::before {
-      inset: 12% 3% 20% 3% !important;
-    }
-
-    html.is-compact-mobile .stage::after {
-      left: 4% !important;
-      right: 4% !important;
-      top: 10% !important;
-      bottom: 16% !important;
-    }
-
-    html.is-compact-mobile .stage-visual {
-      min-height: 0 !important;
-      transform: none !important;
-    }
-
-    html.is-compact-mobile .stage-visual::before {
-      bottom: -82px !important;
-      width: min(500px, 92%) !important;
-      height: 104px !important;
-    }
-
-    html.is-compact-mobile .pedestal {
-      width: min(494px, 94%) !important;
-      bottom: -132px !important;
-    }
-
-    html.is-compact-mobile .controls {
-      width: min(100%, 620px) !important;
-      max-width: none !important;
-      margin: 0 auto !important;
-      padding: 52px 14px 16px !important;
-    }
-
-    html.is-compact-mobile .session-strip {
-      position: static !important;
-      left: auto !important;
-      bottom: auto !important;
-      width: min(calc(100% - 24px), 620px) !important;
-      margin: 14px auto 0 !important;
-      transform: none !important;
-      grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-      gap: 8px !important;
-      padding: 10px !important;
-    }
-
-    html.is-compact-mobile .session-chip,
-    html.is-compact-mobile .session-action {
-      padding: 10px 12px !important;
-      border-radius: 16px !important;
-    }
-
-    html.is-compact-mobile .session-chip::before,
-    html.is-compact-mobile .session-action::before {
-      display: none !important;
-    }
-
-    html.is-compact-mobile .session-chip--wide,
-    html.is-compact-mobile .session-action {
-      grid-column: 1 / -1 !important;
-    }
-
-    html.is-compact-mobile .session-icon {
-      width: 40px !important;
-      height: 40px !important;
-    }
-
-    html.is-compact-mobile .session-icon svg {
-      width: 34px !important;
-      height: 34px !important;
-    }
-
-    html.is-compact-mobile .session-label {
-      font-size: .68rem !important;
-    }
-
-    html.is-compact-mobile .session-value {
-      font-size: .98rem !important;
-    }
-
-    html.is-compact-mobile .session-chip--wide .session-value {
-      font-size: 1.08rem !important;
-    }
-
-    html.is-compact-mobile .session-action {
-      padding-left: 0 !important;
-    }
-
-    html.is-compact-mobile .session-reset {
-      width: 100% !important;
-      min-width: 0 !important;
-    }
-
-    html.is-compact-mobile .session-spectrum {
-      position: static !important;
-      left: auto !important;
-      bottom: auto !important;
-      width: min(calc(100% - 24px), 620px) !important;
-      margin: 8px auto calc(18px + env(safe-area-inset-bottom, 0px)) !important;
-      transform: none !important;
-    }
-
-    html.is-compact-mobile .facilitator-toggle {
-      top: 14px !important;
-      right: 14px !important;
-    }
-
-    html.is-compact-mobile .facilitator-panel {
-      top: 68px !important;
-      right: 12px !important;
-      width: min(420px, calc(100vw - 24px)) !important;
-      max-height: calc(100dvh - 84px) !important;
-    }
-
-    html.is-compact-mobile.is-compact-narrow .session-strip {
-      grid-template-columns: 1fr !important;
-    }
-
-    html.is-compact-mobile.is-compact-narrow .session-chip--wide,
-    html.is-compact-mobile.is-compact-narrow .session-action {
-      grid-column: auto !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape main {
-      grid-template-columns: minmax(0, .7fr) minmax(0, .96fr) minmax(230px, .84fr) !important;
-      grid-template-areas: "brand stage controls" !important;
-      gap: 10px !important;
-      align-items: start !important;
-      height: auto !important;
-      padding: 12px 10px 14px !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape body {
-      overflow-x: hidden !important;
-      overflow-y: auto !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .page {
-      height: auto !important;
-      min-height: 100dvh !important;
-      overflow: visible !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .brand-panel {
-      width: 100% !important;
-      max-width: none !important;
-      margin: 0 !important;
-      gap: 8px !important;
-      align-self: start !important;
-      padding-top: 0 !important;
-      padding-left: 14px !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .brand-badge {
-      width: min(132px, 14vw) !important;
-      margin-left: 8px !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .brand-copy {
-      padding-left: 8px !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape h1 {
-      font-size: clamp(1.52rem, 3.4vw, 2.28rem) !important;
-      line-height: .9 !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .brand-divider {
-      width: min(100%, 250px) !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .lead {
-      max-width: 18ch !important;
-      font-size: .75rem !important;
-      line-height: 1.26 !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .brand-points {
-      font-size: .78rem !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .brand-overline {
-      min-height: 24px !important;
-      padding: 0 10px !important;
-      font-size: .56rem !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .stage {
-      min-height: 0 !important;
-      height: auto !important;
-      padding: 16px 0 160px !important;
-      align-self: start !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .stage::before {
-      inset: 10% 6% 18% !important;
-      opacity: .52 !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .stage::after {
-      left: 6% !important;
-      right: 6% !important;
-      top: 13% !important;
-      bottom: 18% !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .stage-visual {
-      min-height: 300px !important;
-      transform: translateY(-14px) !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .stage-visual::before {
-      bottom: -74px !important;
-      width: min(316px, 78%) !important;
-      height: 68px !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .cube-shell {
-      margin-top: 0 !important;
-      transform: scale(.72) !important;
-      transform-origin: center 42% !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .pedestal {
-      width: min(294px, 72%) !important;
-      bottom: -118px !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .controls {
-      width: 100% !important;
-      max-height: none !important;
-      padding: 40px 8px 12px !important;
-      gap: 7px !important;
-      overflow-x: hidden !important;
-      overflow-y: visible !important;
-      align-self: start !important;
-      overscroll-behavior: contain !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .controls-kicker {
-      min-height: 28px !important;
-      font-size: .78rem !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .dice-tabs {
-      gap: 6px !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .dice-tab {
-      min-height: 62px !important;
-      padding: 6px 4px !important;
-      gap: 5px !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .tab-icon {
-      width: 30px !important;
-      height: 30px !important;
-      font-size: .78rem !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .tab-copy {
-      font-size: .64rem !important;
-      line-height: 1.08 !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .howto-card {
-      gap: 7px !important;
-      padding: 9px 10px !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .howto-card h2 {
-      font-size: .9rem !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .howto-list {
-      gap: 8px !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .howto-item {
-      grid-template-columns: 28px minmax(0, 1fr) !important;
-      gap: 8px !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .howto-item p {
-      font-size: .72rem !important;
-      line-height: 1.16 !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .howto-step {
-      width: 26px !important;
-      height: 26px !important;
-      font-size: .82rem !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .roll-button {
-      min-height: 38px !important;
-      font-size: .84rem !important;
-      border-radius: 16px !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .outcome {
-      gap: 8px !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .theme {
-      min-height: 58px !important;
-      padding: 9px 10px !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .prompt {
-      min-height: 84px !important;
-      padding: 9px 10px !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .theme strong {
-      font-size: .9rem !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .prompt strong {
-      font-size: .74rem !important;
-      line-height: 1.16 !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .facilitator-toggle {
-      top: 8px !important;
-      right: 8px !important;
-      min-height: 32px !important;
-      padding: 0 12px !important;
-      font-size: .72rem !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .session-strip,
-    html.is-compact-mobile.is-compact-landscape .session-spectrum {
-      max-width: none !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .session-strip {
-      position: fixed !important;
-      left: 50% !important;
-      right: auto !important;
-      bottom: calc(10px + env(safe-area-inset-bottom, 0px)) !important;
-      width: calc(100% - 20px) !important;
-      margin: 0 !important;
-      transform: translateX(-50%) !important;
-      display: grid !important;
-      grid-template-columns: minmax(164px, 1.5fr) repeat(3, minmax(92px, .94fr)) minmax(112px, .92fr) !important;
-      flex-wrap: initial !important;
-      gap: 0 !important;
-      padding: 6px !important;
-      overflow: visible !important;
-      border-radius: 14px !important;
-      z-index: 26 !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .session-strip::-webkit-scrollbar {
-      display: none !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .session-chip {
-      flex: initial !important;
-      min-height: 50px !important;
-      grid-template-columns: 28px minmax(0, 1fr) !important;
-      gap: 6px !important;
-      padding: 8px !important;
-      align-items: center !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .session-chip--wide {
-      grid-column: auto !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .session-action {
-      flex: initial !important;
-      grid-column: auto !important;
-      padding: 0 0 0 10px !important;
-      align-self: stretch !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .session-icon {
-      width: 28px !important;
-      height: 28px !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .session-icon svg {
-      width: 24px !important;
-      height: 24px !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .session-copy {
-      gap: 1px !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .session-label {
-      font-size: .5rem !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .session-value,
-    html.is-compact-mobile.is-compact-landscape .session-chip--wide .session-value {
-      font-size: .66rem !important;
-      line-height: 1.02 !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .session-reset {
-      min-height: 50px !important;
-      min-width: 0 !important;
-      width: 100% !important;
-      padding: 0 10px !important;
-      font-size: .74rem !important;
-      border-radius: 10px !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .session-spectrum {
-      position: fixed !important;
-      left: 50% !important;
-      right: auto !important;
-      bottom: calc(2px + env(safe-area-inset-bottom, 0px)) !important;
-      width: calc(100% - 20px) !important;
-      margin: 0 !important;
-      transform: translateX(-50%) !important;
-      height: 4px !important;
-      z-index: 25 !important;
-    }
-
     /* Final visual alignment */
     body {
       background:
@@ -2447,28 +1919,76 @@
           #2fb44c 92% 100%);
     }
 
+    html {
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    body {
+      position: relative;
+      inset: auto;
+      height: auto;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    .page {
+      min-height: 100dvh;
+      grid-template-rows: 12px minmax(0, 1fr) auto;
+      overflow: visible;
+    }
+
     .page::before {
-      inset: 12px 12px 62px;
+      inset: 12px;
+      border-radius: 28px;
       background:
         radial-gradient(circle at 16% 52%, rgba(93, 144, 132, .16), transparent 32%),
         radial-gradient(circle at 34% 16%, rgba(214, 178, 81, .14), transparent 22%),
         radial-gradient(circle at 52% 44%, rgba(255, 255, 255, .2), transparent 24%),
-        linear-gradient(90deg, rgba(234, 239, 235, .995) 0 73.5%, rgba(10, 29, 29, .975) 73.5% 100%);
+        linear-gradient(90deg, rgba(238, 243, 239, .995) 0 72.4%, rgba(8, 27, 28, .982) 72.4% 100%);
       box-shadow:
-        inset 0 0 0 1px rgba(255, 255, 255, .44),
+        inset 0 0 0 1px rgba(255, 255, 255, .42),
         0 30px 72px rgba(12, 28, 41, .18);
     }
 
     .page::after {
-      height: 78px;
+      height: clamp(92px, 11vh, 132px);
       background: linear-gradient(180deg, #09211e 0%, #051310 100%);
     }
 
+    main {
+      width: min(100%, 1720px);
+      max-width: 1720px;
+      margin: 0 auto;
+      padding: clamp(26px, 3vh, 42px) clamp(16px, 1.8vw, 30px) 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas:
+        "brand"
+        "stage"
+        "controls";
+      gap: clamp(24px, 3vw, 40px);
+      align-items: center;
+      height: auto;
+    }
+
+    .page.has-facilitator-open main {
+      width: min(100%, 1720px);
+      max-width: 1720px;
+      padding-right: clamp(16px, 1.8vw, 30px);
+    }
+
     .brand-panel {
-      padding-left: clamp(18px, 1.6vw, 34px);
-      gap: 8px;
-      padding-top: 0;
-      transform: translateY(-74px);
+      grid-area: brand;
+      align-self: center;
+      justify-items: start;
+      align-content: center;
+      gap: 10px;
+      padding: 0 0 0 clamp(16px, 2vw, 30px);
+      margin: 0;
+      transform: none;
+      color: #19365a;
     }
 
     .brand-badge {
@@ -2476,7 +1996,10 @@
     }
 
     .brand-copy {
-      max-width: clamp(320px, 24vw, 390px);
+      width: min(100%, 396px);
+      max-width: min(100%, 396px);
+      gap: 14px;
+      padding-left: 0;
     }
 
     .brand-overline {
@@ -2495,16 +2018,106 @@
     }
 
     .lead {
+      max-width: 24ch;
       color: #35515d;
     }
 
+    .stage {
+      grid-area: stage;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 0;
+      min-height: 0;
+      padding: 0;
+      align-self: center;
+      overflow: visible;
+      isolation: isolate;
+    }
+
+    .stage::before {
+      inset: 5% 6% 10% 6%;
+      border-radius: 34px;
+      background:
+        linear-gradient(90deg, transparent 0 8%, rgba(168, 181, 194, .18) 8% 10%, transparent 10% 22%, rgba(191, 201, 211, .16) 22% 24%, transparent 24% 100%),
+        radial-gradient(circle at 70% 38%, rgba(205, 214, 223, .48), transparent 28%),
+        radial-gradient(circle at 46% 64%, rgba(241, 244, 247, .4), transparent 24%);
+      filter: blur(16px);
+      opacity: .74;
+      transform: none;
+    }
+
+    .stage::after {
+      left: 10%;
+      right: 10%;
+      top: 6%;
+      bottom: 12%;
+      background:
+        radial-gradient(circle at 52% 42%, rgba(255, 255, 255, .88) 0 20%, rgba(246, 249, 252, .62) 20% 40%, rgba(228, 234, 240, .24) 40% 58%, rgba(255, 255, 255, 0) 76%);
+      filter: blur(18px);
+    }
+
+    .stage-visual {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 720px);
+      aspect-ratio: 1 / 1.08;
+      min-height: 0;
+      display: block;
+      transform: none;
+    }
+
+    .stage-visual::before {
+      left: 50%;
+      bottom: 4%;
+      width: min(74%, 510px);
+      height: min(18%, 112px);
+      transform: translateX(-50%);
+      background:
+        radial-gradient(circle at 50% 38%, rgba(255, 255, 255, .32), rgba(235, 240, 246, .2) 34%, rgba(214, 220, 228, .08) 56%, rgba(255, 255, 255, 0) 76%);
+      filter: blur(16px);
+      opacity: .62;
+    }
+
+    .cube-shell {
+      position: absolute;
+      inset-inline: 0;
+      top: clamp(10px, 5%, 36px);
+      z-index: 2;
+      margin-inline: auto;
+      margin-top: 0;
+    }
+
+    .pedestal {
+      position: absolute;
+      left: 50%;
+      bottom: clamp(0px, 3%, 18px);
+      z-index: 1;
+      width: min(82%, 560px);
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .pedestal-image {
+      filter: drop-shadow(0 20px 30px rgba(8, 18, 32, .12)) saturate(1.05) contrast(1.03) brightness(1.02);
+    }
+
     .controls {
+      grid-area: controls;
+      align-self: center;
+      justify-self: center;
+      width: min(100%, 368px);
+      max-width: 368px;
+      max-height: none;
+      padding: 54px 14px 18px;
       background:
         linear-gradient(180deg, rgba(13, 38, 39, .98), rgba(8, 22, 24, .972));
       border-color: rgba(88, 140, 126, .22);
       box-shadow:
         0 26px 56px rgba(6, 18, 24, .34),
         inset 0 1px 0 rgba(255, 255, 255, .08);
+      overflow: visible;
     }
 
     .controls::before {
@@ -2588,32 +2201,39 @@
       color: #17384b;
     }
 
-    .page-pleca {
-      position: fixed;
-      left: 50%;
-      bottom: 0;
-      z-index: 18;
-      width: min(calc(100% - 8px), 1860px);
-      aspect-ratio: 1980 / 301;
-      transform: translateX(-50%);
-      pointer-events: none;
+    .page-footer {
+      position: relative;
+      width: min(100%, 1840px);
+      margin: clamp(14px, 2.4vh, 26px) auto 0;
+      padding: 0 clamp(12px, 1.6vw, 24px) max(12px, env(safe-area-inset-bottom, 0px));
+      z-index: 2;
     }
 
-    .page-pleca img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      object-position: center bottom;
-      image-rendering: auto;
+    .page-footer-track {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) clamp(280px, 24vw, 420px);
+      align-items: end;
+      gap: clamp(18px, 2vw, 30px);
     }
 
     .session-strip {
-      left: 18px;
+      position: relative;
+      left: auto;
       right: auto;
-      bottom: clamp(18px, 2vw, 28px);
-      width: min(calc(100% - 470px), 1016px);
-      padding: 8px 10px;
+      bottom: auto;
+      grid-column: 1 / 2;
+      grid-row: 1;
+      z-index: 2;
+      width: 100%;
+      max-width: 1080px;
+      margin: 0 0 clamp(16px, 2vw, 24px);
+      padding: 10px 12px;
+      display: grid;
+      grid-template-columns: minmax(240px, 1.35fr) repeat(3, minmax(124px, .82fr)) minmax(148px, .88fr);
+      gap: 0;
+      align-items: center;
+      transform: none;
       border-radius: 22px;
       border: 1px solid rgba(204, 216, 207, .9);
       box-shadow:
@@ -2623,7 +2243,6 @@
       background: linear-gradient(180deg, rgba(255, 255, 255, .97), rgba(248, 250, 247, .94));
       overflow: hidden;
       isolation: isolate;
-      transform: none;
     }
 
     .session-strip::before {
@@ -2672,6 +2291,30 @@
       box-shadow: 0 16px 28px rgba(9, 21, 30, .2);
     }
 
+    .page-pleca {
+      position: relative;
+      left: auto;
+      bottom: auto;
+      grid-column: 1 / -1;
+      grid-row: 1;
+      z-index: 1;
+      width: 100%;
+      aspect-ratio: 1980 / 301;
+      margin: 0;
+      transform: none;
+      pointer-events: none;
+      align-self: end;
+    }
+
+    .page-pleca img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center bottom;
+      image-rendering: auto;
+    }
+
     .session-spectrum {
       display: none !important;
     }
@@ -2691,182 +2334,220 @@
       box-shadow: 0 30px 56px rgba(10, 25, 30, .2);
     }
 
-    @media (min-width: 1101px) {
+    @media (min-width: 1200px) {
       main {
-        width: min(calc(100% - 36px), 1740px);
-        max-width: 1740px;
-        grid-template-columns: minmax(300px, 380px) minmax(520px, 1.14fr) minmax(308px, 368px);
-        gap: clamp(20px, 2vw, 36px);
-      }
-
-      .page-pleca {
-        width: min(calc(100% - 8px), 1820px);
-      }
-
-      .session-strip {
-        left: 18px;
-        right: auto;
-        bottom: 18px;
-        width: min(calc(100% - 470px), 1032px);
-        padding: 8px 12px;
-        border-radius: 22px;
-        transform: none;
-      }
-
-      .session-chip {
-        padding-top: 4px;
-        padding-bottom: 6px;
-      }
-
-      .session-icon {
-        width: 44px;
-        height: 44px;
-      }
-
-      .session-icon svg {
-        width: 36px;
-        height: 36px;
-      }
-
-      .session-label {
-        font-size: .68rem;
-      }
-
-      .session-value {
-        font-size: 1rem;
-      }
-
-      .session-chip--wide .session-value {
-        font-size: 1.08rem;
-      }
-
-      .session-action {
-        padding: 0 0 6px 14px;
-      }
-
-      .session-reset {
-        min-width: 126px;
-        min-height: 46px;
-        padding: 0 24px;
-        border-radius: 13px;
-        font-size: .96rem;
-      }
-
-      .stage {
-        padding-bottom: 112px;
-      }
-
-      .stage-visual {
-        transform: translateY(-78px);
-      }
-
-      .stage-visual::before {
-        bottom: -28px;
-      }
-
-      .pedestal {
-        width: min(580px, 88%);
-        bottom: -68px;
-      }
-
-      .controls {
-        max-width: 368px;
-      }
-    }
-
-    @media (max-width: 1100px) {
-      .page::after {
-        height: 60px;
+        grid-template-columns: minmax(280px, .8fr) minmax(420px, 1.12fr) minmax(308px, .8fr);
+        grid-template-areas: "brand stage controls";
+        gap: clamp(24px, 2vw, 38px);
       }
 
       .brand-panel {
-        padding-left: clamp(12px, 2vw, 20px);
+        width: min(100%, 410px);
+      }
+
+      .controls {
+        justify-self: end;
+      }
+    }
+
+    @media (min-width: 768px) and (max-width: 1199px) {
+      :root {
+        --cube-size: clamp(248px, 34vw, 328px);
+      }
+
+      .page::before {
+        background:
+          radial-gradient(circle at 20% 26%, rgba(95, 146, 134, .14), transparent 30%),
+          radial-gradient(circle at 60% 14%, rgba(214, 178, 81, .12), transparent 18%),
+          radial-gradient(circle at 52% 48%, rgba(255, 255, 255, .16), transparent 24%),
+          linear-gradient(180deg, rgba(238, 243, 239, .995) 0 63%, rgba(8, 27, 28, .982) 63% 100%);
+      }
+
+      main {
+        grid-template-columns: minmax(280px, .92fr) minmax(360px, 1.08fr);
+        grid-template-areas:
+          "brand stage"
+          "controls controls";
+        align-items: start;
+      }
+
+      .brand-panel {
+        width: min(100%, 420px);
+        padding-left: clamp(14px, 2vw, 24px);
+        align-self: start;
+      }
+
+      .brand-copy {
+        max-width: 420px;
+      }
+
+      .stage {
+        align-self: start;
+      }
+
+      .stage-visual {
+        width: min(100%, 640px);
+        aspect-ratio: 1 / 1.1;
+      }
+
+      .pedestal {
+        width: min(76%, 470px);
+        bottom: clamp(2px, 2%, 14px);
+      }
+
+      .controls {
+        width: min(100%, 760px);
+        max-width: 760px;
+        justify-self: stretch;
+        padding: 34px 18px 18px;
+      }
+
+      .page-footer-track {
+        grid-template-columns: 1fr;
+        gap: 10px;
       }
 
       .session-strip {
-        left: 10px;
-        right: auto;
-        bottom: clamp(18px, 4.8vw, 28px);
-        width: calc(100% - 210px);
-        padding: 8px 8px;
-        border-radius: 20px;
-        transform: none;
+        grid-column: 1;
+        grid-row: 1;
+        max-width: none;
+        margin: 0;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .session-chip--wide,
+      .session-action {
+        grid-column: 1 / -1;
+      }
+
+      .session-chip::before,
+      .session-action::before {
+        display: none;
       }
 
       .page-pleca {
-        width: calc(100% - 2px);
+        grid-column: 1;
+        grid-row: 2;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 767px) {
+      :root {
+        --cube-size: clamp(220px, 58vw, 300px);
+      }
+
+      .page::before {
+        background:
+          radial-gradient(circle at 22% 22%, rgba(98, 149, 137, .14), transparent 28%),
+          radial-gradient(circle at 56% 12%, rgba(216, 181, 89, .12), transparent 18%),
+          radial-gradient(circle at 50% 46%, rgba(255, 255, 255, .16), transparent 22%),
+          linear-gradient(180deg, rgba(238, 243, 239, .995) 0 61%, rgba(8, 27, 28, .982) 61% 100%);
+      }
+
+      .page::after {
+        height: clamp(76px, 11vh, 96px);
+      }
+
+      main {
+        padding: 22px clamp(12px, 4vw, 18px) 0;
+        gap: 22px;
+      }
+
+      .brand-panel {
+        width: min(100%, 540px);
+        padding-left: 8px;
+        padding-right: 8px;
+        margin: 0 auto;
+      }
+
+      .brand-copy {
+        width: min(100%, 360px);
+        max-width: min(100%, 360px);
+      }
+
+      h1 {
+        font-size: clamp(2.7rem, 12vw, 4rem);
+      }
+
+      .stage-visual {
+        width: min(100%, 520px);
+        aspect-ratio: 1 / 1.16;
+      }
+
+      .cube-shell {
+        top: clamp(10px, 6%, 22px);
+      }
+
+      .pedestal {
+        width: min(82%, 390px);
+        bottom: clamp(4px, 2.6%, 12px);
+      }
+
+      .controls {
+        width: min(100%, 560px);
+        max-width: 560px;
+        padding: 34px 12px 14px;
+      }
+
+      .page-footer {
+        margin-top: 18px;
+        padding-inline: clamp(8px, 3vw, 12px);
+      }
+
+      .page-footer-track {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .session-strip {
+        grid-column: 1;
+        grid-row: 1;
+        width: 100%;
+        max-width: none;
+        margin: 0;
+        padding: 10px;
+        grid-template-columns: 1fr;
+        border-radius: 20px;
       }
 
       .session-chip,
       .session-action {
-        padding-bottom: 8px;
+        padding: 10px 12px;
+        border-radius: 16px;
       }
-    }
 
-    html.is-compact-mobile .brand-panel {
-      padding-left: 14px !important;
-      padding-right: 4px !important;
-    }
+      .session-chip::before,
+      .session-action::before {
+        display: none;
+      }
 
-    html.is-compact-mobile .brand-copy {
-      padding-left: 4px !important;
-    }
+      .session-chip--wide,
+      .session-action {
+        grid-column: auto;
+      }
 
-    html.is-compact-mobile .session-strip {
-      bottom: calc(12px + env(safe-area-inset-bottom, 0px)) !important;
-      width: calc(100% - 12px) !important;
-      padding: 8px 8px !important;
-      border-radius: 20px !important;
-      overflow: hidden !important;
-    }
+      .session-action {
+        padding-left: 0;
+      }
 
-    html.is-compact-mobile .page-pleca {
-      width: calc(100% - 2px) !important;
-      bottom: 0 !important;
-    }
+      .session-reset {
+        width: 100%;
+        min-width: 0;
+      }
 
-    html.is-compact-mobile.is-compact-landscape .brand-panel {
-      padding-left: 18px !important;
-    }
+      .page-pleca {
+        grid-column: 1;
+        grid-row: 2;
+        width: 100%;
+      }
 
-    html.is-compact-mobile.is-compact-landscape .brand-copy {
-      padding-left: 10px !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .stage {
-      padding: 14px 0 166px !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .stage-visual {
-      min-height: 312px !important;
-      transform: translateY(-8px) !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .pedestal {
-      width: min(306px, 76%) !important;
-      bottom: -126px !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .session-strip {
-      width: calc(100% - 12px) !important;
-      bottom: calc(8px + env(safe-area-inset-bottom, 0px)) !important;
-      padding: 6px 6px !important;
-      grid-template-columns: minmax(136px, 1.3fr) repeat(3, minmax(76px, .88fr)) minmax(100px, .86fr) !important;
-      border-radius: 14px !important;
-      overflow: hidden !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .page-pleca {
-      width: calc(100% - 2px) !important;
-      bottom: 0 !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .session-chip {
-      padding: 8px 8px 10px !important;
-    }
-
-    html.is-compact-mobile.is-compact-landscape .session-action {
-      padding: 0 0 10px 8px !important;
+      .facilitator-panel {
+        top: 68px;
+        right: 12px;
+        width: min(420px, calc(100vw - 24px));
+        max-height: calc(100dvh - 84px);
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -2973,78 +2654,82 @@
       </section>
     </main>
 
-    <section class="session-strip" aria-label="Resumen de sesión">
-      <article class="session-chip session-chip--wide">
-        <span class="session-icon" aria-hidden="true">
-          <svg viewBox="0 0 48 48">
-            <path d="M14 14a15 15 0 1 1-3.5 15.2"></path>
-            <path d="M10 9v8h8"></path>
-            <path d="M24 16v9l6 3"></path>
-          </svg>
-        </span>
-        <div class="session-copy">
-          <span class="session-label">Último resultado</span>
-          <strong class="session-value" id="latestResultText">Sin resultado</strong>
-        </div>
-      </article>
+    <footer class="page-footer" aria-label="Pie de sesión">
+      <div class="page-footer-track">
+        <section class="session-strip" aria-label="Resumen de sesión">
+          <article class="session-chip session-chip--wide">
+            <span class="session-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48">
+                <path d="M14 14a15 15 0 1 1-3.5 15.2"></path>
+                <path d="M10 9v8h8"></path>
+                <path d="M24 16v9l6 3"></path>
+              </svg>
+            </span>
+            <div class="session-copy">
+              <span class="session-label">Último resultado</span>
+              <strong class="session-value" id="latestResultText">Sin resultado</strong>
+            </div>
+          </article>
 
-      <article class="session-chip">
-        <span class="session-icon session-icon--accent" aria-hidden="true">
-          <svg viewBox="0 0 48 48">
-            <circle cx="24" cy="24" r="18"></circle>
-            <path d="M19.5 18.5a5 5 0 0 1 9 2.8c0 3.8-4.5 4.8-4.5 8"></path>
-            <circle cx="24" cy="34.5" r="1.2" fill="currentColor" stroke="none"></circle>
-          </svg>
-        </span>
-        <div class="session-copy">
-          <span class="session-label">Pregunta</span>
-          <strong class="session-value" id="questionProgressText">0 / 0</strong>
-        </div>
-      </article>
+          <article class="session-chip">
+            <span class="session-icon session-icon--accent" aria-hidden="true">
+              <svg viewBox="0 0 48 48">
+                <circle cx="24" cy="24" r="18"></circle>
+                <path d="M19.5 18.5a5 5 0 0 1 9 2.8c0 3.8-4.5 4.8-4.5 8"></path>
+                <circle cx="24" cy="34.5" r="1.2" fill="currentColor" stroke="none"></circle>
+              </svg>
+            </span>
+            <div class="session-copy">
+              <span class="session-label">Pregunta</span>
+              <strong class="session-value" id="questionProgressText">0 / 0</strong>
+            </div>
+          </article>
 
-      <article class="session-chip">
-        <span class="session-icon session-icon--accent" aria-hidden="true">
-          <svg viewBox="0 0 48 48">
-            <path d="M16 10h16v6a8 8 0 0 1-16 0z"></path>
-            <path d="M16 14h-5a5 5 0 0 0 5 7"></path>
-            <path d="M32 14h5a5 5 0 0 1-5 7"></path>
-            <path d="M24 24v8"></path>
-            <path d="M19 38h10"></path>
-            <path d="M20 32h8"></path>
-          </svg>
-        </span>
-        <div class="session-copy">
-          <span class="session-label">Reto</span>
-          <strong class="session-value" id="challengeProgressText">0 / 0</strong>
-        </div>
-      </article>
+          <article class="session-chip">
+            <span class="session-icon session-icon--accent" aria-hidden="true">
+              <svg viewBox="0 0 48 48">
+                <path d="M16 10h16v6a8 8 0 0 1-16 0z"></path>
+                <path d="M16 14h-5a5 5 0 0 0 5 7"></path>
+                <path d="M32 14h5a5 5 0 0 1-5 7"></path>
+                <path d="M24 24v8"></path>
+                <path d="M19 38h10"></path>
+                <path d="M20 32h8"></path>
+              </svg>
+            </span>
+            <div class="session-copy">
+              <span class="session-label">Reto</span>
+              <strong class="session-value" id="challengeProgressText">0 / 0</strong>
+            </div>
+          </article>
 
-      <article class="session-chip">
-        <span class="session-icon session-icon--accent" aria-hidden="true">
-          <svg viewBox="0 0 48 48">
-            <path d="M12 16.5 24 10l12 6.5v15L24 38l-12-6.5z"></path>
-            <path d="M24 10v28"></path>
-            <path d="M12 16.5 24 23l12-6.5"></path>
-            <circle cx="18" cy="20" r="1.4" fill="currentColor" stroke="none"></circle>
-            <circle cx="24" cy="16.5" r="1.4" fill="currentColor" stroke="none"></circle>
-          </svg>
-        </span>
-        <div class="session-copy">
-          <span class="session-label">Lanzamientos</span>
-          <strong class="session-value" id="launchCountInline">00</strong>
-        </div>
-      </article>
+          <article class="session-chip">
+            <span class="session-icon session-icon--accent" aria-hidden="true">
+              <svg viewBox="0 0 48 48">
+                <path d="M12 16.5 24 10l12 6.5v15L24 38l-12-6.5z"></path>
+                <path d="M24 10v28"></path>
+                <path d="M12 16.5 24 23l12-6.5"></path>
+                <circle cx="18" cy="20" r="1.4" fill="currentColor" stroke="none"></circle>
+                <circle cx="24" cy="16.5" r="1.4" fill="currentColor" stroke="none"></circle>
+              </svg>
+            </span>
+            <div class="session-copy">
+              <span class="session-label">Lanzamientos</span>
+              <strong class="session-value" id="launchCountInline">00</strong>
+            </div>
+          </article>
 
-      <div class="session-action">
-        <button class="session-reset" type="button" id="sessionResetButton">Reiniciar</button>
+          <div class="session-action">
+            <button class="session-reset" type="button" id="sessionResetButton">Reiniciar</button>
+          </div>
+        </section>
+
+        <div class="page-pleca" aria-hidden="true">
+          <img src="assets/ui/pleca-caja-herramientas.png?v=20260622f" alt="">
+        </div>
       </div>
-    </section>
 
-    <div class="page-pleca" aria-hidden="true">
-      <img src="assets/ui/pleca-caja-herramientas.png?v=20260622f" alt="">
-    </div>
-
-    <div class="session-spectrum" aria-hidden="true"></div>
+      <div class="session-spectrum" aria-hidden="true"></div>
+    </footer>
 
     <button class="facilitator-toggle" type="button" id="facilitatorToggle" aria-controls="facilitatorPanel" aria-expanded="false" hidden>
       Modo facilitador
@@ -3083,7 +2768,6 @@
   <script src="banco-preguntas.js?v=3"></script>
   <script>
     const page = document.querySelector(".page");
-    const root = document.documentElement;
     const cube = document.getElementById("cube");
     const cubeShell = document.querySelector(".cube-shell");
     const controlsPanel = document.querySelector(".controls");
@@ -3128,35 +2812,6 @@
     const resultTiltY = 0;
     const resultTiltZ = 0;
 
-    function syncCompactViewportMode(){
-      const viewportWidth = Math.min(
-        window.innerWidth || Number.POSITIVE_INFINITY,
-        window.visualViewport?.width || Number.POSITIVE_INFINITY
-      );
-      const viewportHeight = Math.min(
-        window.innerHeight || Number.POSITIVE_INFINITY,
-        window.visualViewport?.height || Number.POSITIVE_INFINITY
-      );
-      const screenShortSide = Math.min(
-        window.screen?.width || viewportWidth,
-        window.screen?.height || viewportHeight
-      );
-      const coarsePointer = window.matchMedia("(hover: none) and (pointer: coarse)").matches;
-      const shortSide = Math.min(screenShortSide, viewportWidth, viewportHeight);
-      const compactMobile = coarsePointer && shortSide <= 700;
-      const compactLandscape = compactMobile && viewportWidth > viewportHeight;
-      const compactNarrow = compactMobile && shortSide <= 520;
-
-      root.classList.toggle("is-compact-mobile", compactMobile);
-      root.classList.toggle("is-compact-landscape", compactLandscape);
-      root.classList.toggle("is-compact-narrow", compactNarrow);
-    }
-
-    syncCompactViewportMode();
-    window.addEventListener("resize", syncCompactViewportMode, { passive: true });
-    window.addEventListener("orientationchange", () => {
-      window.setTimeout(syncCompactViewportMode, 80);
-    });
     const assetVersion = "1";
     const fullscreenButton=document.getElementById("fullscreenButton");
 const soundToggle=document.getElementById("soundToggle");
