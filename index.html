@@ -2350,6 +2350,85 @@
       }
     }
 
+    @media (min-width: 1550px) {
+      :root {
+        --cube-size: clamp(340px, 20vw, 420px);
+      }
+
+      .page::before {
+        background:
+          radial-gradient(circle at 16% 52%, rgba(93, 144, 132, .16), transparent 32%),
+          radial-gradient(circle at 34% 16%, rgba(214, 178, 81, .14), transparent 22%),
+          radial-gradient(circle at 52% 44%, rgba(255, 255, 255, .2), transparent 24%),
+          linear-gradient(90deg, rgba(238, 243, 239, .995) 0 74.8%, rgba(8, 27, 28, .982) 74.8% 100%);
+      }
+
+      main {
+        width: min(calc(100% - 44px), 1940px);
+        max-width: 1940px;
+        grid-template-columns: minmax(330px, .95fr) minmax(560px, 1.3fr) minmax(340px, .9fr);
+        gap: clamp(28px, 2.5vw, 54px);
+      }
+
+      .brand-panel {
+        padding-left: clamp(24px, 2.4vw, 48px);
+      }
+
+      .brand-copy {
+        width: min(100%, 450px);
+        max-width: min(100%, 450px);
+      }
+
+      h1 {
+        font-size: clamp(4rem, 4.6vw, 5.15rem);
+      }
+
+      .brand-divider {
+        width: min(100%, 380px);
+      }
+
+      .brand-points {
+        font-size: clamp(1.05rem, 1.1vw, 1.24rem);
+      }
+
+      .lead {
+        max-width: 25ch;
+        font-size: clamp(1.06rem, 1.1vw, 1.2rem);
+      }
+
+      .stage-visual {
+        width: min(100%, 820px);
+        aspect-ratio: 1 / 1.03;
+      }
+
+      .cube-shell {
+        top: clamp(8px, 3.5%, 24px);
+      }
+
+      .pedestal {
+        width: min(84%, 620px);
+        bottom: clamp(8px, 3.4%, 24px);
+      }
+
+      .controls {
+        width: min(100%, 392px);
+        max-width: 392px;
+        padding: 56px 16px 20px;
+      }
+
+      .page-footer {
+        width: min(100%, 1940px);
+      }
+
+      .page-footer-track {
+        grid-template-columns: minmax(0, 1fr) clamp(320px, 22vw, 460px);
+      }
+
+      .session-strip {
+        max-width: 1240px;
+      }
+    }
+
     @media (min-width: 768px) and (max-width: 1199px) {
       :root {
         --cube-size: clamp(248px, 34vw, 328px);
