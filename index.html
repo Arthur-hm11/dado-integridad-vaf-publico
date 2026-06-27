@@ -1310,13 +1310,21 @@
       --scaled-height: 1080px;
       --stage-shell-pad: 18px;
       --canvas-radius: 30px;
-      --footer-height: 148px;
+      --footer-height: 108px;
       --footer-pleca-height: 68px;
       --footer-strip-bottom: 24px;
       --institutional-green-texture: url("assets/ui/institutional-green-texture.png");
       --institutional-green-deep: #041d1a;
       --institutional-green-base: #082925;
       --institutional-green-mid: #0d3d35;
+      --institutional-accent-band:
+        linear-gradient(90deg,
+          #8f3e97 0 16.4%,
+          #f20f8d 16.4% 33.1%,
+          #f95d19 33.1% 49.8%,
+          #f0b62b 49.8% 66.9%,
+          #17a7df 66.9% 84.8%,
+          #18a43f 84.8% 100%);
     }
 
     html body {
@@ -1357,7 +1365,7 @@
       height: var(--design-height);
       min-height: 0;
       display: grid;
-      grid-template-rows: 12px minmax(0, 1fr) var(--footer-height);
+      grid-template-rows: 12px var(--footer-height) minmax(0, 1fr);
       overflow: hidden;
       isolation: isolate;
       border-radius: var(--canvas-radius);
@@ -1376,7 +1384,7 @@
     body > .page-shell > .page::before {
       content: "";
       position: absolute;
-      inset: 10px;
+      inset: 12px 10px 10px;
       z-index: -2;
       border-radius: calc(var(--canvas-radius) - 8px);
       background:
@@ -1397,30 +1405,38 @@
 
     body > .page-shell > .page > .band {
       height: 100%;
-      background:
-        linear-gradient(90deg,
-          #33a6cf 0 16%,
-          #68b241 16% 33%,
-          #f2b228 33% 48%,
-          #f36a22 48% 63%,
-          #d2338e 63% 78%,
-          #0fa5d3 78% 92%,
-          #2fb44c 92% 100%);
+      background: var(--institutional-accent-band);
     }
 
     body > .page-shell > .page > main {
+      grid-row: 3;
       position: relative;
       z-index: 1;
       width: 100%;
       height: 100%;
       margin: 0;
-      padding: 28px 34px 0;
+      padding: 14px 34px 18px;
       display: grid;
       grid-template-columns: 332px minmax(0, 1fr) 304px;
       grid-template-areas: "brand stage controls";
       gap: 24px;
       align-items: center;
       overflow: visible;
+    }
+
+    body > .page-shell > .page > .page-pleca {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    body > .page-shell > .page > .page-pleca > img {
+      display: block;
+      width: 100%;
+      height: auto;
     }
 
     body > .page-shell > .page.has-facilitator-open > main {
@@ -1571,7 +1587,7 @@
     body > .page-shell > .page > main > .stage .cube-shell {
       position: absolute;
       left: 50%;
-      top: 38px;
+      top: 54px;
       z-index: 2;
       margin: 0;
       transform: translateX(-50%);
@@ -1688,31 +1704,31 @@
     }
 
     body > .page-shell > .page > .page-footer {
+      grid-row: 2;
       position: relative;
       z-index: 2;
       width: 100%;
       height: 100%;
       margin: 0;
-      padding: 0 22px 12px;
+      padding: 0 22px 0;
     }
 
     body > .page-shell > .page > .page-footer > .page-footer-track {
       position: relative;
       width: 100%;
       height: 100%;
-      overflow: hidden;
-      border-radius: 0 0 calc(var(--canvas-radius) - 8px) calc(var(--canvas-radius) - 8px);
-      background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0) 0 32%, rgba(7, 27, 23, .03) 32% 100%);
+      overflow: visible;
+      border-radius: 0;
+      background: none;
     }
 
     body > .page-shell > .page > .page-footer > .page-footer-track > .session-strip {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: var(--footer-strip-bottom);
+      position: relative;
+      left: auto;
+      right: auto;
+      bottom: auto;
       z-index: 2;
-      width: auto;
+      width: 100%;
       max-width: none;
       margin: 0;
       min-height: 74px;
@@ -1808,39 +1824,6 @@
       box-shadow:
         0 12px 20px rgba(9, 21, 30, .18),
         inset 0 1px 0 rgba(255, 255, 255, .1);
-    }
-
-    body > .page-shell > .page > .page-footer > .page-footer-track > .page-pleca {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 1;
-      width: 100%;
-      height: var(--footer-pleca-height);
-      margin: 0;
-      transform: none;
-      pointer-events: none;
-      overflow: hidden;
-      border-radius: 0 0 calc(var(--canvas-radius) - 8px) calc(var(--canvas-radius) - 8px);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, .06),
-        inset 0 16px 26px rgba(2, 18, 16, .16);
-      background:
-        linear-gradient(90deg,
-          #b742c6 0 17%,
-          #ff168f 17% 33%,
-          #ff5b12 33% 49%,
-          #ffc12a 49% 66%,
-          #14a9d7 66% 83%,
-          #28b64a 83% 100%) top / 100% 6px no-repeat,
-        linear-gradient(180deg, rgba(255, 255, 255, .03), rgba(255, 255, 255, 0)),
-        var(--institutional-green-texture) center bottom / 420px auto repeat-x,
-        linear-gradient(180deg, rgba(5, 32, 27, .96), rgba(3, 24, 20, .985));
-    }
-
-    body > .page-shell > .page > .page-footer > .page-footer-track > .page-pleca::after {
-      display: none;
     }
 
     #facilitatorToggle[hidden] {
@@ -2048,9 +2031,12 @@
           </div>
         </section>
 
-        <div class="page-pleca" aria-hidden="true"></div>
       </div>
     </footer>
+
+    <div class="page-pleca" aria-hidden="true">
+      <img src="assets/ui/pleca-caja-herramientas.png" alt="">
+    </div>
 
     <button class="facilitator-toggle" type="button" id="facilitatorToggle" aria-controls="facilitatorPanel" aria-expanded="false" hidden>
       Modo facilitador
