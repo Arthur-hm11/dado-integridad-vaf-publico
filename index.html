@@ -862,9 +862,9 @@
       max-width: 356px;
       justify-self: end;
       max-height: none;
-      align-self: center;
+      align-self: start;
       align-content: start;
-      padding: 54px 14px 16px;
+      padding: 32px 14px 16px;
       gap: 14px;
       border-radius: 28px;
       color: #fff;
@@ -1313,7 +1313,7 @@
       --footer-height: 108px;
       --footer-pleca-height: 68px;
       --footer-strip-bottom: 24px;
-      --institutional-green-texture: url("assets/ui/institutional-green-texture.png");
+      --institutional-green-texture: url("assets/ui/institutional-green-ornamental.png");
       --institutional-green-deep: #041d1a;
       --institutional-green-base: #082925;
       --institutional-green-mid: #0d3d35;
@@ -1450,27 +1450,9 @@
       justify-items: start;
       align-content: center;
       gap: 18px;
-      padding: 18px 0 28px 14px;
+      padding: 0 0 28px 14px;
       margin: 0;
       color: #19365a;
-    }
-
-    body > .page-shell > .page > main > .brand-panel > .brand-mark {
-      width: 168px;
-      margin: 0 0 2px;
-      padding: 10px 14px;
-      border-radius: 16px;
-      background: linear-gradient(180deg, rgba(255, 255, 255, .88), rgba(241, 245, 248, .8));
-      box-shadow:
-        0 18px 34px rgba(21, 48, 71, .12),
-        inset 0 1px 0 rgba(255, 255, 255, .9);
-      backdrop-filter: blur(8px);
-    }
-
-    body > .page-shell > .page > main > .brand-panel > .brand-mark > img {
-      display: block;
-      width: 100%;
-      height: auto;
     }
 
     body > .page-shell > .page > main > .brand-panel > .brand-copy {
@@ -1584,6 +1566,15 @@
       pointer-events: none;
     }
 
+    body > .page-shell > .page > main > .stage .celebration-canvas {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
     body > .page-shell > .page > main > .stage .cube-shell {
       position: absolute;
       left: 50%;
@@ -1609,12 +1600,13 @@
 
     body > .page-shell > .page > main > .controls {
       grid-area: controls;
-      align-self: center;
+      align-self: start;
       justify-self: end;
       width: 304px;
       max-width: 304px;
       max-height: none;
-      padding: 48px 13px 16px;
+      margin-top: 4px;
+      padding: 30px 13px 16px;
       background:
         linear-gradient(180deg, rgba(6, 34, 31, .76), rgba(4, 23, 20, .9)),
         var(--institutional-green-texture) center / 420px auto repeat,
@@ -1627,9 +1619,7 @@
     }
 
     body > .page-shell > .page > main > .controls::before {
-      background:
-        radial-gradient(circle at 50% 0%, rgba(112, 171, 106, .16), transparent 60%),
-        linear-gradient(135deg, rgba(255, 255, 255, .04), rgba(214, 166, 59, .06));
+      content: none;
     }
 
     body > .page-shell > .page > main > .controls::after {
@@ -1734,7 +1724,7 @@
       min-height: 74px;
       padding: 9px 14px;
       display: grid;
-      grid-template-columns: minmax(270px, 1.52fr) repeat(3, minmax(142px, .86fr)) minmax(178px, .98fr);
+      grid-template-columns: minmax(248px, 1.34fr) repeat(4, minmax(126px, .76fr)) minmax(168px, .9fr);
       gap: 0;
       align-items: center;
       transform: none;
@@ -1779,6 +1769,47 @@
       min-height: 56px;
       padding-top: 2px;
       padding-bottom: 4px;
+    }
+
+    body > .page-shell > .page > .page-footer .session-chip--participants {
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    body > .page-shell > .page > .page-footer .session-manage-toggle {
+      width: 100%;
+      min-height: 56px;
+      padding: 4px 16px;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 14px;
+      align-items: center;
+      border: 0;
+      border-radius: 18px;
+      background: transparent;
+      color: inherit;
+      text-align: left;
+      cursor: pointer;
+      transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+    }
+
+    body > .page-shell > .page > .page-footer .session-manage-toggle:hover {
+      background: rgba(111, 166, 74, .08);
+      transform: translateY(-1px);
+    }
+
+    body > .page-shell > .page > .page-footer .session-manage-toggle:focus-visible {
+      outline: 2px solid rgba(41, 115, 171, .45);
+      outline-offset: -2px;
+    }
+
+    body > .page-shell > .page > .page-footer .session-meta {
+      margin: 0;
+      font-size: .72rem;
+      line-height: 1.2;
+      font-weight: 700;
+      color: #617683;
+      text-wrap: balance;
     }
 
     body > .page-shell > .page > .page-footer .session-label {
@@ -1838,11 +1869,228 @@
       min-height: 42px;
       padding: 0 18px;
       border-radius: 999px;
-      background:
-        linear-gradient(135deg, rgba(15, 52, 60, .74), rgba(34, 107, 83, .84)),
-        var(--institutional-green-texture) center / 260px auto repeat;
+      background: linear-gradient(135deg, rgba(15, 52, 60, .92), rgba(34, 107, 83, .96));
       box-shadow: 0 18px 34px rgba(8, 20, 40, .24);
       font-size: .92rem;
+    }
+
+    body > .page-shell > .page > .protected-status {
+      position: absolute;
+      top: 68px;
+      right: 18px;
+      z-index: 31;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      max-width: min(280px, calc(100vw - 36px));
+      padding: 0 16px;
+      border-radius: 999px;
+      background: rgba(17, 31, 46, .9);
+      box-shadow: 0 16px 32px rgba(8, 20, 40, .22);
+      color: #f8fbff;
+      font-size: .84rem;
+      font-weight: 700;
+      letter-spacing: .01em;
+      opacity: 0;
+      transform: translateY(-8px);
+      pointer-events: none;
+      transition: opacity .22s ease, transform .22s ease, background .22s ease;
+    }
+
+    body > .page-shell > .page > .protected-status.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    body > .page-shell > .page > .protected-status[data-state="success"] {
+      background: rgba(29, 110, 82, .94);
+    }
+
+    body > .page-shell > .page > .protected-status[data-state="error"] {
+      background: rgba(180, 69, 69, .94);
+    }
+
+    body > .page-shell > .page > .participants-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+      background: rgba(7, 18, 31, .34);
+      backdrop-filter: blur(8px);
+    }
+
+    body > .page-shell > .page > .participants-modal-backdrop[hidden] {
+      display: none;
+    }
+
+    body > .page-shell > .page > .participants-modal-backdrop > .participants-modal {
+      width: min(460px, calc(100vw - 24px));
+      max-height: min(78vh, 720px);
+      display: grid;
+      gap: 14px;
+      padding: 22px;
+      overflow: auto;
+      border-radius: 28px;
+      border: 1px solid rgba(207, 219, 231, .92);
+      background:
+        linear-gradient(165deg, rgba(255, 255, 255, .985), rgba(245, 249, 252, .96)),
+        linear-gradient(135deg, rgba(15, 142, 189, .06), rgba(189, 143, 24, .08));
+      box-shadow: 0 30px 58px rgba(8, 22, 37, .24);
+    }
+
+    .participants-modal-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .participants-modal-head h3 {
+      margin: 4px 0 0;
+      font-size: 1.45rem;
+      line-height: 1.05;
+      color: #173558;
+    }
+
+    .participants-modal-kicker {
+      margin: 0;
+      font-size: .78rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: #5d7f44;
+    }
+
+    .participants-close {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(21, 32, 51, .08);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .9);
+      color: #173558;
+      font-size: 1.2rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .participants-form {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .participants-input {
+      min-height: 46px;
+      padding: 0 15px;
+      border: 1px solid rgba(176, 193, 207, .94);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .96);
+      color: #173558;
+      font: inherit;
+    }
+
+    .participants-input:focus-visible {
+      outline: 2px solid rgba(41, 115, 171, .32);
+      outline-offset: 1px;
+    }
+
+    .participants-status {
+      margin: 0;
+      min-height: 20px;
+      font-size: .84rem;
+      font-weight: 700;
+      color: #60717e;
+    }
+
+    .participants-status[data-state="success"] {
+      color: #1d6e52;
+    }
+
+    .participants-status[data-state="error"] {
+      color: #b44545;
+    }
+
+    .participants-summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .participants-summary-text {
+      margin: 0;
+      font-size: .9rem;
+      font-weight: 700;
+      color: #173558;
+    }
+
+    .participants-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .participants-empty {
+      margin: 0;
+      padding: 14px 16px;
+      border: 1px dashed rgba(174, 189, 202, .92);
+      border-radius: 16px;
+      color: #617683;
+      font-size: .92rem;
+      line-height: 1.4;
+      background: rgba(255, 255, 255, .68);
+    }
+
+    .participant-item {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 10px;
+      align-items: center;
+      padding: 14px;
+      border: 1px solid rgba(211, 221, 232, .92);
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, .94), rgba(247, 250, 252, .92));
+    }
+
+    .participant-copy {
+      min-width: 0;
+      display: grid;
+      gap: 4px;
+    }
+
+    .participant-copy strong {
+      font-size: .98rem;
+      line-height: 1.18;
+      color: #173558;
+      text-wrap: pretty;
+    }
+
+    .participant-copy span {
+      font-size: .84rem;
+      color: #617683;
+      font-weight: 700;
+    }
+
+    .participant-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .participant-actions .ghost-button,
+    .participant-actions .counter-button {
+      min-height: 40px;
+      padding: 0 14px;
+      font-size: .86rem;
+      border-radius: 12px;
     }
 
     body > .page-shell > .page > .facilitator-panel {
@@ -1879,9 +2127,6 @@
 
     <main>
       <section class="brand-panel">
-        <figure class="brand-mark" aria-hidden="true">
-          <img src="assets/ui/logo-caja-herramientas-clean.png" alt="">
-        </figure>
         <div class="brand-copy">
           <p class="brand-overline">Experiencia formativa</p>
           <h1><span>Dado de la</span><span>Integridad</span></h1>
@@ -1893,6 +2138,7 @@
 
       <section class="stage" aria-label="Dado virtual">
         <div class="stage-visual" aria-hidden="true">
+          <canvas class="celebration-canvas" id="celebrationCanvas"></canvas>
           <div class="cube-shell">
             <div class="cube" id="cube">
               <div class="face front"><img id="face-front" src="assets/dados/principios-1-06.png?v=1" alt="Lealtad" decoding="sync" fetchpriority="high"></div>
@@ -2026,6 +2272,24 @@
             </div>
           </article>
 
+          <article class="session-chip session-chip--participants">
+            <button class="session-manage-toggle" type="button" id="participantsButton" aria-haspopup="dialog" aria-controls="participantsModalBackdrop">
+              <span class="session-icon session-icon--accent" aria-hidden="true">
+                <svg viewBox="0 0 48 48">
+                  <circle cx="18" cy="18" r="5.5"></circle>
+                  <circle cx="31" cy="17" r="4.4"></circle>
+                  <path d="M8.5 35.5c1.8-5 5.9-8 10.9-8s9.1 3 10.9 8"></path>
+                  <path d="M26.8 33.8c1.3-3.6 4.2-5.8 7.8-5.8 2.1 0 4 .7 5.4 2"></path>
+                </svg>
+              </span>
+              <span class="session-copy">
+                <span class="session-label">Participaciones</span>
+                <strong class="session-value" id="participationCountInline">00</strong>
+                <span class="session-meta" id="participantsSummaryInline">0 participantes</span>
+              </span>
+            </button>
+          </article>
+
           <div class="session-action">
             <button class="session-reset" type="button" id="sessionResetButton">Reiniciar</button>
           </div>
@@ -2041,6 +2305,7 @@
     <button class="facilitator-toggle" type="button" id="facilitatorToggle" aria-controls="facilitatorPanel" aria-expanded="false" hidden>
       Modo facilitador
     </button>
+    <p class="protected-status" id="protectedStatus" data-state="neutral" aria-live="polite"></p>
 
     <aside class="facilitator-panel" id="facilitatorPanel" aria-hidden="true">
       <div class="facilitator-admin">
@@ -2070,6 +2335,32 @@
         <button class="ghost-button" type="button" id="facilitatorClose">Ocultar panel</button>
       </div>
     </aside>
+
+    <div class="participants-modal-backdrop" id="participantsModalBackdrop" hidden>
+      <section class="participants-modal" role="dialog" aria-modal="true" aria-labelledby="participantsModalTitle">
+        <div class="participants-modal-head">
+          <div>
+            <p class="participants-modal-kicker">Participantes</p>
+            <h3 id="participantsModalTitle">Registro de participaciones</h3>
+          </div>
+          <button class="participants-close" type="button" id="participantsClose" aria-label="Cerrar panel de participantes">×</button>
+        </div>
+
+        <form class="participants-form" id="participantsForm">
+          <input class="participants-input" type="text" id="participantNameInput" maxlength="60" placeholder="Nombre del participante">
+          <button class="counter-button counter-button--primary" type="submit">Agregar</button>
+        </form>
+
+        <p class="participants-status" id="participantsStatus" data-state="neutral" aria-live="polite">Agrega participantes para llevar el registro de la sesión.</p>
+
+        <div class="participants-summary">
+          <p class="participants-summary-text" id="participantsTotalText">0 participantes registrados</p>
+          <button class="ghost-button" type="button" id="participantsResetButton">Reiniciar participaciones</button>
+        </div>
+
+        <div class="participants-list" id="participantsList"></div>
+      </section>
+    </div>
     </div>
   </div>
 
@@ -2090,8 +2381,11 @@
     const questionProgressText = document.getElementById("questionProgressText");
     const challengeProgressText = document.getElementById("challengeProgressText");
     const launchCountInline = document.getElementById("launchCountInline");
+    const participationCountInline = document.getElementById("participationCountInline");
+    const participantsSummaryInline = document.getElementById("participantsSummaryInline");
     const tabs = [...document.querySelectorAll(".dice-tab")];
     const facilitatorToggle = document.getElementById("facilitatorToggle");
+    const protectedStatus = document.getElementById("protectedStatus");
     const facilitatorPanel = document.getElementById("facilitatorPanel");
     const facilitatorClose = document.getElementById("facilitatorClose");
     const sessionResetButton = document.getElementById("sessionResetButton");
@@ -2100,6 +2394,16 @@
     const bankRestoreButton = document.getElementById("bankRestoreButton");
     const bankStatus = document.getElementById("bankStatus");
     const bankSummary = document.getElementById("bankSummary");
+    const participantsButton = document.getElementById("participantsButton");
+    const participantsModalBackdrop = document.getElementById("participantsModalBackdrop");
+    const participantsClose = document.getElementById("participantsClose");
+    const participantsForm = document.getElementById("participantsForm");
+    const participantNameInput = document.getElementById("participantNameInput");
+    const participantsStatus = document.getElementById("participantsStatus");
+    const participantsTotalText = document.getElementById("participantsTotalText");
+    const participantsList = document.getElementById("participantsList");
+    const participantsResetButton = document.getElementById("participantsResetButton");
+    const celebrationCanvas = document.getElementById("celebrationCanvas");
     const rollDurationMs = 6400;
     const switchDurationMs = 1180;
     const facilitatorStorageKey = "dadoIntegridadFacilitador";
@@ -2127,6 +2431,10 @@
     let currentRotationY = previewY;
     let currentPose = "preview";
     let rollTimeoutId = 0;
+    let protectedStatusTimeoutId = 0;
+    let celebrationFrameId = 0;
+    let celebrationParticles = [];
+    let celebrationLastTime = 0;
     let protectedAccessUnlocked = false;
     let protectedAccessListening = false;
     let protectedAccessBuffer = "";
@@ -2187,6 +2495,8 @@
       if(pageShell){
         pageShell.setAttribute("data-stage-scale", safeScale.toFixed(4));
       }
+
+      resizeCelebrationCanvas();
     }
 
     function scheduleStageScale(){
@@ -2202,6 +2512,53 @@
 
 function formatCounter(value){
   return String(Math.max(0, value)).padStart(2, "0");
+}
+
+function normalizeParticipantName(value){
+  return String(value || "").replace(/\s+/g, " ").trim();
+}
+
+function sanitizeParticipants(list){
+  if(!Array.isArray(list)){
+    return [];
+  }
+
+  return list
+    .map(entry => {
+      if(!entry || typeof entry !== "object"){
+        return null;
+      }
+
+      const name = normalizeParticipantName(entry.name).slice(0, 60);
+      if(!name){
+        return null;
+      }
+
+      return {
+        id: String(entry.id || `${name}-${Math.random().toString(36).slice(2, 8)}`),
+        name,
+        participations: Math.max(0, Number(entry.participations) || 0)
+      };
+    })
+    .filter(Boolean);
+}
+
+function getParticipantsCount(){
+  return facilitatorState.participants.length;
+}
+
+function getParticipationCount(){
+  return facilitatorState.participants.reduce((total, participant) => {
+    return total + Math.max(0, Number(participant.participations) || 0);
+  }, 0);
+}
+
+function createParticipantId(){
+  return `participant-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
+}
+
+function getParticipantsLabel(count){
+  return `${count} participante${count === 1 ? "" : "s"}`;
 }
 
 function createEmptyBank(){
@@ -2291,6 +2648,7 @@ function renderSessionStrip(){
   latestResultText.textContent = latestResolvedTopic;
   questionProgressText.textContent = `${usedQuestions.length} / ${banco.preguntas.length || 0}`;
   challengeProgressText.textContent = `${usedRetos.length} / ${banco.retos.length || 0}`;
+  renderFacilitatorState();
 }
 
 function setOutcomeVisible(isVisible){
@@ -2361,6 +2719,25 @@ function setBankStatus(message, state="neutral"){
   bankStatus.dataset.state = state;
 }
 
+function hideProtectedStatus(){
+  if(!protectedStatus) return;
+  window.clearTimeout(protectedStatusTimeoutId);
+  protectedStatusTimeoutId = 0;
+  protectedStatus.classList.remove("is-visible");
+}
+
+function showProtectedStatus(message, state="neutral"){
+  if(!protectedStatus || !message) return;
+
+  window.clearTimeout(protectedStatusTimeoutId);
+  protectedStatus.textContent = message;
+  protectedStatus.dataset.state = state;
+  protectedStatus.classList.add("is-visible");
+  protectedStatusTimeoutId = window.setTimeout(() => {
+    protectedStatus.classList.remove("is-visible");
+  }, 2400);
+}
+
 function resetProtectedAccessCapture({ keepListening = false } = {}){
   protectedAccessBuffer = "";
   protectedAccessListening = keepListening;
@@ -2386,6 +2763,9 @@ function setProtectedAccessUnlocked(isUnlocked){
   protectedAccessUnlocked = isUnlocked;
   page.classList.toggle("is-admin-unlocked", isUnlocked);
   resetProtectedAccessCapture();
+  if(isUnlocked){
+    hideProtectedStatus();
+  }
   syncProtectedControls();
 }
 
@@ -2951,11 +3331,12 @@ function loadFacilitatorState(){
     const saved=JSON.parse(window.localStorage.getItem(facilitatorStorageKey) || "{}");
     return {
       launches: Math.max(0, Number(saved.launches) || 0),
-      open: false
+      open: false,
+      participants: sanitizeParticipants(saved.participants)
     };
   }catch(error){
     warnStorageIssue("leer el estado del facilitador", error);
-    return { launches: 0, open: false };
+    return { launches: 0, open: false, participants: [] };
   }
 }
 
@@ -2971,6 +3352,303 @@ function renderFacilitatorState(){
   if(launchCountInline){
     launchCountInline.textContent = formatCounter(facilitatorState.launches);
   }
+
+  if(participationCountInline){
+    participationCountInline.textContent = formatCounter(getParticipationCount());
+  }
+
+  if(participantsSummaryInline){
+    participantsSummaryInline.textContent = getParticipantsLabel(getParticipantsCount());
+  }
+
+  if(participantsTotalText){
+    participantsTotalText.textContent = `${getParticipantsLabel(getParticipantsCount())} registrados`;
+  }
+}
+
+function setParticipantsStatus(message, state="neutral"){
+  if(!participantsStatus) return;
+  participantsStatus.textContent = message;
+  participantsStatus.dataset.state = state;
+}
+
+function renderParticipantsList(){
+  if(!participantsList){
+    return;
+  }
+
+  participantsList.innerHTML = "";
+
+  if(!facilitatorState.participants.length){
+    const emptyState = document.createElement("p");
+    emptyState.className = "participants-empty";
+    emptyState.textContent = "Todavía no hay participantes registrados. Agrega uno para comenzar a llevar sus participaciones.";
+    participantsList.append(emptyState);
+    return;
+  }
+
+  facilitatorState.participants.forEach(participant => {
+    const item = document.createElement("article");
+    item.className = "participant-item";
+
+    const copy = document.createElement("div");
+    copy.className = "participant-copy";
+
+    const name = document.createElement("strong");
+    name.textContent = participant.name;
+
+    const detail = document.createElement("span");
+    detail.textContent = `Participaciones registradas: ${formatCounter(participant.participations)}`;
+
+    copy.append(name, detail);
+
+    const actions = document.createElement("div");
+    actions.className = "participant-actions";
+
+    const incrementButton = document.createElement("button");
+    incrementButton.className = "counter-button counter-button--primary";
+    incrementButton.type = "button";
+    incrementButton.dataset.participantAction = "add";
+    incrementButton.dataset.participantId = participant.id;
+    incrementButton.textContent = "+1 participación";
+
+    const removeButton = document.createElement("button");
+    removeButton.className = "ghost-button";
+    removeButton.type = "button";
+    removeButton.dataset.participantAction = "remove";
+    removeButton.dataset.participantId = participant.id;
+    removeButton.textContent = "Eliminar";
+
+    actions.append(incrementButton, removeButton);
+    item.append(copy, actions);
+    participantsList.append(item);
+  });
+}
+
+function renderParticipantsState(){
+  renderFacilitatorState();
+  renderParticipantsList();
+  saveFacilitatorState();
+}
+
+function openParticipantsModal(){
+  if(!participantsModalBackdrop){
+    return;
+  }
+
+  participantsModalBackdrop.hidden = false;
+  document.body.style.overflow = "hidden";
+  renderParticipantsState();
+  window.requestAnimationFrame(() => {
+    participantNameInput?.focus();
+  });
+}
+
+function closeParticipantsModal(){
+  if(!participantsModalBackdrop){
+    return;
+  }
+
+  participantsModalBackdrop.hidden = true;
+  document.body.style.overflow = "";
+  setParticipantsStatus("Agrega participantes para llevar el registro de la sesión.", "neutral");
+}
+
+function addParticipant(name){
+  const normalizedName = normalizeParticipantName(name).slice(0, 60);
+  if(!normalizedName){
+    setParticipantsStatus("Escribe el nombre del participante.", "error");
+    participantNameInput?.focus();
+    return;
+  }
+
+  const duplicate = facilitatorState.participants.some(participant => normalizeParticipantName(participant.name).toLowerCase() === normalizedName.toLowerCase());
+  if(duplicate){
+    setParticipantsStatus("Ese participante ya está registrado.", "error");
+    return;
+  }
+
+  facilitatorState.participants.push({
+    id: createParticipantId(),
+    name: normalizedName,
+    participations: 0
+  });
+
+  if(participantNameInput){
+    participantNameInput.value = "";
+  }
+
+  setParticipantsStatus("Participante agregado correctamente.", "success");
+  renderParticipantsState();
+}
+
+function incrementParticipantParticipation(participantId){
+  const participant = facilitatorState.participants.find(entry => entry.id === participantId);
+  if(!participant){
+    setParticipantsStatus("No se encontró el participante.", "error");
+    return;
+  }
+
+  participant.participations = Math.max(0, Number(participant.participations) || 0) + 1;
+  setParticipantsStatus(`Se registró una participación para ${participant.name}.`, "success");
+  renderParticipantsState();
+}
+
+function removeParticipant(participantId){
+  const nextParticipants = facilitatorState.participants.filter(entry => entry.id !== participantId);
+  if(nextParticipants.length === facilitatorState.participants.length){
+    return;
+  }
+
+  facilitatorState.participants = nextParticipants;
+  setParticipantsStatus("Participante eliminado.", "success");
+  renderParticipantsState();
+}
+
+function resetParticipantParticipations(){
+  if(!facilitatorState.participants.length){
+    setParticipantsStatus("No hay participaciones para reiniciar.", "error");
+    return;
+  }
+
+  facilitatorState.participants = facilitatorState.participants.map(participant => ({
+    ...participant,
+    participations: 0
+  }));
+  setParticipantsStatus("Las participaciones se reiniciaron.", "success");
+  renderParticipantsState();
+}
+
+function resizeCelebrationCanvas(){
+  if(!celebrationCanvas){
+    return;
+  }
+
+  const rect = celebrationCanvas.getBoundingClientRect();
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  celebrationCanvas.width = Math.max(1, Math.round(rect.width * dpr));
+  celebrationCanvas.height = Math.max(1, Math.round(rect.height * dpr));
+
+  const context = celebrationCanvas.getContext("2d");
+  if(context){
+    context.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+}
+
+function clearCelebrationCanvas(){
+  if(!celebrationCanvas){
+    return;
+  }
+
+  const context = celebrationCanvas.getContext("2d");
+  if(!context){
+    return;
+  }
+
+  context.clearRect(0, 0, celebrationCanvas.clientWidth, celebrationCanvas.clientHeight);
+}
+
+function buildCelebrationParticles(width, height){
+  const colors = ["#ffffff", "#f0bf35", "#f25a2a", "#d6409c", "#2da8d8", "#6db141"];
+  const origins = [
+    { x: width * 0.37, y: height * 0.3 },
+    { x: width * 0.5, y: height * 0.22 },
+    { x: width * 0.63, y: height * 0.3 },
+    { x: width * 0.42, y: height * 0.42 },
+    { x: width * 0.58, y: height * 0.42 }
+  ];
+
+  return origins.flatMap((origin, originIndex) => {
+    return Array.from({ length: 18 }, (_, particleIndex) => {
+      const angle = ((Math.PI * 2) / 18) * particleIndex + (originIndex * 0.18);
+      const speed = 68 + Math.random() * 84;
+      return {
+        x: origin.x,
+        y: origin.y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed - (originIndex === 1 ? 26 : 12),
+        life: 0.92 + Math.random() * 0.48,
+        age: 0,
+        radius: 2.2 + Math.random() * 3.8,
+        color: colors[(particleIndex + originIndex) % colors.length]
+      };
+    });
+  });
+}
+
+function animateCelebrationFrame(timestamp){
+  if(!celebrationCanvas){
+    return;
+  }
+
+  const context = celebrationCanvas.getContext("2d");
+  if(!context){
+    return;
+  }
+
+  if(!celebrationLastTime){
+    celebrationLastTime = timestamp;
+  }
+
+  const delta = Math.min(0.028, (timestamp - celebrationLastTime) / 1000);
+  celebrationLastTime = timestamp;
+  const width = celebrationCanvas.clientWidth;
+  const height = celebrationCanvas.clientHeight;
+
+  context.clearRect(0, 0, width, height);
+  celebrationParticles = celebrationParticles.filter(particle => {
+    particle.age += delta;
+    if(particle.age >= particle.life){
+      return false;
+    }
+
+    particle.vy += 105 * delta;
+    particle.x += particle.vx * delta;
+    particle.y += particle.vy * delta;
+
+    const progress = particle.age / particle.life;
+    const opacity = Math.max(0, 1 - progress);
+    context.globalAlpha = opacity;
+    context.shadowBlur = 12;
+    context.shadowColor = particle.color;
+    context.fillStyle = particle.color;
+    context.beginPath();
+    context.arc(particle.x, particle.y, particle.radius * (1 - progress * 0.32), 0, Math.PI * 2);
+    context.fill();
+
+    context.shadowBlur = 0;
+    context.strokeStyle = particle.color;
+    context.lineWidth = 1.2;
+    context.beginPath();
+    context.moveTo(particle.x, particle.y);
+    context.lineTo(particle.x - (particle.vx * 0.016), particle.y - (particle.vy * 0.016));
+    context.stroke();
+    context.globalAlpha = 1;
+    return true;
+  });
+
+  if(celebrationParticles.length){
+    celebrationFrameId = window.requestAnimationFrame(animateCelebrationFrame);
+  }else{
+    celebrationFrameId = 0;
+    celebrationLastTime = 0;
+    clearCelebrationCanvas();
+  }
+}
+
+function triggerCelebrationEffect(){
+  if(!celebrationCanvas || window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+    return;
+  }
+
+  resizeCelebrationCanvas();
+  window.cancelAnimationFrame(celebrationFrameId);
+  celebrationLastTime = 0;
+  celebrationParticles = buildCelebrationParticles(
+    celebrationCanvas.clientWidth,
+    celebrationCanvas.clientHeight
+  );
+  celebrationFrameId = window.requestAnimationFrame(animateCelebrationFrame);
 }
 
 function setFacilitatorOpen(isOpen){
@@ -3251,7 +3929,7 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
       setOutcomeVisible(false);
 
       button.disabled = false;
-      setDice(currentDiceKey, { animateSwitch: true });
+      setDice(currentDiceKey, { animateSwitch: false });
     }
 
     function rollDice() {
@@ -3283,11 +3961,12 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
         rollTimeoutId = 0;
         renderSessionStrip();
         setOutcomeVisible(true);
+        triggerCelebrationEffect();
       }, rollDurationMs);
     }
 
     tabs.forEach(tab => {
-      tab.addEventListener("click", () => setDice(tab.dataset.dice, { animateSwitch: true }));
+      tab.addEventListener("click", () => setDice(tab.dataset.dice, { animateSwitch: false }));
     });
 
     button.addEventListener("click", ()=>{playRollSound(); rollDice();});
@@ -3304,6 +3983,52 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
 
     if(sessionResetButton){
       sessionResetButton.addEventListener("click", resetSession);
+    }
+
+    if(participantsButton){
+      participantsButton.addEventListener("click", openParticipantsModal);
+    }
+
+    if(participantsClose){
+      participantsClose.addEventListener("click", closeParticipantsModal);
+    }
+
+    if(participantsModalBackdrop){
+      participantsModalBackdrop.addEventListener("click", event => {
+        if(event.target === participantsModalBackdrop){
+          closeParticipantsModal();
+        }
+      });
+    }
+
+    if(participantsForm){
+      participantsForm.addEventListener("submit", event => {
+        event.preventDefault();
+        addParticipant(participantNameInput?.value || "");
+      });
+    }
+
+    if(participantsResetButton){
+      participantsResetButton.addEventListener("click", resetParticipantParticipations);
+    }
+
+    if(participantsList){
+      participantsList.addEventListener("click", event => {
+        const target = event.target instanceof HTMLElement ? event.target.closest("[data-participant-action]") : null;
+        if(!(target instanceof HTMLElement)){
+          return;
+        }
+
+        const participantId = target.dataset.participantId || "";
+        if(target.dataset.participantAction === "add"){
+          incrementParticipantParticipation(participantId);
+          return;
+        }
+
+        if(target.dataset.participantAction === "remove"){
+          removeParticipant(participantId);
+        }
+      });
     }
 
     document.addEventListener("pointerdown", event => {
@@ -3374,6 +4099,7 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
     function unlockProtectedAccess(){
       setProtectedAccessUnlocked(true);
       setFacilitatorOpen(true);
+      showProtectedStatus("Modo Facilitador habilitado.", "success");
       renderBankState("Acceso de facilitador habilitado.", "success");
     }
 
@@ -3393,7 +4119,8 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
         if(normalizeText(protectedAccessBuffer) === protectedAccessPassword){
           unlockProtectedAccess();
         }else{
-          resetProtectedAccessCapture();
+          resetProtectedAccessCapture({ keepListening: true });
+          showProtectedStatus("Contraseña incorrecta", "error");
         }
         return true;
       }
@@ -3414,6 +4141,11 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
     }
 
     function handleGlobalEscapeKey(event){
+      if(event.key === "Escape" && participantsModalBackdrop && !participantsModalBackdrop.hidden){
+        closeParticipantsModal();
+        return;
+      }
+
       if(event.key === "Escape" && facilitatorPanel.classList.contains("is-open")){
         setFacilitatorOpen(false);
       }
