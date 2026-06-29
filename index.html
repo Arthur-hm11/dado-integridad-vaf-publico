@@ -2434,6 +2434,8 @@
     let celebrationFrameId = 0;
     let celebrationParticles = [];
     let celebrationLastTime = 0;
+    let rollSoundFadeTimeoutId = 0;
+    let rollSoundFadeFrameId = 0;
     let protectedAccessUnlocked = false;
     let protectedAccessListening = false;
     let protectedAccessBuffer = "";
@@ -2444,12 +2446,15 @@
     let banco = cloneBank(bankState.bank);
     let facilitatorState = loadFacilitatorState();
     const imagePreloadCache = new Map();
-    const audioAssetVersion = "2";
-    const rollAudio = new Audio(`assets/audio/dice-roll.wav?v=${audioAssetVersion}`);
+    const audioAssetVersion = "3";
+    const rollAudioVolume = 0.82;
+    const rollAudioFadeOutMs = 180;
+    const rollAudio = new Audio(`assets/audio/freesound_community-dice22-81801.mp3?v=${audioAssetVersion}`);
     const resultAudio = new Audio(`assets/audio/dice-result.wav?v=${audioAssetVersion}`);
     rollAudio.preload = "auto";
     resultAudio.preload = "auto";
-    rollAudio.volume = 0.78;
+    rollAudio.loop = true;
+    rollAudio.volume = rollAudioVolume;
     resultAudio.volume = 0.82;
 
     function getViewportSize(){
@@ -3801,8 +3806,80 @@ function playHtmlAudio(audio){
   }
 }
 
+function clearRollSoundTimers(){
+  if(rollSoundFadeTimeoutId){
+    window.clearTimeout(rollSoundFadeTimeoutId);
+    rollSoundFadeTimeoutId = 0;
+  }
+  if(rollSoundFadeFrameId){
+    window.cancelAnimationFrame(rollSoundFadeFrameId);
+    rollSoundFadeFrameId = 0;
+  }
+}
+
+function resetRollAudio(){
+  clearRollSoundTimers();
+  try{
+    rollAudio.pause();
+    rollAudio.currentTime = 0;
+    rollAudio.volume = rollAudioVolume;
+  }catch(error){
+    console.warn("No se pudo reiniciar el audio del lanzamiento.", error);
+  }
+}
+
+function stopRollSound({ fadeOut = false } = {}){
+  if(!rollAudio) return;
+
+  if(!fadeOut || rollAudio.paused){
+    resetRollAudio();
+    return;
+  }
+
+  clearRollSoundTimers();
+
+  const initialVolume = Number.isFinite(rollAudio.volume) ? rollAudio.volume : rollAudioVolume;
+  const fadeStart = performance.now();
+
+  const finishFade = () => {
+    rollSoundFadeFrameId = 0;
+    resetRollAudio();
+  };
+
+  const step = now => {
+    const progress = Math.min((now - fadeStart) / rollAudioFadeOutMs, 1);
+    rollAudio.volume = Math.max(0, initialVolume * (1 - progress));
+
+    if(progress < 1){
+      rollSoundFadeFrameId = window.requestAnimationFrame(step);
+      return;
+    }
+
+    finishFade();
+  };
+
+  rollSoundFadeFrameId = window.requestAnimationFrame(step);
+}
+
 function playRollSound(){
-  playHtmlAudio(rollAudio);
+  if(!soundEnabled || !rollAudio) return;
+
+  resetRollAudio();
+
+  try{
+    const playback = rollAudio.play();
+    if(playback && typeof playback.catch === "function"){
+      playback.catch(error => {
+        console.warn("No se pudo reproducir el audio del lanzamiento.", error);
+      });
+    }
+  }catch(error){
+    console.warn("No se pudo preparar el audio del lanzamiento.", error);
+  }
+
+  rollSoundFadeTimeoutId = window.setTimeout(() => {
+    stopRollSound({ fadeOut: true });
+  }, Math.max(rollDurationMs - rollAudioFadeOutMs, 0));
 }
 
 function playResultSound(){
@@ -3912,6 +3989,8 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
         rollTimeoutId = 0;
       }
 
+      stopRollSound();
+
       window.clearTimeout(triggerDiceSwitchAnimation.timeoutId);
       cubeShell.classList.remove("is-switching");
       controlsPanel.classList.remove("is-switching");
@@ -3946,6 +4025,7 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
       promptText.textContent = "Preparando consigna...";
       setResultMode(true);
       setOutcomeVisible(false);
+      playRollSound();
       applyCubeRotation(targetX, targetY, { pose: "result" });
 
       rollTimeoutId = window.setTimeout(() => {
@@ -3955,6 +4035,7 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
         resultText.textContent = selected.name;
         promptType.textContent = prompt.type;
         promptText.textContent = prompt.text;
+        stopRollSound();
         playResultSound();
         button.disabled = false;
         rollTimeoutId = 0;
@@ -3968,7 +4049,7 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
       tab.addEventListener("click", () => setDice(tab.dataset.dice, { animateSwitch: false }));
     });
 
-    button.addEventListener("click", ()=>{playRollSound(); rollDice();});
+    button.addEventListener("click", rollDice);
 
     if(facilitatorToggle){
       facilitatorToggle.addEventListener("click", () => {
