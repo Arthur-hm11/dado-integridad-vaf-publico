@@ -2046,6 +2046,46 @@
       background: rgba(255, 255, 255, .68);
     }
 
+    .current-turn-card {
+      display: grid;
+      gap: 4px;
+      padding: 12px 15px;
+      border: 1px solid rgba(208, 219, 216, .86);
+      border-left: 5px solid #6ba043;
+      border-radius: 17px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, .985), rgba(247, 249, 246, .97));
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .92),
+        0 14px 28px rgba(7, 18, 24, .06);
+      color: #17384b;
+    }
+
+    .current-turn-card[data-state="empty"] {
+      border-left-color: #c99215;
+    }
+
+    .current-turn-label {
+      color: #607686;
+      font-size: .72rem;
+      font-weight: 800;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    .current-turn-name {
+      font-size: 1.02rem;
+      line-height: 1.18;
+      color: #17384b;
+      text-wrap: pretty;
+    }
+
+    .current-turn-hint {
+      color: #617683;
+      font-size: .76rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
     .participant-item {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
@@ -2055,6 +2095,13 @@
       border: 1px solid rgba(211, 221, 232, .92);
       border-radius: 18px;
       background: linear-gradient(180deg, rgba(255, 255, 255, .94), rgba(247, 250, 252, .92));
+    }
+
+    .participant-item.is-current-turn {
+      border-color: rgba(107, 160, 67, .86);
+      box-shadow:
+        0 0 0 3px rgba(107, 160, 67, .14),
+        0 12px 24px rgba(29, 75, 49, .08);
     }
 
     .participant-copy {
@@ -2082,6 +2129,27 @@
       gap: 8px;
       flex-wrap: wrap;
       justify-content: flex-end;
+    }
+
+    .participant-turn-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 30px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: rgba(96, 113, 126, .1);
+      color: #617683;
+      font-size: .7rem;
+      font-weight: 800;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .participant-turn-badge[data-state="active"] {
+      background: rgba(107, 160, 67, .16);
+      color: #3f7426;
     }
 
     .participant-actions .ghost-button,
@@ -2174,6 +2242,12 @@
           </button>
         </div>
 
+        <div class="current-turn-card" id="currentTurnCard" data-state="empty" role="status" aria-live="polite">
+          <span class="current-turn-label">Turno actual</span>
+          <strong class="current-turn-name" id="currentTurnName">Sin participante</strong>
+          <span class="current-turn-hint" id="currentTurnHint">Registra al menos un participante antes de lanzar el dado.</span>
+        </div>
+
         <div class="howto-card">
           <h2>¿Cómo jugar?</h2>
           <div class="howto-list">
@@ -2192,7 +2266,7 @@
           </div>
         </div>
 
-        <button class="roll-button" type="button" id="rollButton">Lanzar dado</button>
+        <button class="roll-button" type="button" id="rollButton" disabled>Lanzar dado</button>
         <div class="outcome" aria-live="polite" hidden>
           <div class="theme">
             <span class="eyebrow">Tema actual</span>
@@ -2402,6 +2476,9 @@
     const participantsTotalText = document.getElementById("participantsTotalText");
     const participantsList = document.getElementById("participantsList");
     const participantsResetButton = document.getElementById("participantsResetButton");
+    const currentTurnCard = document.getElementById("currentTurnCard");
+    const currentTurnName = document.getElementById("currentTurnName");
+    const currentTurnHint = document.getElementById("currentTurnHint");
     const celebrationCanvas = document.getElementById("celebrationCanvas");
     const rollDurationMs = 6400;
     const switchDurationMs = 1180;
@@ -2430,6 +2507,9 @@
     let currentRotationY = previewY;
     let currentPose = "preview";
     let rollTimeoutId = 0;
+    let isRolling = false;
+    let activeRollParticipantId = "";
+    let participantIdSequence = 0;
     let protectedStatusTimeoutId = 0;
     let celebrationFrameId = 0;
     let celebrationParticles = [];
@@ -2491,9 +2571,11 @@
         availableHeight / viewportScaleConfig.height
       );
       const safeScale = Number.isFinite(scale) && scale > 0 ? scale : 1;
+      const designWidth = Math.max(viewportScaleConfig.width, availableWidth / safeScale);
 
       rootStyle.setProperty("--stage-scale", String(safeScale));
-      rootStyle.setProperty("--scaled-width", `${viewportScaleConfig.width * safeScale}px`);
+      rootStyle.setProperty("--design-width", `${designWidth}px`);
+      rootStyle.setProperty("--scaled-width", `${designWidth * safeScale}px`);
       rootStyle.setProperty("--scaled-height", `${viewportScaleConfig.height * safeScale}px`);
 
       if(pageShell){
@@ -2522,29 +2604,45 @@ function normalizeParticipantName(value){
   return String(value || "").replace(/\s+/g, " ").trim();
 }
 
+function getParticipantNameKey(value){
+  return normalizeParticipantName(value)
+    .normalize("NFKC")
+    .toLocaleLowerCase("es-MX");
+}
+
 function sanitizeParticipants(list){
   if(!Array.isArray(list)){
     return [];
   }
 
-  return list
-    .map(entry => {
-      if(!entry || typeof entry !== "object"){
-        return null;
-      }
+  const seenNames = new Set();
+  const seenIds = new Set();
 
-      const name = normalizeParticipantName(entry.name).slice(0, 60);
-      if(!name){
-        return null;
-      }
+  return list.reduce((participants, entry) => {
+    if(!entry || typeof entry !== "object"){
+      return participants;
+    }
 
-      return {
-        id: String(entry.id || `${name}-${Math.random().toString(36).slice(2, 8)}`),
-        name,
-        participations: Math.max(0, Number(entry.participations) || 0)
-      };
-    })
-    .filter(Boolean);
+    const name = normalizeParticipantName(entry.name).slice(0, 60);
+    const nameKey = getParticipantNameKey(name);
+    if(!name || seenNames.has(nameKey)){
+      return participants;
+    }
+
+    seenNames.add(nameKey);
+    let participantId = String(entry.id || "").trim();
+    while(!participantId || seenIds.has(participantId)){
+      participantId = createParticipantId();
+    }
+    seenIds.add(participantId);
+
+    participants.push({
+      id: participantId,
+      name,
+      participations: Math.max(0, Number(entry.participations) || 0)
+    });
+    return participants;
+  }, []);
 }
 
 function getParticipantsCount(){
@@ -2558,11 +2656,95 @@ function getParticipationCount(){
 }
 
 function createParticipantId(){
-  return `participant-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
+  participantIdSequence += 1;
+  return `participant-${Date.now().toString(36)}-${participantIdSequence.toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
 }
 
 function getParticipantsLabel(count){
   return `${count} participante${count === 1 ? "" : "s"}`;
+}
+
+function getCurrentParticipant(){
+  return facilitatorState.participants.find(participant => participant.id === facilitatorState.currentParticipantId) || null;
+}
+
+function selectInitialParticipant(){
+  const participants = facilitatorState.participants;
+
+  if(!participants.length){
+    facilitatorState.currentParticipantId = "";
+    facilitatorState.initialTurnSelected = false;
+    return null;
+  }
+
+  if(participants.length === 1){
+    facilitatorState.currentParticipantId = participants[0].id;
+    facilitatorState.initialTurnSelected = false;
+    return participants[0];
+  }
+
+  const selectedIndex = Math.floor(Math.random() * participants.length);
+  facilitatorState.currentParticipantId = participants[selectedIndex].id;
+  facilitatorState.initialTurnSelected = true;
+  return participants[selectedIndex];
+}
+
+function ensureCurrentParticipant({ allowInitialSelection = true } = {}){
+  const participants = facilitatorState.participants;
+
+  if(!participants.length){
+    facilitatorState.currentParticipantId = "";
+    facilitatorState.turnStarted = false;
+    facilitatorState.initialTurnSelected = false;
+    return null;
+  }
+
+  if(participants.length === 1){
+    facilitatorState.currentParticipantId = participants[0].id;
+    return participants[0];
+  }
+
+  const currentParticipant = getCurrentParticipant();
+  if(
+    allowInitialSelection &&
+    !facilitatorState.turnStarted &&
+    !facilitatorState.initialTurnSelected
+  ){
+    return selectInitialParticipant();
+  }
+
+  if(currentParticipant){
+    return currentParticipant;
+  }
+
+  return allowInitialSelection ? selectInitialParticipant() : null;
+}
+
+function advanceParticipantTurn(completedParticipantId){
+  const participants = facilitatorState.participants;
+  if(!participants.length){
+    facilitatorState.currentParticipantId = "";
+    facilitatorState.turnStarted = false;
+    facilitatorState.initialTurnSelected = false;
+    return null;
+  }
+
+  if(participants.length === 1){
+    facilitatorState.currentParticipantId = participants[0].id;
+    facilitatorState.turnStarted = true;
+    return participants[0];
+  }
+
+  const completedIndex = participants.findIndex(participant => participant.id === completedParticipantId);
+  if(completedIndex < 0){
+    return ensureCurrentParticipant();
+  }
+
+  const nextParticipant = participants[(completedIndex + 1) % participants.length];
+  facilitatorState.currentParticipantId = nextParticipant.id;
+  facilitatorState.turnStarted = true;
+  facilitatorState.initialTurnSelected = true;
+  return nextParticipant;
 }
 
 function createEmptyBank(){
@@ -2799,7 +2981,7 @@ function applyBankData(nextBank, { sourceName = "Banco externo", isCustom = true
 }
 
 function isDiceBusy(){
-  return button.disabled || rollTimeoutId !== 0;
+  return isRolling || rollTimeoutId !== 0;
 }
 
 function detectDelimiter(text){
@@ -3333,14 +3515,32 @@ async function parseExternalBankFile(file){
 function loadFacilitatorState(){
   try{
     const saved=JSON.parse(window.localStorage.getItem(facilitatorStorageKey) || "{}");
+    const participants = sanitizeParticipants(saved.participants);
+    const savedCurrentParticipantId = String(saved.currentParticipantId || "");
+    const currentParticipantId = participants.some(participant => participant.id === savedCurrentParticipantId)
+      ? savedCurrentParticipantId
+      : "";
+
     return {
       launches: Math.max(0, Number(saved.launches) || 0),
       open: false,
-      participants: sanitizeParticipants(saved.participants)
+      participants,
+      currentParticipantId,
+      turnStarted: Boolean(saved.turnStarted),
+      initialTurnSelected: Boolean(
+        saved.initialTurnSelected || (currentParticipantId && participants.length > 1)
+      )
     };
   }catch(error){
     warnStorageIssue("leer el estado del facilitador", error);
-    return { launches: 0, open: false, participants: [] };
+    return {
+      launches: 0,
+      open: false,
+      participants: [],
+      currentParticipantId: "",
+      turnStarted: false,
+      initialTurnSelected: false
+    };
   }
 }
 
@@ -3350,6 +3550,45 @@ function saveFacilitatorState(){
   }catch(error){
     warnStorageIssue("guardar el estado del facilitador", error);
   }
+}
+
+function syncRollButtonState(){
+  if(!button){
+    return;
+  }
+
+  const hasParticipants = facilitatorState.participants.length > 0;
+  button.disabled = isRolling || !hasParticipants;
+  button.setAttribute("aria-disabled", String(button.disabled));
+  button.title = hasParticipants
+    ? (isRolling ? "Espera a que termine el lanzamiento actual." : "Lanzar dado para el participante en turno.")
+    : "Registra al menos un participante antes de lanzar el dado.";
+
+  tabs.forEach(tab => {
+    tab.disabled = isRolling;
+    tab.setAttribute("aria-disabled", String(isRolling));
+  });
+}
+
+function renderCurrentTurnState(){
+  const participant = ensureCurrentParticipant();
+  const hasParticipant = Boolean(participant);
+
+  if(currentTurnCard){
+    currentTurnCard.dataset.state = hasParticipant ? "active" : "empty";
+  }
+
+  if(currentTurnName){
+    currentTurnName.textContent = participant?.name || "Sin participante";
+  }
+
+  if(currentTurnHint){
+    currentTurnHint.textContent = hasParticipant
+      ? "Esta persona realizará el siguiente lanzamiento."
+      : "Registra al menos un participante antes de lanzar el dado.";
+  }
+
+  syncRollButtonState();
 }
 
 function renderFacilitatorState(){
@@ -3368,6 +3607,8 @@ function renderFacilitatorState(){
   if(participantsTotalText){
     participantsTotalText.textContent = `${getParticipantsLabel(getParticipantsCount())} registrados`;
   }
+
+  renderCurrentTurnState();
 }
 
 function setParticipantsStatus(message, state="neutral"){
@@ -3392,8 +3633,13 @@ function renderParticipantsList(){
   }
 
   facilitatorState.participants.forEach(participant => {
+    const isCurrentTurn = participant.id === facilitatorState.currentParticipantId;
     const item = document.createElement("article");
     item.className = "participant-item";
+    item.classList.toggle("is-current-turn", isCurrentTurn);
+    if(isCurrentTurn){
+      item.setAttribute("aria-current", "true");
+    }
 
     const copy = document.createElement("div");
     copy.className = "participant-copy";
@@ -3409,12 +3655,10 @@ function renderParticipantsList(){
     const actions = document.createElement("div");
     actions.className = "participant-actions";
 
-    const incrementButton = document.createElement("button");
-    incrementButton.className = "counter-button counter-button--primary";
-    incrementButton.type = "button";
-    incrementButton.dataset.participantAction = "add";
-    incrementButton.dataset.participantId = participant.id;
-    incrementButton.textContent = "+1 participación";
+    const turnBadge = document.createElement("span");
+    turnBadge.className = "participant-turn-badge";
+    turnBadge.dataset.state = isCurrentTurn ? "active" : "waiting";
+    turnBadge.textContent = isCurrentTurn ? "En turno" : "En espera";
 
     const removeButton = document.createElement("button");
     removeButton.className = "ghost-button";
@@ -3422,14 +3666,22 @@ function renderParticipantsList(){
     removeButton.dataset.participantAction = "remove";
     removeButton.dataset.participantId = participant.id;
     removeButton.textContent = "Eliminar";
+    removeButton.disabled = isRolling;
+    if(isRolling){
+      removeButton.title = "Espera a que termine el lanzamiento actual.";
+    }
 
-    actions.append(incrementButton, removeButton);
+    actions.append(turnBadge, removeButton);
     item.append(copy, actions);
     participantsList.append(item);
   });
 }
 
 function renderParticipantsState(){
+  if(participantsResetButton){
+    participantsResetButton.disabled = isRolling;
+    participantsResetButton.title = isRolling ? "Espera a que termine el lanzamiento actual." : "";
+  }
   renderFacilitatorState();
   renderParticipantsList();
   saveFacilitatorState();
@@ -3440,6 +3692,7 @@ function openParticipantsModal(){
     return;
   }
 
+  resetProtectedAccessCapture();
   participantsModalBackdrop.hidden = false;
   document.body.style.overflow = "hidden";
   renderParticipantsState();
@@ -3466,17 +3719,28 @@ function addParticipant(name){
     return;
   }
 
-  const duplicate = facilitatorState.participants.some(participant => normalizeParticipantName(participant.name).toLowerCase() === normalizedName.toLowerCase());
+  const participantNameKey = getParticipantNameKey(normalizedName);
+  const duplicate = facilitatorState.participants.some(participant => getParticipantNameKey(participant.name) === participantNameKey);
   if(duplicate){
     setParticipantsStatus("Ese participante ya está registrado.", "error");
+    participantNameInput?.focus();
     return;
   }
 
-  facilitatorState.participants.push({
+  const participant = {
     id: createParticipantId(),
     name: normalizedName,
     participations: 0
-  });
+  };
+  facilitatorState.participants.push(participant);
+
+  if(facilitatorState.participants.length === 1){
+    facilitatorState.currentParticipantId = participant.id;
+  }else if(!facilitatorState.turnStarted && !facilitatorState.initialTurnSelected){
+    selectInitialParticipant();
+  }else{
+    ensureCurrentParticipant();
+  }
 
   if(participantNameInput){
     participantNameInput.value = "";
@@ -3484,34 +3748,62 @@ function addParticipant(name){
 
   setParticipantsStatus("Participante agregado correctamente.", "success");
   renderParticipantsState();
+  participantNameInput?.focus();
 }
 
-function incrementParticipantParticipation(participantId){
+function registerSuccessfulParticipantRoll(participantId){
   const participant = facilitatorState.participants.find(entry => entry.id === participantId);
   if(!participant){
-    setParticipantsStatus("No se encontró el participante.", "error");
-    return;
+    return null;
   }
 
   participant.participations = Math.max(0, Number(participant.participations) || 0) + 1;
-  setParticipantsStatus(`Se registró una participación para ${participant.name}.`, "success");
-  renderParticipantsState();
+  facilitatorState.launches = Math.max(0, Number(facilitatorState.launches) || 0) + 1;
+  advanceParticipantTurn(participant.id);
+  return participant;
 }
 
 function removeParticipant(participantId){
-  const nextParticipants = facilitatorState.participants.filter(entry => entry.id !== participantId);
-  if(nextParticipants.length === facilitatorState.participants.length){
+  if(isRolling){
+    setParticipantsStatus("Espera a que termine el lanzamiento antes de eliminar participantes.", "error");
     return;
   }
 
-  facilitatorState.participants = nextParticipants;
+  const participantIndex = facilitatorState.participants.findIndex(entry => entry.id === participantId);
+  if(participantIndex < 0){
+    return;
+  }
+
+  const wasCurrentParticipant = facilitatorState.currentParticipantId === participantId;
+  facilitatorState.participants.splice(participantIndex, 1);
+
+  if(!facilitatorState.participants.length){
+    facilitatorState.currentParticipantId = "";
+    facilitatorState.turnStarted = false;
+    facilitatorState.initialTurnSelected = false;
+  }else if(wasCurrentParticipant){
+    const nextIndex = participantIndex % facilitatorState.participants.length;
+    facilitatorState.currentParticipantId = facilitatorState.participants[nextIndex].id;
+  }else{
+    ensureCurrentParticipant();
+  }
+
   setParticipantsStatus("Participante eliminado.", "success");
   renderParticipantsState();
 }
 
 function resetParticipantParticipations(){
+  if(isRolling){
+    setParticipantsStatus("Espera a que termine el lanzamiento antes de reiniciar las participaciones.", "error");
+    return;
+  }
+
   if(!facilitatorState.participants.length){
     setParticipantsStatus("No hay participaciones para reiniciar.", "error");
+    return;
+  }
+
+  if(!window.confirm("¿Deseas reiniciar todas las participaciones y sortear nuevamente el primer turno?")){
     return;
   }
 
@@ -3519,6 +3811,10 @@ function resetParticipantParticipations(){
     ...participant,
     participations: 0
   }));
+  facilitatorState.currentParticipantId = "";
+  facilitatorState.turnStarted = false;
+  facilitatorState.initialTurnSelected = false;
+  selectInitialParticipant();
   setParticipantsStatus("Las participaciones se reiniciaron.", "success");
   renderParticipantsState();
 }
@@ -3666,12 +3962,6 @@ function setFacilitatorOpen(isOpen){
   if(!isOpen && protectedAccessUnlocked){
     setProtectedAccessUnlocked(false);
   }
-}
-
-function updateLaunchCount(delta=1){
-  facilitatorState.launches = Math.max(0, facilitatorState.launches + delta);
-  renderFacilitatorState();
-  saveFacilitatorState();
 }
 
 function getPoseTilt(pose){
@@ -3989,6 +4279,9 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
         rollTimeoutId = 0;
       }
 
+      isRolling = false;
+      activeRollParticipantId = "";
+
       stopRollSound();
 
       window.clearTimeout(triggerDiceSwitchAnimation.timeoutId);
@@ -4000,26 +4293,46 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
       usedFaces = { principios1: [], principios2: [], valores: [] };
       facilitatorState.launches = 0;
       latestResolvedTopic = "Sin resultado";
-      renderFacilitatorState();
-      saveFacilitatorState();
+      renderParticipantsState();
       renderSessionStrip();
       setResultMode(false);
       setOutcomeVisible(false);
 
-      button.disabled = false;
       setDice(currentDiceKey, { animateSwitch: false });
+      syncRollButtonState();
     }
 
     function rollDice() {
+      if(isRolling || rollTimeoutId !== 0){
+        return;
+      }
+
+      const activeParticipant = ensureCurrentParticipant();
+      if(!activeParticipant){
+        setParticipantsStatus("Registra al menos un participante antes de lanzar el dado.", "error");
+        renderParticipantsState();
+        openParticipantsModal();
+        return;
+      }
+
       const selectedDice = dice[currentDiceKey];
       if(usedFaces[currentDiceKey].length===selectedDice.faces.length){usedFaces[currentDiceKey]=[];}
       const disponibles=selectedDice.faces.filter(f=>!usedFaces[currentDiceKey].includes(f.name));
       const selected=disponibles[Math.floor(Math.random()*disponibles.length)];
+      if(!selected || !selected.name){
+        setParticipantsStatus("No fue posible preparar el lanzamiento. Inténtalo nuevamente.", "error");
+        renderParticipantsState();
+        return;
+      }
+
+      isRolling = true;
+      activeRollParticipantId = activeParticipant.id;
+      syncRollButtonState();
+      renderParticipantsState();
+
       usedFaces[currentDiceKey].push(selected.name);
       const targetX = getNextRotation(currentRotationX, selected.x, spinTurnsX);
       const targetY = getNextRotation(currentRotationY, selected.y, spinTurnsY);
-      updateLaunchCount(1);
-      button.disabled = true;
       resultText.textContent = "Girando...";
       promptType.textContent = "Pregunta o reto";
       promptText.textContent = "Preparando consigna...";
@@ -4029,24 +4342,76 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
       applyCubeRotation(targetX, targetY, { pose: "result" });
 
       rollTimeoutId = window.setTimeout(() => {
-        const prompt = getPrompt(selected.name);
+        const completedParticipantId = activeRollParticipantId;
+        const completionSnapshot = {
+          launches: facilitatorState.launches,
+          currentParticipantId: facilitatorState.currentParticipantId,
+          turnStarted: facilitatorState.turnStarted,
+          initialTurnSelected: facilitatorState.initialTurnSelected,
+          participantCounts: new Map(
+            facilitatorState.participants.map(participant => [participant.id, participant.participations])
+          ),
+          usedQuestions: [...usedQuestions],
+          usedRetos: [...usedRetos]
+        };
 
-        latestResolvedTopic = selected.name;
-        resultText.textContent = selected.name;
-        promptType.textContent = prompt.type;
-        promptText.textContent = prompt.text;
-        stopRollSound();
-        playResultSound();
-        button.disabled = false;
-        rollTimeoutId = 0;
-        renderSessionStrip();
-        setOutcomeVisible(true);
-        triggerCelebrationEffect();
+        try{
+          const prompt = getPrompt(selected.name);
+          if(!prompt || !normalizeText(prompt.type) || !normalizeText(prompt.text)){
+            throw new Error("El lanzamiento no generó una consigna válida.");
+          }
+
+          const completedParticipant = registerSuccessfulParticipantRoll(completedParticipantId);
+          if(!completedParticipant){
+            throw new Error("No se encontró al participante que inició el lanzamiento.");
+          }
+
+          latestResolvedTopic = selected.name;
+          resultText.textContent = selected.name;
+          promptType.textContent = prompt.type;
+          promptText.textContent = prompt.text;
+          setParticipantsStatus(`Se registró el lanzamiento de ${completedParticipant.name}.`, "success");
+          stopRollSound();
+          playResultSound();
+          renderSessionStrip();
+          setOutcomeVisible(true);
+          triggerCelebrationEffect();
+        }catch(error){
+          facilitatorState.launches = completionSnapshot.launches;
+          facilitatorState.currentParticipantId = completionSnapshot.currentParticipantId;
+          facilitatorState.turnStarted = completionSnapshot.turnStarted;
+          facilitatorState.initialTurnSelected = completionSnapshot.initialTurnSelected;
+          facilitatorState.participants.forEach(participant => {
+            if(completionSnapshot.participantCounts.has(participant.id)){
+              participant.participations = completionSnapshot.participantCounts.get(participant.id);
+            }
+          });
+          usedQuestions = completionSnapshot.usedQuestions;
+          usedRetos = completionSnapshot.usedRetos;
+          usedFaces[currentDiceKey] = usedFaces[currentDiceKey].filter(faceName => faceName !== selected.name);
+          stopRollSound();
+          resultText.textContent = "Lanzamiento no completado";
+          promptType.textContent = "Intenta nuevamente";
+          promptText.textContent = "No se registró ninguna participación ni se cambió el turno.";
+          setParticipantsStatus("El lanzamiento no se completó. La misma persona conserva el turno.", "error");
+          setOutcomeVisible(true);
+          console.error("No se pudo completar el lanzamiento del dado.", error);
+        }finally{
+          isRolling = false;
+          activeRollParticipantId = "";
+          rollTimeoutId = 0;
+          renderParticipantsState();
+        }
       }, rollDurationMs);
     }
 
     tabs.forEach(tab => {
-      tab.addEventListener("click", () => setDice(tab.dataset.dice, { animateSwitch: false }));
+      tab.addEventListener("click", () => {
+        if(isRolling){
+          return;
+        }
+        setDice(tab.dataset.dice, { animateSwitch: false });
+      });
     });
 
     button.addEventListener("click", rollDice);
@@ -4100,11 +4465,6 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
         }
 
         const participantId = target.dataset.participantId || "";
-        if(target.dataset.participantAction === "add"){
-          incrementParticipantParticipation(participantId);
-          return;
-        }
-
         if(target.dataset.participantAction === "remove"){
           removeParticipant(participantId);
         }
@@ -4116,11 +4476,22 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
 
       const target = event.target;
       if(
+        participantsModalBackdrop &&
+        !participantsModalBackdrop.hidden &&
+        target instanceof Node &&
+        participantsModalBackdrop.contains(target)
+      ){
+        resetProtectedAccessCapture();
+        return;
+      }
+
+      if(
         target instanceof HTMLInputElement ||
         target instanceof HTMLTextAreaElement ||
         target instanceof HTMLSelectElement ||
         target?.isContentEditable
       ){
+        resetProtectedAccessCapture();
         return;
       }
 
@@ -4185,6 +4556,17 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
 
     function handleProtectedAccessKeydown(event){
       if(protectedAccessUnlocked || !protectedAccessListening){
+        return false;
+      }
+
+      const target = event.target;
+      if(
+        (participantsModalBackdrop && !participantsModalBackdrop.hidden) ||
+        target instanceof HTMLInputElement ||
+        target instanceof HTMLTextAreaElement ||
+        target instanceof HTMLSelectElement ||
+        target?.isContentEditable
+      ){
         return false;
       }
 
@@ -4256,8 +4638,9 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
     async function initializeApp(){
       scheduleStageScale();
       await preloadDiceFaces(currentDiceKey);
+      ensureCurrentParticipant();
       renderBankState();
-      renderFacilitatorState();
+      renderParticipantsState();
       setProtectedAccessUnlocked(false);
       setFacilitatorOpen(false);
       setDice(currentDiceKey);
