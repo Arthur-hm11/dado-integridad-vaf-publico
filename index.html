@@ -1444,17 +1444,28 @@
       height: var(--pleca-art-height);
       overflow: hidden;
       pointer-events: none;
-      background:
-        var(--institutional-accent-band) center var(--pleca-band-top) / 100% 13px no-repeat,
-        var(--institutional-green-texture) center var(--pleca-pattern-top) / 560px auto repeat-x;
+      background: transparent;
     }
 
-    body > .page-shell > .page > .page-pleca > img {
+    body > .page-shell > .page > .page-pleca > .page-pleca-art {
+      position: absolute;
+      left: 50%;
+      bottom: 0;
       display: block;
-      width: var(--pleca-art-width);
+      width: 117%;
       max-width: none;
       height: auto;
-      margin-left: auto;
+      transform: translateX(-50%);
+    }
+
+    body > .page-shell > .page > .page-pleca > .page-pleca-logo {
+      position: absolute;
+      right: 42px;
+      bottom: 10px;
+      display: block;
+      width: 336px;
+      max-width: none;
+      height: auto;
     }
 
     body > .page-shell > .page.has-facilitator-open > main {
@@ -2266,7 +2277,7 @@
         <div class="current-turn-card" id="currentTurnCard" data-state="empty" role="status" aria-live="polite">
           <span class="current-turn-label">Turno actual</span>
           <strong class="current-turn-name" id="currentTurnName">Sin participante</strong>
-          <span class="current-turn-hint" id="currentTurnHint">Registra al menos un participante antes de lanzar el dado.</span>
+          <span class="current-turn-hint" id="currentTurnHint">El registro de participantes es opcional.</span>
         </div>
 
         <div class="howto-card">
@@ -2287,7 +2298,7 @@
           </div>
         </div>
 
-        <button class="roll-button" type="button" id="rollButton" disabled>Lanzar dado</button>
+        <button class="roll-button" type="button" id="rollButton">Lanzar dado</button>
         <div class="outcome" aria-live="polite" hidden>
           <div class="theme">
             <span class="eyebrow">Tema actual</span>
@@ -2393,7 +2404,8 @@
     </footer>
 
     <div class="page-pleca" aria-hidden="true">
-      <img src="assets/ui/pleca-caja-herramientas.png" alt="">
+      <img class="page-pleca-art" src="assets/ui/pleca-ch.png" alt="">
+      <img class="page-pleca-logo" src="assets/ui/logo-caja-herramientas-2026.png" alt="">
     </div>
 
     <button class="facilitator-toggle" type="button" id="facilitatorToggle" aria-controls="facilitatorPanel" aria-expanded="false" hidden>
@@ -3579,11 +3591,11 @@ function syncRollButtonState(){
   }
 
   const hasParticipants = facilitatorState.participants.length > 0;
-  button.disabled = isRolling || !hasParticipants;
+  button.disabled = isRolling;
   button.setAttribute("aria-disabled", String(button.disabled));
-  button.title = hasParticipants
-    ? (isRolling ? "Espera a que termine el lanzamiento actual." : "Lanzar dado para el participante en turno.")
-    : "Registra al menos un participante antes de lanzar el dado.";
+  button.title = isRolling
+    ? "Espera a que termine el lanzamiento actual."
+    : (hasParticipants ? "Lanzar dado para el participante en turno." : "Lanzar dado sin participante registrado.");
 
   tabs.forEach(tab => {
     tab.disabled = isRolling;
@@ -3606,7 +3618,7 @@ function renderCurrentTurnState(){
   if(currentTurnHint){
     currentTurnHint.textContent = hasParticipant
       ? "Esta persona realizará el siguiente lanzamiento."
-      : "Registra al menos un participante antes de lanzar el dado.";
+      : "El registro de participantes es opcional.";
   }
 
   syncRollButtonState();
@@ -3773,13 +3785,18 @@ function addParticipant(name){
 }
 
 function registerSuccessfulParticipantRoll(participantId){
+  facilitatorState.launches = Math.max(0, Number(facilitatorState.launches) || 0) + 1;
+
+  if(!participantId){
+    return null;
+  }
+
   const participant = facilitatorState.participants.find(entry => entry.id === participantId);
   if(!participant){
     return null;
   }
 
   participant.participations = Math.max(0, Number(participant.participations) || 0) + 1;
-  facilitatorState.launches = Math.max(0, Number(facilitatorState.launches) || 0) + 1;
   advanceParticipantTurn(participant.id);
   return participant;
 }
@@ -4329,12 +4346,6 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
       }
 
       const activeParticipant = ensureCurrentParticipant();
-      if(!activeParticipant){
-        setParticipantsStatus("Registra al menos un participante antes de lanzar el dado.", "error");
-        renderParticipantsState();
-        openParticipantsModal();
-        return;
-      }
 
       const selectedDice = dice[currentDiceKey];
       if(usedFaces[currentDiceKey].length===selectedDice.faces.length){usedFaces[currentDiceKey]=[];}
@@ -4347,7 +4358,7 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
       }
 
       isRolling = true;
-      activeRollParticipantId = activeParticipant.id;
+      activeRollParticipantId = activeParticipant?.id || "";
       syncRollButtonState();
       renderParticipantsState();
 
@@ -4383,7 +4394,7 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
           }
 
           const completedParticipant = registerSuccessfulParticipantRoll(completedParticipantId);
-          if(!completedParticipant){
+          if(completedParticipantId && !completedParticipant){
             throw new Error("No se encontró al participante que inició el lanzamiento.");
           }
 
@@ -4391,7 +4402,12 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
           resultText.textContent = selected.name;
           promptType.textContent = prompt.type;
           promptText.textContent = prompt.text;
-          setParticipantsStatus(`Se registró el lanzamiento de ${completedParticipant.name}.`, "success");
+          setParticipantsStatus(
+            completedParticipant
+              ? `Se registró el lanzamiento de ${completedParticipant.name}.`
+              : "Lanzamiento completado sin participante registrado.",
+            "success"
+          );
           stopRollSound();
           playResultSound();
           renderSessionStrip();
