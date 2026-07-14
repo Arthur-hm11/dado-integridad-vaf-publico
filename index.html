@@ -1303,16 +1303,21 @@
 
     /* Scaled composition layout */
     html:where(:root) {
-      --design-width: 1440px;
+      --design-width: 1560px;
       --design-height: 1080px;
       --stage-scale: 1;
-      --scaled-width: 1440px;
+      --scaled-width: 1560px;
       --scaled-height: 1080px;
       --stage-shell-pad: 18px;
       --canvas-radius: 30px;
       --footer-height: 108px;
       --footer-pleca-height: 68px;
       --footer-strip-bottom: 24px;
+      --right-rail-width: 372px;
+      --pleca-art-width: 1560px;
+      --pleca-art-height: 237px;
+      --pleca-band-top: 119px;
+      --pleca-pattern-top: 132px;
       --institutional-green-texture: url("assets/ui/institutional-green-ornamental.png");
       --institutional-green-deep: #041d1a;
       --institutional-green-base: #082925;
@@ -1388,10 +1393,16 @@
         radial-gradient(circle at 16% 52%, rgba(93, 144, 132, .16), transparent 32%),
         radial-gradient(circle at 34% 16%, rgba(214, 178, 81, .14), transparent 22%),
         radial-gradient(circle at 52% 44%, rgba(255, 255, 255, .2), transparent 24%),
-        linear-gradient(90deg, rgba(238, 243, 239, .995) 0 72.4%, rgba(238, 243, 239, 0) 72.4% 100%),
-        linear-gradient(90deg, rgba(6, 34, 31, 0) 0 72.4%, rgba(6, 34, 31, .76) 72.4% 100%),
+        linear-gradient(90deg,
+          rgba(238, 243, 239, .995) 0 calc(100% - var(--right-rail-width)),
+          rgba(238, 243, 239, 0) calc(100% - var(--right-rail-width)) 100%),
+        linear-gradient(90deg,
+          rgba(6, 34, 31, 0) 0 calc(100% - var(--right-rail-width)),
+          rgba(6, 34, 31, .76) calc(100% - var(--right-rail-width)) 100%),
         var(--institutional-green-texture) right center / 560px auto repeat-y,
-        linear-gradient(90deg, rgba(13, 38, 39, 0) 0 72.4%, rgba(8, 22, 24, .972) 72.4% 100%),
+        linear-gradient(90deg,
+          rgba(13, 38, 39, 0) 0 calc(100% - var(--right-rail-width)),
+          rgba(8, 22, 24, .972) calc(100% - var(--right-rail-width)) 100%),
         linear-gradient(180deg, #eef4ef 0%, #dfe7df 100%);
       box-shadow:
         inset 0 0 0 1px rgba(255, 255, 255, .42),
@@ -1412,12 +1423,13 @@
       position: relative;
       z-index: 1;
       width: 100%;
+      max-width: none;
       height: 100%;
       margin: 0;
       padding: 14px 34px 18px;
       display: grid;
       grid-template-columns: 332px minmax(0, 1fr) 304px;
-      grid-template-areas: "brand stage controls";
+      grid-template-areas: "brand stage right-rail";
       gap: 24px;
       align-items: center;
       overflow: visible;
@@ -1429,16 +1441,25 @@
       right: 0;
       bottom: 0;
       z-index: 0;
+      height: var(--pleca-art-height);
+      overflow: hidden;
       pointer-events: none;
+      background:
+        var(--institutional-accent-band) center var(--pleca-band-top) / 100% 13px no-repeat,
+        var(--institutional-green-texture) center var(--pleca-pattern-top) / 560px auto repeat-x;
     }
 
     body > .page-shell > .page > .page-pleca > img {
       display: block;
-      width: 100%;
+      width: var(--pleca-art-width);
+      max-width: none;
       height: auto;
+      margin-left: auto;
     }
 
     body > .page-shell > .page.has-facilitator-open > main {
+      width: 100%;
+      max-width: none;
       padding-right: 36px;
     }
 
@@ -1598,7 +1619,7 @@
     }
 
     body > .page-shell > .page > main > .controls {
-      grid-area: controls;
+      grid-area: right-rail;
       align-self: start;
       justify-self: end;
       width: 304px;
@@ -2497,7 +2518,7 @@
     const resultTiltZ = 0;
     const rootStyle = document.documentElement.style;
     const viewportScaleConfig = {
-      width: 1440,
+      width: 1560,
       height: 1080
     };
 
