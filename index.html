@@ -1392,10 +1392,9 @@
       background:
         radial-gradient(circle at 16% 52%, rgba(93, 144, 132, .16), transparent 32%),
         radial-gradient(circle at 34% 16%, rgba(214, 178, 81, .14), transparent 22%),
-        radial-gradient(circle at 52% 44%, rgba(255, 255, 255, .2), transparent 24%),
         linear-gradient(90deg,
-          rgba(232, 239, 242, .995) 0 calc(100% - var(--right-rail-width)),
-          rgba(232, 239, 242, 0) calc(100% - var(--right-rail-width)) 100%),
+          rgba(184, 196, 201, .995) 0 calc(100% - var(--right-rail-width)),
+          rgba(184, 196, 201, 0) calc(100% - var(--right-rail-width)) 100%),
         linear-gradient(90deg,
           rgba(6, 34, 31, 0) 0 calc(100% - var(--right-rail-width)),
           rgba(6, 34, 31, .76) calc(100% - var(--right-rail-width)) 100%),
@@ -1542,33 +1541,11 @@
     }
 
     body > .page-shell > .page > main > .stage::before {
-      content: "";
-      position: absolute;
-      inset: 64px 44px 148px 46px;
-      z-index: 0;
-      border-radius: 34px;
-      background:
-        linear-gradient(90deg, transparent 0 8%, rgba(168, 181, 194, .18) 8% 10%, transparent 10% 22%, rgba(191, 201, 211, .16) 22% 24%, transparent 24% 100%),
-        radial-gradient(circle at 70% 38%, rgba(205, 214, 223, .48), transparent 28%),
-        radial-gradient(circle at 46% 64%, rgba(241, 244, 247, .4), transparent 24%);
-      filter: blur(16px);
-      opacity: .74;
-      pointer-events: none;
+      content: none;
     }
 
     body > .page-shell > .page > main > .stage::after {
-      content: "";
-      position: absolute;
-      left: 72px;
-      right: 72px;
-      top: 34px;
-      bottom: 156px;
-      z-index: 0;
-      border-radius: 50%;
-      background:
-        radial-gradient(circle at 52% 42%, rgba(255, 255, 255, .88) 0 20%, rgba(246, 249, 252, .62) 20% 40%, rgba(228, 234, 240, .24) 40% 58%, rgba(255, 255, 255, 0) 76%);
-      filter: blur(22px);
-      pointer-events: none;
+      content: none;
     }
 
     body > .page-shell > .page > main > .stage > .stage-visual {
@@ -1582,19 +1559,7 @@
     }
 
     body > .page-shell > .page > main > .stage > .stage-visual::before {
-      content: "";
-      position: absolute;
-      left: 50%;
-      bottom: 64px;
-      width: 472px;
-      height: 102px;
-      transform: translateX(-50%);
-      border-radius: 50%;
-      background:
-        radial-gradient(circle at 50% 38%, rgba(255, 255, 255, .32), rgba(235, 240, 246, .2) 34%, rgba(214, 220, 228, .08) 56%, rgba(255, 255, 255, 0) 76%);
-      filter: blur(16px);
-      opacity: .62;
-      pointer-events: none;
+      content: none;
     }
 
     body > .page-shell > .page > main > .stage .celebration-canvas {
