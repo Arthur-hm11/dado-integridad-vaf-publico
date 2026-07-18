@@ -169,7 +169,7 @@
       width: 100%;
       height: 100%;
       display: block;
-      object-fit: cover;
+      object-fit: fill;
       border-radius: 20px;
       box-shadow: none;
     }
@@ -1315,7 +1315,7 @@
       --footer-strip-bottom: 24px;
       --right-rail-width: 372px;
       --pleca-art-width: 1560px;
-      --pleca-art-height: 237px;
+      --pleca-art-height: 128px;
       --pleca-band-top: 119px;
       --pleca-pattern-top: 132px;
       --institutional-green-texture: url("assets/ui/institutional-green-ornamental.png");
@@ -1450,19 +1450,36 @@
       position: absolute;
       left: 50%;
       bottom: 0;
+      z-index: 0;
       display: block;
-      width: 117%;
+      width: 100%;
       max-width: none;
-      height: auto;
+      height: 84px;
+      object-fit: fill;
+      object-position: center top;
       transform: translateX(-50%);
+    }
+
+    body > .page-shell > .page > .page-pleca::after {
+      content: "";
+      position: absolute;
+      top: 43px;
+      right: 55px;
+      z-index: 1;
+      width: 70px;
+      height: 8px;
+      background:
+        linear-gradient(rgba(4, 29, 26, .78), rgba(4, 29, 26, .78)),
+        var(--institutional-green-texture) right center / 560px auto repeat;
     }
 
     body > .page-shell > .page > .page-pleca > .page-pleca-logo {
       position: absolute;
       right: 42px;
-      bottom: 10px;
+      bottom: 2px;
+      z-index: 2;
       display: block;
-      width: 336px;
+      width: 188px;
       max-width: none;
       height: auto;
     }
@@ -1482,6 +1499,8 @@
       gap: 18px;
       padding: 0 0 28px 14px;
       margin: 0;
+      position: relative;
+      top: -220px;
       color: #19365a;
     }
 
@@ -1514,18 +1533,28 @@
       box-shadow: 0 10px 24px rgba(45, 127, 161, .18);
     }
 
+    body > .page-shell > .page > main > .brand-panel .brand-supporting-copy {
+      display: grid;
+      gap: 14px;
+      margin-top: 0;
+      padding: 0 2px;
+    }
+
     body > .page-shell > .page > main > .brand-panel .brand-points {
       margin: 0;
-      font-size: 16px;
-      color: #2a5a67;
+      font-size: 19px;
+      line-height: 1.26;
+      font-weight: 900;
+      color: #123f4a;
     }
 
     body > .page-shell > .page > main > .brand-panel .lead {
-      max-width: 23ch;
+      max-width: 24ch;
       margin: 0;
-      font-size: 17px;
-      line-height: 1.48;
-      color: #35515d;
+      font-size: 19px;
+      line-height: 1.42;
+      font-weight: 650;
+      color: #173641;
     }
 
     body > .page-shell > .page > main > .stage {
@@ -1583,7 +1612,7 @@
     body > .page-shell > .page > main > .stage .pedestal {
       position: absolute;
       left: 50%;
-      bottom: 24px;
+      bottom: -70px;
       z-index: 1;
       width: 464px;
       transform: translateX(-50%);
@@ -1720,7 +1749,7 @@
       min-height: 74px;
       padding: 9px 14px;
       display: grid;
-      grid-template-columns: minmax(248px, 1.34fr) repeat(4, minmax(126px, .76fr)) minmax(168px, .9fr);
+      grid-template-columns: minmax(248px, 1.34fr) repeat(4, minmax(126px, .76fr)) minmax(264px, 1.32fr);
       gap: 0;
       align-items: center;
       transform: none;
@@ -1819,6 +1848,83 @@
       display: flex;
       align-items: center;
       justify-content: flex-end;
+      gap: 10px;
+    }
+
+    body > .page-shell > .page > .page-footer .session-sound-toggle {
+      min-width: 94px;
+      min-height: 54px;
+      padding: 0 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: 1px solid rgba(38, 92, 73, .22);
+      border-radius: 16px;
+      background: linear-gradient(180deg, #f7fbf8, #e8f2eb);
+      color: #1f5d47;
+      box-shadow:
+        0 12px 24px rgba(18, 65, 49, .12),
+        inset 0 1px 0 rgba(255, 255, 255, .92);
+      transition: transform .22s ease, box-shadow .22s ease, background .22s ease, color .22s ease;
+    }
+
+    body > .page-shell > .page > .page-footer .session-sound-toggle:hover {
+      transform: translateY(-1px);
+      box-shadow:
+        0 16px 28px rgba(18, 65, 49, .16),
+        inset 0 1px 0 rgba(255, 255, 255, .96);
+    }
+
+    body > .page-shell > .page > .page-footer .session-sound-toggle:focus-visible {
+      outline: 3px solid rgba(36, 157, 199, .34);
+      outline-offset: 2px;
+    }
+
+    body > .page-shell > .page > .page-footer .session-sound-toggle[data-state="off"] {
+      border-color: rgba(91, 103, 111, .24);
+      background: linear-gradient(180deg, #f4f5f5, #e6e9e9);
+      color: #59686f;
+      box-shadow:
+        0 10px 20px rgba(43, 54, 59, .1),
+        inset 0 1px 0 rgba(255, 255, 255, .9);
+    }
+
+    body > .page-shell > .page > .page-footer .sound-toggle-icon {
+      width: 20px;
+      height: 20px;
+      flex: 0 0 20px;
+    }
+
+    body > .page-shell > .page > .page-footer .sound-toggle-icon--off {
+      display: none;
+    }
+
+    body > .page-shell > .page > .page-footer .session-sound-toggle[data-state="off"] .sound-toggle-icon--on {
+      display: none;
+    }
+
+    body > .page-shell > .page > .page-footer .session-sound-toggle[data-state="off"] .sound-toggle-icon--off {
+      display: block;
+    }
+
+    body > .page-shell > .page > .page-footer .sound-toggle-copy {
+      display: grid;
+      justify-items: start;
+      line-height: 1.05;
+    }
+
+    body > .page-shell > .page > .page-footer .sound-toggle-copy > span {
+      font-size: .67rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    body > .page-shell > .page > .page-footer .sound-toggle-copy > strong {
+      margin-top: 3px;
+      font-size: .82rem;
+      font-weight: 800;
     }
 
     body > .page-shell > .page > .page-footer .session-action .session-reset {
@@ -2195,8 +2301,10 @@
           <p class="brand-overline">Experiencia formativa</p>
           <h1><span>Dado de la</span><span>Integridad</span></h1>
           <div class="brand-divider" aria-hidden="true"></div>
-          <p class="brand-points">Reflexiona • Participa • Actúa</p>
-          <p class="lead">Lanza el dado y fortalece los principios y valores que orientan nuestra labor al servicio de la ciudadanía.</p>
+          <div class="brand-supporting-copy">
+            <p class="brand-points">Reflexiona • Participa • Actúa</p>
+            <p class="lead">Lanza el dado y fortalece los principios y valores que orientan nuestra labor al servicio de la ciudadanía.</p>
+          </div>
         </div>
       </section>
 
@@ -2361,6 +2469,20 @@
           </article>
 
           <div class="session-action">
+            <button class="session-sound-toggle" type="button" id="soundToggleButton" aria-pressed="true" aria-label="Desactivar sonido" data-state="on">
+              <svg class="sound-toggle-icon sound-toggle-icon--on" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"></path>
+                <path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+              </svg>
+              <svg class="sound-toggle-icon sound-toggle-icon--off" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"></path>
+                <path d="m16 9 5 5m0-5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+              </svg>
+              <span class="sound-toggle-copy">
+                <span>Sonido</span>
+                <strong id="soundToggleStateText">Activo</strong>
+              </span>
+            </button>
             <button class="session-reset" type="button" id="sessionResetButton">Reiniciar</button>
           </div>
         </section>
@@ -2460,6 +2582,8 @@
     const facilitatorPanel = document.getElementById("facilitatorPanel");
     const facilitatorClose = document.getElementById("facilitatorClose");
     const sessionResetButton = document.getElementById("sessionResetButton");
+    const soundToggleButton = document.getElementById("soundToggleButton");
+    const soundToggleStateText = document.getElementById("soundToggleStateText");
     const bankUploadInput = document.getElementById("bankUploadInput");
     const bankUploadButton = document.getElementById("bankUploadButton");
     const bankRestoreButton = document.getElementById("bankRestoreButton");
@@ -2531,7 +2655,7 @@
     const resultAudio = new Audio(`assets/audio/dice-result.wav?v=${audioAssetVersion}`);
     rollAudio.preload = "auto";
     resultAudio.preload = "auto";
-    rollAudio.loop = true;
+    rollAudio.loop = false;
     rollAudio.volume = rollAudioVolume;
     resultAudio.volume = 0.82;
 
@@ -4083,19 +4207,29 @@ function getNextRotation(current, desired, turns){
   return current + (turns * 360) + delta;
 }
 
-function playHtmlAudio(audio){
-  if(!soundEnabled || !audio) return;
+function resetHtmlAudio(audio, volume){
+  if(!audio) return;
   try{
     audio.pause();
     audio.currentTime = 0;
+    if(Number.isFinite(volume)){
+      audio.volume = volume;
+    }
+  }catch(_error){
+    // El navegador puede bloquear operaciones multimedia durante una descarga de página.
+  }
+}
+
+function playHtmlAudio(audio){
+  if(!soundEnabled || !audio) return;
+  resetHtmlAudio(audio);
+  try{
     const playback = audio.play();
     if(playback && typeof playback.catch === "function"){
-      playback.catch(error => {
-        console.warn("No se pudo reproducir el audio del dado.", error);
-      });
+      playback.catch(() => {});
     }
-  }catch(error){
-    console.warn("No se pudo preparar el audio del dado.", error);
+  }catch(_error){
+    // La interfaz continúa funcionando si el navegador bloquea la reproducción.
   }
 }
 
@@ -4157,17 +4291,15 @@ function stopRollSound({ fadeOut = false } = {}){
 function playRollSound(){
   if(!soundEnabled || !rollAudio) return;
 
-  resetRollAudio();
+  stopAllSounds();
 
   try{
     const playback = rollAudio.play();
     if(playback && typeof playback.catch === "function"){
-      playback.catch(error => {
-        console.warn("No se pudo reproducir el audio del lanzamiento.", error);
-      });
+      playback.catch(() => {});
     }
-  }catch(error){
-    console.warn("No se pudo preparar el audio del lanzamiento.", error);
+  }catch(_error){
+    // La lógica del lanzamiento no depende de que el navegador permita audio.
   }
 
   rollSoundFadeTimeoutId = window.setTimeout(() => {
@@ -4175,8 +4307,42 @@ function playRollSound(){
   }, Math.max(rollDurationMs - rollAudioFadeOutMs, 0));
 }
 
+function stopResultSound(){
+  resetHtmlAudio(resultAudio, 0.82);
+}
+
+function stopAllSounds(){
+  stopRollSound();
+  stopResultSound();
+}
+
 function playResultSound(){
+  stopRollSound();
+  stopResultSound();
   playHtmlAudio(resultAudio);
+}
+
+function updateSoundToggle(){
+  if(!soundToggleButton) return;
+
+  const state = soundEnabled ? "on" : "off";
+  soundToggleButton.dataset.state = state;
+  soundToggleButton.setAttribute("aria-pressed", String(soundEnabled));
+  soundToggleButton.setAttribute("aria-label", soundEnabled ? "Desactivar sonido" : "Activar sonido");
+
+  if(soundToggleStateText){
+    soundToggleStateText.textContent = soundEnabled ? "Activo" : "Silencio";
+  }
+}
+
+function setSoundEnabled(enabled){
+  soundEnabled = Boolean(enabled);
+
+  if(!soundEnabled){
+    stopAllSounds();
+  }
+
+  updateSoundToggle();
 }
 
     const dice = {
@@ -4285,7 +4451,7 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
       isRolling = false;
       activeRollParticipantId = "";
 
-      stopRollSound();
+      stopAllSounds();
 
       window.clearTimeout(triggerDiceSwitchAnimation.timeoutId);
       cubeShell.classList.remove("is-switching");
@@ -4373,10 +4539,9 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
               : "Lanzamiento completado sin participante registrado.",
             "success"
           );
-          stopRollSound();
-          playResultSound();
           renderSessionStrip();
           setOutcomeVisible(true);
+          playResultSound();
           triggerCelebrationEffect();
         }catch(error){
           facilitatorState.launches = completionSnapshot.launches;
@@ -4430,6 +4595,12 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
 
     if(sessionResetButton){
       sessionResetButton.addEventListener("click", resetSession);
+    }
+
+    if(soundToggleButton){
+      soundToggleButton.addEventListener("click", () => {
+        setSoundEnabled(!soundEnabled);
+      });
     }
 
     if(participantsButton){
@@ -4643,6 +4814,7 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
       ensureCurrentParticipant();
       renderBankState();
       renderParticipantsState();
+      updateSoundToggle();
       setProtectedAccessUnlocked(false);
       setFacilitatorOpen(false);
       setDice(currentDiceKey);
