@@ -125,14 +125,48 @@
       animation: cube-switch var(--switch-duration) var(--switch-ease);
     }
 
+    .cube-view {
+      position: relative;
+      width: var(--cube-size);
+      height: var(--cube-size);
+      display: grid;
+      place-items: center;
+    }
+
     .cube {
       position: relative;
       width: var(--cube-size);
       height: var(--cube-size);
       transform-style: preserve-3d;
+      transform-origin: center center;
       transform: rotateX(-18deg) rotateY(28deg);
       transition: transform var(--roll-duration) var(--roll-ease);
       will-change: transform;
+      opacity: 1;
+      z-index: 1;
+    }
+
+    .solid-dice-canvas {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 2;
+      width: 150%;
+      height: 150%;
+      display: block;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .12s linear;
+    }
+
+    html.solid-dice-ready .solid-dice-canvas {
+      opacity: 1;
+    }
+
+    html.solid-dice-ready .cube {
+      opacity: 0;
+      visibility: hidden;
     }
 
     @keyframes cube-switch {
@@ -158,11 +192,13 @@
       place-items: center;
       overflow-x: hidden;
       overflow-y: auto;
+      box-sizing: border-box;
       border-radius: 28px;
       border: 1px solid rgba(219, 228, 238, .96);
-      background: linear-gradient(150deg, #ffffff 0%, #f7fafc 58%, #edf3f8 100%);
+      background: linear-gradient(150deg, #ffffff, #f1f5f9);
       box-shadow: none;
       backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
     }
 
     .face img {
@@ -172,6 +208,7 @@
       object-fit: fill;
       border-radius: 20px;
       box-shadow: none;
+      image-rendering: auto;
     }
 
     .front { transform: translateZ(var(--half-cube)); }
@@ -1652,8 +1689,13 @@
     }
 
     body > .page-shell > .page > main > .controls .controls-kicker {
-      color: #f2f7f4;
-      background: linear-gradient(180deg, rgba(255, 255, 255, .08), rgba(59, 111, 103, .16));
+      color: #ffffff;
+      background: linear-gradient(180deg, rgba(57, 119, 101, .92), rgba(20, 72, 60, .94));
+      border: 1px solid rgba(222, 188, 101, .48);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, .2),
+        0 6px 16px rgba(2, 18, 15, .24);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, .54);
     }
 
     body > .page-shell > .page > main > .controls .dice-tab {
@@ -2312,13 +2354,16 @@
         <div class="stage-visual" aria-hidden="true">
           <canvas class="celebration-canvas" id="celebrationCanvas"></canvas>
           <div class="cube-shell">
-            <div class="cube" id="cube">
-              <div class="face front"><img id="face-front" src="assets/dados/principios-1-06.png?v=1" alt="Lealtad" decoding="sync" fetchpriority="high"></div>
-              <div class="face back"><img id="face-back" src="assets/dados/principios-1-05.png?v=1" alt="Eficiencia" decoding="sync" fetchpriority="high"></div>
-              <div class="face right"><img id="face-right" src="assets/dados/principios-1-04.png?v=1" alt="Profesionalismo" decoding="sync" fetchpriority="high"></div>
-              <div class="face left"><img id="face-left" src="assets/dados/principios-1-02.png?v=1" alt="Rendición de Cuentas" decoding="sync" fetchpriority="high"></div>
-              <div class="face top"><img id="face-top" src="assets/dados/principios-1-03.png?v=1" alt="Legalidad" decoding="sync" fetchpriority="high"></div>
-              <div class="face bottom"><img id="face-bottom" src="assets/dados/principios-1-01.png?v=1" alt="Respeto a los Derechos Humanos" decoding="sync" fetchpriority="high"></div>
+            <div class="cube-view">
+              <canvas class="solid-dice-canvas" id="solidDiceCanvas" aria-hidden="true"></canvas>
+              <div class="cube" id="cube">
+                <div class="face front"><img id="face-front" src="assets/dados/principios-1-06.png?v=1" alt="Lealtad" decoding="sync" fetchpriority="high"></div>
+                <div class="face back"><img id="face-back" src="assets/dados/principios-1-05.png?v=1" alt="Eficiencia" decoding="sync" fetchpriority="high"></div>
+                <div class="face right"><img id="face-right" src="assets/dados/principios-1-04.png?v=1" alt="Profesionalismo" decoding="sync" fetchpriority="high"></div>
+                <div class="face left"><img id="face-left" src="assets/dados/principios-1-02.png?v=1" alt="Rendición de Cuentas" decoding="sync" fetchpriority="high"></div>
+                <div class="face top"><img id="face-top" src="assets/dados/principios-1-03.png?v=1" alt="Legalidad" decoding="sync" fetchpriority="high"></div>
+                <div class="face bottom"><img id="face-bottom" src="assets/dados/principios-1-01.png?v=1" alt="Respeto a los Derechos Humanos" decoding="sync" fetchpriority="high"></div>
+              </div>
             </div>
           </div>
           <div class="pedestal">
@@ -2558,10 +2603,12 @@
   </div>
 
   <script src="banco-preguntas.js?v=3"></script>
+  <script src="solid-dice-renderer.js?v=3"></script>
   <script>
     const pageShell = document.querySelector(".page-shell");
     const page = document.querySelector(".page");
     const cube = document.getElementById("cube");
+    const solidDiceCanvas = document.getElementById("solidDiceCanvas");
     const cubeShell = document.querySelector(".cube-shell");
     const controlsPanel = document.querySelector(".controls");
     const button = document.getElementById("rollButton");
@@ -2625,6 +2672,7 @@
 
     const assetVersion = "1";
     let soundEnabled = true;
+    let solidDiceRenderer = null;
     let currentRotationX = previewX;
     let currentRotationY = previewY;
     let currentPose = "preview";
@@ -4121,7 +4169,18 @@ function applyCubeRotation(x,y,{animate=true, pose="result", transition="roll"}=
   currentRotationX = x;
   currentRotationY = y;
   currentPose = pose;
+  const tilt = getPoseTilt(pose);
   cube.style.transform = getDiceTransform(x, y, pose);
+  solidDiceRenderer?.setRotation(
+    x + tilt.x,
+    y + tilt.y,
+    tilt.z,
+    {
+      animate,
+      duration: transition === "switch" ? switchDurationMs : rollDurationMs,
+      transition
+    }
+  );
 
   if(!animate){
     window.requestAnimationFrame(() => {
@@ -4197,6 +4256,7 @@ function renderDiceFaces(selectedDice){
     faceSlots[index].src = withAssetVersion(face.image);
     faceSlots[index].alt = face.name;
   });
+  solidDiceRenderer?.syncTextures();
 }
 
 function getNextRotation(current, desired, turns){
@@ -4389,6 +4449,11 @@ function setSoundEnabled(enabled){
       document.getElementById("face-bottom"),
       document.getElementById("face-left")
     ];
+
+    solidDiceRenderer = window.createSolidDiceRenderer?.({
+      canvas: solidDiceCanvas,
+      faceImages: faceSlots
+    }) || null;
 
     let currentDiceKey = "principios1";
     let usedQuestions=[]; let usedRetos=[];
