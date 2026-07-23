@@ -20,8 +20,8 @@
       --accent-dark: #096b91;
       --green: #315f50;
       --gold: #bd8f18;
-      --roll-duration: 6.4s;
-      --roll-ease: cubic-bezier(.12, .64, .16, 1);
+      --roll-duration: 3.4s;
+      --roll-ease: cubic-bezier(.30, .08, .70, 1);
       --switch-duration: 1.18s;
       --switch-ease: cubic-bezier(.22, .68, .22, 1);
       --page-side: 28px;
@@ -151,8 +151,8 @@
       left: 50%;
       top: 50%;
       z-index: 2;
-      width: 150%;
-      height: 150%;
+      width: 190%;
+      height: 190%;
       display: block;
       transform: translate(-50%, -50%);
       opacity: 0;
@@ -544,6 +544,7 @@
 
     .facilitator-admin {
       display: none;
+      min-width: 0;
       gap: 14px;
     }
 
@@ -584,6 +585,9 @@
     }
 
     .bank-loader {
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
       padding: 14px;
       display: grid;
       gap: 12px;
@@ -594,6 +598,7 @@
     }
 
     .bank-loader-head {
+      min-width: 0;
       display: grid;
       gap: 4px;
     }
@@ -611,20 +616,132 @@
     }
 
     .bank-actions {
+      min-width: 0;
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 10px;
     }
 
+    .bank-actions > button {
+      width: 100%;
+      min-width: 0;
+      padding-inline: 10px;
+      line-height: 1.12;
+      white-space: normal;
+    }
+
+    .bank-import-progress {
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+      display: grid;
+      gap: 7px;
+      padding: 10px 11px;
+      border: 1px solid rgba(21, 32, 51, .08);
+      border-radius: 13px;
+      background: rgba(255, 255, 255, .7);
+    }
+
+    .bank-import-progress[hidden] {
+      display: none;
+    }
+
+    .bank-progress-head,
+    .bank-progress-foot {
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .bank-progress-stage {
+      min-width: 0;
+      overflow: hidden;
+      color: var(--ink);
+      font-size: .78rem;
+      font-weight: 700;
+      line-height: 1.25;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .bank-progress-percent {
+      flex: 0 0 auto;
+      color: #147b98;
+      font-size: .78rem;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+
+    .bank-progress-track {
+      position: relative;
+      overflow: hidden;
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(21, 32, 51, .11);
+      box-shadow: inset 0 1px 2px rgba(21, 32, 51, .08);
+    }
+
+    .bank-progress-fill {
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #159bc0 0%, #37a99c 54%, #6aab35 100%);
+      box-shadow: 0 0 10px rgba(21, 155, 192, .24);
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform .18s ease-out;
+    }
+
+    .bank-progress-foot {
+      color: var(--muted);
+      font-size: .72rem;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    .bank-progress-file {
+      flex: 1 1 0;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .bank-progress-eta {
+      flex: 0 0 auto;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .bank-import-progress[data-state="success"] .bank-progress-percent,
+    .bank-import-progress[data-state="success"] .bank-progress-stage {
+      color: #1d6e52;
+    }
+
+    .bank-import-progress[data-state="error"] .bank-progress-percent,
+    .bank-import-progress[data-state="error"] .bank-progress-stage {
+      color: #b44545;
+    }
+
+    .bank-import-progress[data-state="error"] .bank-progress-fill {
+      background: #cf5b5b;
+      box-shadow: none;
+    }
+
     .bank-meta {
+      min-width: 0;
       display: grid;
       gap: 6px;
     }
 
     :is(.bank-status, .bank-summary, .bank-hint) {
+      min-width: 0;
+      max-width: 100%;
       margin: 0;
       font-size: .84rem;
       line-height: 1.4;
+      overflow-wrap: anywhere;
     }
 
     .bank-status {
@@ -804,7 +921,7 @@
       content: "";
       position: absolute;
       inset: 8% 7% 16% 8%;
-      z-index: 0;
+      z-index: 2;
       border-radius: 34px;
       background:
         linear-gradient(90deg, transparent 0 8%, rgba(168, 181, 194, .22) 8% 10%, transparent 10% 22%, rgba(191, 201, 211, .2) 22% 24%, transparent 24% 100%),
@@ -1417,7 +1534,6 @@
         inset 0 0 0 1px rgba(255, 255, 255, .08);
       transform: scale(var(--stage-scale));
       transform-origin: top left;
-      will-change: transform;
     }
 
     body > .page-shell > .page::before {
@@ -1476,7 +1592,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      z-index: 0;
+      z-index: 2;
       height: var(--pleca-art-height);
       overflow: hidden;
       pointer-events: none;
@@ -1501,10 +1617,10 @@
       content: "";
       position: absolute;
       top: 43px;
-      right: 55px;
+      right: 78px;
       z-index: 1;
-      width: 70px;
-      height: 8px;
+      width: 29px;
+      height: 12px;
       background:
         linear-gradient(rgba(4, 29, 26, .78), rgba(4, 29, 26, .78)),
         var(--institutional-green-texture) right center / 560px auto repeat;
@@ -1621,6 +1737,7 @@
       height: 700px;
       display: block;
       margin: 0 auto;
+      overflow: visible;
       transform: none;
     }
 
@@ -1630,10 +1747,11 @@
 
     body > .page-shell > .page > main > .stage .celebration-canvas {
       position: absolute;
-      inset: 0;
-      z-index: 4;
-      width: 100%;
-      height: 100%;
+      left: -90px;
+      top: -56px;
+      z-index: 2;
+      width: calc(100% + 180px);
+      height: calc(100% + 112px);
       pointer-events: none;
     }
 
@@ -1641,7 +1759,7 @@
       position: absolute;
       left: 50%;
       top: 54px;
-      z-index: 2;
+      z-index: 3;
       margin: 0;
       transform: translateX(-50%);
     }
@@ -1649,7 +1767,7 @@
     body > .page-shell > .page > main > .stage .pedestal {
       position: absolute;
       left: 50%;
-      bottom: -70px;
+      bottom: -145px;
       z-index: 1;
       width: 464px;
       transform: translateX(-50%);
@@ -2553,17 +2671,31 @@
             <span>Carga un archivo externo para actualizar preguntas y retos sin alterar la mecánica del dado.</span>
           </div>
 
-          <input class="sr-only" type="file" id="bankUploadInput" accept=".json,.csv,.xlsx,application/json,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+          <input class="sr-only" type="file" id="bankUploadInput" accept=".json,.csv,.xlsx,.docx,application/json,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.openxmlformats-officedocument.wordprocessingml.document" disabled>
 
           <div class="bank-actions">
-            <button class="counter-button counter-button--primary" type="button" id="bankUploadButton">Cargar archivo</button>
-            <button class="ghost-button" type="button" id="bankRestoreButton">Usar banco base</button>
+            <button class="counter-button counter-button--primary" type="button" id="bankUploadButton" disabled>Cargar archivo</button>
+            <button class="ghost-button" type="button" id="bankRestoreButton" disabled>Usar banco base</button>
+          </div>
+
+          <div class="bank-import-progress" id="bankImportProgress" data-state="active" aria-live="polite" hidden>
+            <div class="bank-progress-head">
+              <span class="bank-progress-stage" id="bankProgressStage">Preparando archivo…</span>
+              <strong class="bank-progress-percent" id="bankProgressPercent">0%</strong>
+            </div>
+            <div class="bank-progress-track" id="bankProgressTrack" role="progressbar" aria-label="Progreso de carga del banco" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+              <span class="bank-progress-fill" id="bankProgressFill"></span>
+            </div>
+            <div class="bank-progress-foot">
+              <span class="bank-progress-file" id="bankProgressFile"></span>
+              <span class="bank-progress-eta" id="bankProgressEta">Calculando tiempo…</span>
+            </div>
           </div>
 
           <div class="bank-meta">
             <p class="bank-status" id="bankStatus" data-state="neutral">Banco base activo.</p>
             <p class="bank-summary" id="bankSummary">0 preguntas · 0 retos</p>
-            <p class="bank-hint">Formatos admitidos: JSON con preguntas y retos, CSV con columnas tipo/texto o pregunta/reto, y Excel .xlsx con esas mismas columnas o con hojas llamadas Preguntas y Retos.</p>
+            <p class="bank-hint">Formatos admitidos: JSON, CSV, Excel .xlsx y Word .docx. En Word usa secciones tituladas Preguntas y Retos de integridad, o tablas con columnas tipo/texto o pregunta/reto.</p>
           </div>
         </div>
 
@@ -2603,7 +2735,7 @@
   </div>
 
   <script src="banco-preguntas.js?v=3"></script>
-  <script src="solid-dice-renderer.js?v=solid-20260720-2"></script>
+  <script src="solid-dice-renderer.js?v=solid-20260722-10-continuous"></script>
   <script>
     const pageShell = document.querySelector(".page-shell");
     const page = document.querySelector(".page");
@@ -2636,6 +2768,13 @@
     const bankRestoreButton = document.getElementById("bankRestoreButton");
     const bankStatus = document.getElementById("bankStatus");
     const bankSummary = document.getElementById("bankSummary");
+    const bankImportProgress = document.getElementById("bankImportProgress");
+    const bankProgressTrack = document.getElementById("bankProgressTrack");
+    const bankProgressFill = document.getElementById("bankProgressFill");
+    const bankProgressStage = document.getElementById("bankProgressStage");
+    const bankProgressPercent = document.getElementById("bankProgressPercent");
+    const bankProgressFile = document.getElementById("bankProgressFile");
+    const bankProgressEta = document.getElementById("bankProgressEta");
     const participantsButton = document.getElementById("participantsButton");
     const participantsModalBackdrop = document.getElementById("participantsModalBackdrop");
     const participantsClose = document.getElementById("participantsClose");
@@ -2649,8 +2788,21 @@
     const currentTurnName = document.getElementById("currentTurnName");
     const currentTurnHint = document.getElementById("currentTurnHint");
     const celebrationCanvas = document.getElementById("celebrationCanvas");
-    const rollDurationMs = 6400;
+    const celebrationMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const celebrationVersion = "fireworks-20260722-7-petardos";
+    const celebrationGutterX = 90;
+    const celebrationGutterY = 56;
+    const celebrationPlaybackRate = 1.18;
+    const celebrationFadeStartSeconds = 2.95;
+    const celebrationEndSeconds = 3.55;
+    document.documentElement.dataset.celebrationVersion = celebrationVersion;
+    document.documentElement.dataset.renderQuality = "uhd-adaptive-20260722-3";
+    const rollDurationMs = 3400;
     const switchDurationMs = 1180;
+    const maxBankFileBytes = 15 * 1024 * 1024;
+    const maxOfficeArchiveEntries = 2048;
+    const maxOfficeInflatedBytes = 32 * 1024 * 1024;
+    const maxDocxDocumentBytes = 2 * 1024 * 1024;
     const facilitatorStorageKey = "dadoIntegridadFacilitador";
     const bankStorageKey = "dadoIntegridadBanco";
     const protectedAccessPassword = "Facilitador2026";
@@ -2665,6 +2817,8 @@
     const resultTiltY = 0;
     const resultTiltZ = 0;
     const rootStyle = document.documentElement.style;
+    document.documentElement.dataset.rollRhythm = "continuous-20260722-2";
+    document.documentElement.dataset.rollRhythmPoints = "0";
     const viewportScaleConfig = {
       width: 1560,
       height: 1080
@@ -2682,10 +2836,16 @@
     let participantIdSequence = 0;
     let protectedStatusTimeoutId = 0;
     let celebrationFrameId = 0;
+    let celebrationClearTimeoutId = 0;
     let celebrationParticles = [];
     let celebrationLastTime = 0;
+    let celebrationStartTime = 0;
     let rollSoundFadeTimeoutId = 0;
     let rollSoundFadeFrameId = 0;
+    let isBankImporting = false;
+    let bankImportStartedAt = 0;
+    let bankImportProgressValue = 0;
+    let bankImportEstimatedRemainingMs = Number.NaN;
     let protectedAccessUnlocked = false;
     let protectedAccessListening = false;
     let protectedAccessBuffer = "";
@@ -2753,6 +2913,7 @@
       }
 
       resizeCelebrationCanvas();
+      solidDiceRenderer?.render();
     }
 
     function scheduleStageScale(){
@@ -3075,6 +3236,104 @@ function setBankStatus(message, state="neutral"){
   bankStatus.dataset.state = state;
 }
 
+function formatBankRemainingTime(milliseconds){
+  if(!Number.isFinite(milliseconds)){
+    return "Calculando tiempo…";
+  }
+
+  if(milliseconds <= 0){
+    return "Tiempo restante: 0 s";
+  }
+
+  if(milliseconds < 1000){
+    return "Tiempo restante: menos de 1 s";
+  }
+
+  const totalSeconds = Math.max(1, Math.ceil(milliseconds / 1000));
+  if(totalSeconds < 60){
+    return `Tiempo restante: ${totalSeconds} s`;
+  }
+
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `Tiempo restante: ${minutes} min ${seconds} s`;
+}
+
+function updateBankImportProgress(value, stage, state="active"){
+  if(!bankImportProgress) return;
+
+  const nextValue = Math.min(100, Math.max(0, Number(value) || 0));
+  bankImportProgressValue = state === "active"
+    ? Math.max(bankImportProgressValue, nextValue)
+    : nextValue;
+
+  const roundedValue = Math.round(bankImportProgressValue);
+  bankImportProgress.hidden = false;
+  bankImportProgress.dataset.state = state;
+  bankProgressStage.textContent = stage;
+  bankProgressPercent.textContent = `${roundedValue}%`;
+  bankProgressFill.style.transform = `scaleX(${bankImportProgressValue / 100})`;
+  bankProgressTrack.setAttribute("aria-valuenow", String(roundedValue));
+
+  if(state === "success"){
+    bankProgressEta.textContent = formatBankRemainingTime(0);
+    return;
+  }
+
+  if(state === "error"){
+    bankProgressEta.textContent = "Carga interrumpida";
+    return;
+  }
+
+  const elapsedMs = performance.now() - bankImportStartedAt;
+  if(bankImportProgressValue < 8 || elapsedMs < 80){
+    bankProgressEta.textContent = formatBankRemainingTime(Number.NaN);
+    return;
+  }
+
+  const currentEstimate = elapsedMs * ((100 - bankImportProgressValue) / bankImportProgressValue);
+  bankImportEstimatedRemainingMs = Number.isFinite(bankImportEstimatedRemainingMs)
+    ? (bankImportEstimatedRemainingMs * .68) + (currentEstimate * .32)
+    : currentEstimate;
+  bankProgressEta.textContent = formatBankRemainingTime(bankImportEstimatedRemainingMs);
+}
+
+function startBankImportProgress(fileName){
+  bankImportStartedAt = performance.now();
+  bankImportProgressValue = 0;
+  bankImportEstimatedRemainingMs = Number.NaN;
+  bankProgressFile.textContent = fileName;
+  bankProgressFile.title = fileName;
+  updateBankImportProgress(3, "Preparando archivo…");
+}
+
+function completeBankImportProgress(){
+  updateBankImportProgress(100, "Carga completada", "success");
+}
+
+function failBankImportProgress(){
+  updateBankImportProgress(bankImportProgressValue, "No se completó la carga", "error");
+}
+
+function resetBankImportProgress(){
+  bankImportStartedAt = 0;
+  bankImportProgressValue = 0;
+  bankImportEstimatedRemainingMs = Number.NaN;
+  bankImportProgress.hidden = true;
+  bankImportProgress.dataset.state = "active";
+  bankProgressFill.style.transform = "scaleX(0)";
+  bankProgressTrack.setAttribute("aria-valuenow", "0");
+  bankProgressStage.textContent = "Preparando archivo…";
+  bankProgressPercent.textContent = "0%";
+  bankProgressFile.textContent = "";
+  bankProgressFile.removeAttribute("title");
+  bankProgressEta.textContent = "Calculando tiempo…";
+}
+
+function waitForBankProgressPaint(){
+  return new Promise(resolve => window.requestAnimationFrame(() => resolve()));
+}
+
 function hideProtectedStatus(){
   if(!protectedStatus) return;
   window.clearTimeout(protectedStatusTimeoutId);
@@ -3110,9 +3369,9 @@ function syncProtectedControls(){
   facilitatorPanel.classList.toggle("is-unlocked", isUnlocked);
   facilitatorToggle.hidden = !isUnlocked;
   facilitatorToggle.setAttribute("aria-hidden", String(!isUnlocked));
-  bankUploadButton.disabled = !isUnlocked;
-  bankRestoreButton.disabled = !isUnlocked || !bankState.isCustom;
-  bankUploadInput.disabled = !isUnlocked;
+  bankUploadButton.disabled = !isUnlocked || isBankImporting;
+  bankRestoreButton.disabled = !isUnlocked || isBankImporting || !bankState.isCustom;
+  bankUploadInput.disabled = !isUnlocked || isBankImporting;
 }
 
 function setProtectedAccessUnlocked(isUnlocked){
@@ -3471,7 +3730,11 @@ function decodeBytes(bytes){
 }
 
 function resolveZipPath(baseDir, target){
-  const parts = `${baseDir}/${target}`.split("/");
+  const normalizedTarget = String(target || "");
+  const parts = (normalizedTarget.startsWith("/")
+    ? normalizedTarget.slice(1)
+    : `${baseDir}/${normalizedTarget}`
+  ).split("/");
   const resolved = [];
 
   parts.forEach(part => {
@@ -3486,7 +3749,7 @@ function resolveZipPath(baseDir, target){
   return resolved.join("/");
 }
 
-function findZipDirectoryOffset(view){
+function findZipDirectoryOffset(view, formatName){
   const minOffset = Math.max(0, view.byteLength - 0xffff - 22);
 
   for(let offset = view.byteLength - 22; offset >= minOffset; offset -= 1){
@@ -3495,58 +3758,78 @@ function findZipDirectoryOffset(view){
     }
   }
 
-  throw new Error("No se pudo leer el archivo de Excel.");
+  throw new Error(`No se pudo leer el archivo de ${formatName}.`);
 }
 
-async function inflateZipEntry(compressedBytes){
+async function inflateZipEntry(compressedBytes, formatName, extension){
   if(typeof DecompressionStream !== "function"){
-    throw new Error("Este navegador no puede leer archivos de Excel (.xlsx).");
+    throw new Error(`Este navegador no puede leer archivos de ${formatName} (${extension}).`);
   }
 
-  const stream = new DecompressionStream("deflate-raw");
-  const writer = stream.writable.getWriter();
-  await writer.write(compressedBytes);
-  await writer.close();
-  const buffer = await new Response(stream.readable).arrayBuffer();
+  const compressedStream = new Blob([compressedBytes]).stream();
+  const inflatedStream = compressedStream.pipeThrough(new DecompressionStream("deflate-raw"));
+  const buffer = await new Response(inflatedStream).arrayBuffer();
   return new Uint8Array(buffer);
 }
 
-async function unzipXlsxEntries(arrayBuffer){
+async function unzipOfficeEntries(arrayBuffer, { formatName, extension, onProgress = () => {} }){
+  if(arrayBuffer.byteLength > maxBankFileBytes){
+    throw new Error(`El archivo de ${formatName} supera el límite de 15 MB.`);
+  }
+
   const bytes = new Uint8Array(arrayBuffer);
   const view = new DataView(arrayBuffer);
-  const directoryOffset = findZipDirectoryOffset(view);
+  const directoryOffset = findZipDirectoryOffset(view, formatName);
   const totalEntries = view.getUint16(directoryOffset + 10, true);
   const centralDirectoryOffset = view.getUint32(directoryOffset + 16, true);
   const entries = new Map();
+  let totalInflatedBytes = 0;
   let pointer = centralDirectoryOffset;
 
+  if(totalEntries > maxOfficeArchiveEntries || centralDirectoryOffset >= view.byteLength){
+    throw new Error(`El archivo de ${formatName} tiene una estructura demasiado grande.`);
+  }
+
+  onProgress(0);
+
   for(let index = 0; index < totalEntries; index += 1){
-    if(view.getUint32(pointer, true) !== 0x02014b50){
-      break;
+    if(pointer + 46 > view.byteLength || view.getUint32(pointer, true) !== 0x02014b50){
+      throw new Error(`El archivo de ${formatName} no tiene una estructura compatible.`);
     }
 
     const compressionMethod = view.getUint16(pointer + 10, true);
     const compressedSize = view.getUint32(pointer + 20, true);
+    const uncompressedSize = view.getUint32(pointer + 24, true);
     const fileNameLength = view.getUint16(pointer + 28, true);
     const extraLength = view.getUint16(pointer + 30, true);
     const commentLength = view.getUint16(pointer + 32, true);
     const localHeaderOffset = view.getUint32(pointer + 42, true);
     const fileName = decodeBytes(bytes.slice(pointer + 46, pointer + 46 + fileNameLength));
 
-    if(view.getUint32(localHeaderOffset, true) !== 0x04034b50){
-      throw new Error("El archivo de Excel no tiene una estructura compatible.");
+    totalInflatedBytes += uncompressedSize;
+    if(totalInflatedBytes > maxOfficeInflatedBytes){
+      throw new Error(`El contenido descomprimido de ${formatName} es demasiado grande.`);
+    }
+
+    if(localHeaderOffset + 30 > view.byteLength || view.getUint32(localHeaderOffset, true) !== 0x04034b50){
+      throw new Error(`El archivo de ${formatName} no tiene una estructura compatible.`);
     }
 
     const localFileNameLength = view.getUint16(localHeaderOffset + 26, true);
     const localExtraLength = view.getUint16(localHeaderOffset + 28, true);
     const dataStart = localHeaderOffset + 30 + localFileNameLength + localExtraLength;
+
+    if(dataStart + compressedSize > view.byteLength){
+      throw new Error(`El archivo de ${formatName} está incompleto o dañado.`);
+    }
+
     const compressedData = bytes.slice(dataStart, dataStart + compressedSize);
 
     let entryBytes;
     if(compressionMethod === 0){
       entryBytes = compressedData;
     }else if(compressionMethod === 8){
-      entryBytes = await inflateZipEntry(compressedData);
+      entryBytes = await inflateZipEntry(compressedData, formatName, extension);
     }else{
       pointer += 46 + fileNameLength + extraLength + commentLength;
       continue;
@@ -3554,6 +3837,7 @@ async function unzipXlsxEntries(arrayBuffer){
 
     entries.set(fileName, entryBytes);
     pointer += 46 + fileNameLength + extraLength + commentLength;
+    onProgress((index + 1) / totalEntries);
   }
 
   return entries;
@@ -3644,18 +3928,26 @@ function extractRowsFromSheetXml(sheetXml, sharedStrings){
   });
 }
 
-async function parseBankFromXlsx(arrayBuffer){
-  const entries = await unzipXlsxEntries(arrayBuffer);
+async function parseBankFromXlsx(arrayBuffer, onProgress = () => {}){
+  onProgress(.04, "Abriendo archivo de Excel…");
+  const entries = await unzipOfficeEntries(arrayBuffer, {
+    formatName: "Excel",
+    extension: ".xlsx",
+    onProgress: value => onProgress(.08 + (value * .62), "Procesando archivo de Excel…")
+  });
   const sheets = getWorkbookSheets(entries);
   const sharedStrings = getSharedStrings(entries);
   let parsedBank = createEmptyBank();
 
-  sheets.forEach(sheet => {
+  onProgress(.74, "Leyendo hojas de Excel…");
+  sheets.forEach((sheet, index) => {
     const sheetXml = decodeBytes(entries.get(sheet.path) || new Uint8Array());
     if(!sheetXml) return;
     parsedBank = mergeBanks(parsedBank, extractBankFromRows(extractRowsFromSheetXml(sheetXml, sharedStrings), sheet.name));
+    onProgress(.74 + (((index + 1) / sheets.length) * .18), "Leyendo hojas de Excel…");
   });
 
+  onProgress(.96, "Validando preguntas y retos…");
   const normalizedBank = normalizeBank(parsedBank);
   if(!hasBankContent(normalizedBank)){
     throw new Error("El Excel debe usar columnas tipo,texto o pregunta,reto, o bien hojas Preguntas y Retos.");
@@ -3664,22 +3956,242 @@ async function parseBankFromXlsx(arrayBuffer){
   return normalizedBank;
 }
 
-async function parseExternalBankFile(file){
+function hasXmlParserError(xmlDocument){
+  return xmlDocument.documentElement?.localName === "parsererror" ||
+    xmlDocument.getElementsByTagName("parsererror").length > 0;
+}
+
+function getDirectXmlChildren(node, localName){
+  return [...(node?.childNodes || [])].filter(child =>
+    child.nodeType === 1 && child.localName === localName
+  );
+}
+
+function extractDocxNodeText(node){
+  const parts = [];
+
+  const visit = currentNode => {
+    if(currentNode.nodeType === 1){
+      if(currentNode.localName === "t"){
+        parts.push(currentNode.textContent || "");
+        return;
+      }
+
+      if(currentNode.localName === "tab" || currentNode.localName === "br" || currentNode.localName === "cr"){
+        parts.push(" ");
+        return;
+      }
+
+      if(currentNode.localName === "del" || currentNode.localName === "delText"){
+        return;
+      }
+    }
+
+    [...(currentNode.childNodes || [])].forEach(visit);
+  };
+
+  visit(node);
+  return normalizeText(parts.join(""));
+}
+
+function extractDocxTableRows(tableNode){
+  return getDirectXmlChildren(tableNode, "tr").map(rowNode =>
+    getDirectXmlChildren(rowNode, "tc").map(cellNode => {
+      const paragraphs = [...cellNode.getElementsByTagNameNS("*", "p")]
+        .map(extractDocxNodeText)
+        .filter(Boolean);
+      return normalizeText(paragraphs.join(" "));
+    })
+  );
+}
+
+function collectDocxBlocks(container, blocks=[]){
+  [...(container?.childNodes || [])].forEach(child => {
+    if(child.nodeType !== 1) return;
+
+    if(child.localName === "p"){
+      blocks.push({ type: "paragraph", text: extractDocxNodeText(child) });
+      return;
+    }
+
+    if(child.localName === "tbl"){
+      blocks.push({ type: "table", rows: extractDocxTableRows(child) });
+      return;
+    }
+
+    collectDocxBlocks(child, blocks);
+  });
+
+  return blocks;
+}
+
+function getDocxBankSection(text){
+  const heading = normalizeIdentifier(text)
+    .replace(/^\s*(?:\d+[.)-]?\s*)?/, "")
+    .replace(/[\s:.;,\-–—]+$/g, "");
+
+  if(/^(?:pregunta|preguntas|banco de preguntas|preguntas de integridad)$/.test(heading)){
+    return "preguntas";
+  }
+
+  if(/^(?:reto|retos|retos de integridad|desafio|desafios|desafios de integridad)$/.test(heading)){
+    return "retos";
+  }
+
+  return "";
+}
+
+function normalizeDocxPromptTemplate(text){
+  return normalizeText(text).replace(/\beste\s+(?:principio|valor)\b/gi, "{tema}");
+}
+
+function extractBankFromDocxBlocks(blocks){
+  let activeSection = "";
+  let bank = createEmptyBank();
+
+  blocks.forEach(block => {
+    if(block.type === "table"){
+      const tableBank = extractBankFromRows(block.rows, activeSection || "Word");
+      tableBank.preguntas = tableBank.preguntas.map(normalizeDocxPromptTemplate);
+      tableBank.retos = tableBank.retos.map(normalizeDocxPromptTemplate);
+      bank = mergeBanks(bank, tableBank);
+      return;
+    }
+
+    const text = normalizeText(block.text);
+    if(!text) return;
+
+    const nextSection = getDocxBankSection(text);
+    if(nextSection){
+      activeSection = nextSection;
+      return;
+    }
+
+    const prefixedItem = text.match(/^\s*(pregunta|reto|desaf[ií]o)\s*[:\-–—]\s*(.+)$/i);
+    if(prefixedItem){
+      const target = normalizeIdentifier(prefixedItem[1]).includes("pregunta") ? "preguntas" : "retos";
+      bank[target].push(normalizeDocxPromptTemplate(prefixedItem[2]));
+      return;
+    }
+
+    if(activeSection){
+      bank[activeSection].push(normalizeDocxPromptTemplate(text));
+    }
+  });
+
+  return normalizeBank(bank);
+}
+
+async function parseBankFromDocx(arrayBuffer, onProgress = () => {}){
+  onProgress(.04, "Abriendo documento de Word…");
+  const entries = await unzipOfficeEntries(arrayBuffer, {
+    formatName: "Word",
+    extension: ".docx",
+    onProgress: value => onProgress(.08 + (value * .64), "Procesando documento de Word…")
+  });
+  const contentTypes = decodeBytes(entries.get("[Content_Types].xml") || new Uint8Array());
+  const documentBytes = entries.get("word/document.xml");
+
+  if(!contentTypes.includes("wordprocessingml.document.main+xml") || !documentBytes){
+    throw new Error("El archivo no es un documento Word .docx compatible.");
+  }
+
+  if(documentBytes.byteLength > maxDocxDocumentBytes){
+    throw new Error("El contenido de Word es demasiado grande para importarlo.");
+  }
+
+  onProgress(.8, "Leyendo preguntas y retos…");
+  const documentXml = parseXmlDocument(decodeBytes(documentBytes));
+  if(hasXmlParserError(documentXml)){
+    throw new Error("El contenido XML del archivo Word está dañado.");
+  }
+
+  const body = documentXml.getElementsByTagNameNS("*", "body")[0];
+  if(!body){
+    throw new Error("El archivo Word no contiene un documento legible.");
+  }
+
+  onProgress(.93, "Validando preguntas y retos…");
+  const bank = extractBankFromDocxBlocks(collectDocxBlocks(body));
+  if(!hasBankContent(bank)){
+    throw new Error("El Word debe incluir secciones tituladas Preguntas y Retos de integridad, o tablas tipo/texto o pregunta/reto.");
+  }
+
+  return bank;
+}
+
+function readExternalBankFile(file, mode, onProgress = () => {}){
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.addEventListener("progress", event => {
+      if(event.lengthComputable && event.total > 0){
+        onProgress(event.loaded / event.total);
+      }
+    });
+
+    reader.addEventListener("load", () => {
+      onProgress(1);
+      resolve(reader.result);
+    });
+
+    reader.addEventListener("error", () => {
+      reject(reader.error || new Error("No se pudo leer el archivo seleccionado."));
+    });
+
+    reader.addEventListener("abort", () => {
+      reject(new Error("La carga del archivo fue cancelada."));
+    });
+
+    if(mode === "text"){
+      reader.readAsText(file, "utf-8");
+      return;
+    }
+
+    reader.readAsArrayBuffer(file);
+  });
+}
+
+async function parseExternalBankFile(file, onProgress = () => {}){
   const name = normalizeIdentifier(file.name || "");
+  const reportReadProgress = value => {
+    onProgress(6 + (Math.min(1, Math.max(0, value)) * 48), "Leyendo archivo…");
+  };
+  const reportOfficeProgress = (value, stage) => {
+    onProgress(56 + (Math.min(1, Math.max(0, value)) * 38), stage);
+  };
+
+  if(Number.isFinite(file.size) && file.size > maxBankFileBytes){
+    throw new Error("El archivo supera el límite de 15 MB.");
+  }
 
   if(name.endsWith(".json")){
-    return parseBankFromJson(await file.text());
+    const text = await readExternalBankFile(file, "text", reportReadProgress);
+    onProgress(76, "Interpretando archivo JSON…");
+    const bank = parseBankFromJson(text);
+    onProgress(94, "Validando preguntas y retos…");
+    return bank;
   }
 
   if(name.endsWith(".csv")){
-    return parseBankFromCsv(await file.text());
+    const text = await readExternalBankFile(file, "text", reportReadProgress);
+    onProgress(76, "Interpretando archivo CSV…");
+    const bank = parseBankFromCsv(text);
+    onProgress(94, "Validando preguntas y retos…");
+    return bank;
   }
 
   if(name.endsWith(".xlsx")){
-    return parseBankFromXlsx(await file.arrayBuffer());
+    const arrayBuffer = await readExternalBankFile(file, "arrayBuffer", reportReadProgress);
+    return parseBankFromXlsx(arrayBuffer, reportOfficeProgress);
   }
 
-  throw new Error("Usa un archivo .json, .csv o .xlsx.");
+  if(name.endsWith(".docx")){
+    const arrayBuffer = await readExternalBankFile(file, "arrayBuffer", reportReadProgress);
+    return parseBankFromDocx(arrayBuffer, reportOfficeProgress);
+  }
+
+  throw new Error("Usa un archivo .json, .csv, .xlsx o .docx.");
 }
 
 function loadFacilitatorState(){
@@ -3999,14 +4511,29 @@ function resizeCelebrationCanvas(){
     return;
   }
 
+  const width = Math.max(1, celebrationCanvas.clientWidth);
+  const height = Math.max(1, celebrationCanvas.clientHeight);
   const rect = celebrationCanvas.getBoundingClientRect();
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  celebrationCanvas.width = Math.max(1, Math.round(rect.width * dpr));
-  celebrationCanvas.height = Math.max(1, Math.round(rect.height * dpr));
+  const visualScale = Math.max(rect.width / width, rect.height / height);
+  const pixelRatio = Math.min(
+    2.5,
+    Math.max(1, (window.devicePixelRatio || 1) * visualScale)
+  );
+  const targetWidth = Math.max(1, Math.round(width * pixelRatio));
+  const targetHeight = Math.max(1, Math.round(height * pixelRatio));
+
+  if(celebrationCanvas.width !== targetWidth || celebrationCanvas.height !== targetHeight){
+    celebrationCanvas.width = targetWidth;
+    celebrationCanvas.height = targetHeight;
+  }
+
+  celebrationCanvas.dataset.pixelRatio = pixelRatio.toFixed(3);
+  celebrationCanvas.dataset.outputWidth = String(targetWidth);
+  celebrationCanvas.dataset.outputHeight = String(targetHeight);
 
   const context = celebrationCanvas.getContext("2d");
   if(context){
-    context.setTransform(dpr, 0, 0, dpr, 0, 0);
+    context.setTransform(targetWidth / width, 0, 0, targetHeight / height, 0, 0);
   }
 }
 
@@ -4023,32 +4550,212 @@ function clearCelebrationCanvas(){
   context.clearRect(0, 0, celebrationCanvas.clientWidth, celebrationCanvas.clientHeight);
 }
 
+function getCelebrationCoreRect(width, height){
+  return {
+    x: celebrationGutterX,
+    y: celebrationGutterY,
+    width: Math.max(1, width - celebrationGutterX * 2),
+    height: Math.max(1, height - celebrationGutterY * 2)
+  };
+}
+
+function addPetardoBurst(particles, core, {
+  x,
+  y,
+  delay,
+  count,
+  primary,
+  secondary,
+  angleOffset = 0
+}){
+  const originX = core.x + core.width * x;
+  const originY = core.y + core.height * y;
+
+  particles.push({
+    type: "ring",
+    petardo: true,
+    x: originX,
+    y: originY,
+    vx: 0,
+    vy: 0,
+    life: 0.38,
+    age: -delay,
+    radius: 4.5,
+    color: primary,
+    expansion: 34,
+    secondary: false
+  });
+
+  for(let particleIndex = 0; particleIndex < count; particleIndex += 1){
+    const angle = ((Math.PI * 2) / count) * particleIndex + angleOffset;
+    const speed = 95 + Math.random() * 50;
+    particles.push({
+      type: "spark",
+      petardo: true,
+      x: originX,
+      y: originY,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed - 8,
+      life: 0.42 + Math.random() * 0.18,
+      age: -delay,
+      radius: 2.2 + Math.random() * 1.5,
+      color: particleIndex % 4 === 0
+        ? "#ffffff"
+        : particleIndex % 2 === 0
+          ? primary
+          : secondary,
+      sparkle: particleIndex % 3 === 0
+    });
+  }
+}
+
 function buildCelebrationParticles(width, height){
   const colors = ["#ffffff", "#f0bf35", "#f25a2a", "#d6409c", "#2da8d8", "#6db141"];
-  const origins = [
-    { x: width * 0.37, y: height * 0.3 },
-    { x: width * 0.5, y: height * 0.22 },
-    { x: width * 0.63, y: height * 0.3 },
-    { x: width * 0.42, y: height * 0.42 },
-    { x: width * 0.58, y: height * 0.42 }
+  const core = getCelebrationCoreRect(width, height);
+  const fireworks = [
+    { startX: 0.24, startY: 0.8, originX: 0.13, originY: 0.18, delay: 0, count: 24 },
+    { startX: 0.76, startY: 0.8, originX: 0.87, originY: 0.18, delay: 0.16, count: 24 },
+    { startX: 0.2, startY: 0.86, originX: 0.09, originY: 0.43, delay: 0.34, count: 20 },
+    { startX: 0.8, startY: 0.86, originX: 0.91, originY: 0.43, delay: 0.52, count: 20 },
+    { startX: 0.32, startY: 0.82, originX: 0.25, originY: 0.34, delay: 0.72, count: 18 },
+    { startX: 0.68, startY: 0.82, originX: 0.75, originY: 0.34, delay: 0.9, count: 18 }
   ];
+  const launchDuration = 0.4;
+  const particles = [];
 
-  return origins.flatMap((origin, originIndex) => {
-    return Array.from({ length: 18 }, (_, particleIndex) => {
-      const angle = ((Math.PI * 2) / 18) * particleIndex + (originIndex * 0.18);
-      const speed = 68 + Math.random() * 84;
-      return {
-        x: origin.x,
-        y: origin.y,
-        vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed - (originIndex === 1 ? 26 : 12),
-        life: 0.92 + Math.random() * 0.48,
-        age: 0,
-        radius: 2.2 + Math.random() * 3.8,
-        color: colors[(particleIndex + originIndex) % colors.length]
-      };
+  fireworks.forEach((firework, fireworkIndex) => {
+    const startX = core.x + core.width * firework.startX;
+    const startY = core.y + core.height * firework.startY;
+    const originX = core.x + core.width * firework.originX;
+    const originY = core.y + core.height * firework.originY;
+    const burstDelay = firework.delay + launchDuration;
+    const accentColor = colors[(fireworkIndex * 2 + 1) % colors.length];
+
+    particles.push({
+      type: "rocket",
+      x: startX,
+      y: startY,
+      vx: (originX - startX) / launchDuration,
+      vy: (originY - startY) / launchDuration,
+      life: launchDuration,
+      age: -firework.delay,
+      radius: 2.6,
+      color: accentColor
     });
+
+    particles.push({
+      type: "ring",
+      x: originX,
+      y: originY,
+      vx: 0,
+      vy: 0,
+      life: 1.05,
+      age: -burstDelay,
+      radius: 8,
+      color: accentColor,
+      expansion: 82,
+      secondary: false
+    });
+
+    particles.push({
+      type: "ring",
+      x: originX,
+      y: originY,
+      vx: 0,
+      vy: 0,
+      life: 0.72,
+      age: -(burstDelay + 0.07),
+      radius: 5,
+      color: "#ffffff",
+      expansion: 56,
+      secondary: true
+    });
+
+    for(let particleIndex = 0; particleIndex < firework.count; particleIndex += 1){
+      const angle = ((Math.PI * 2) / firework.count) * particleIndex + fireworkIndex * 0.16;
+      const speed = 145 + Math.random() * 50;
+      particles.push({
+        type: "spark",
+        x: originX,
+        y: originY,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed - 18,
+        life: 1.3 + Math.random() * 0.3,
+        age: -burstDelay,
+        radius: 3.4 + Math.random() * 3.1,
+        color: colors[(particleIndex + fireworkIndex * 2) % colors.length],
+        sparkle: particleIndex % 3 === 0
+      });
+    }
   });
+
+  [
+    { x: 0.32, direction: -1, colorOffset: 1 },
+    { x: 0.68, direction: 1, colorOffset: 4 }
+  ].forEach((fountain, fountainIndex) => {
+    for(let particleIndex = 0; particleIndex < 16; particleIndex += 1){
+      particles.push({
+        type: "fountain",
+        x: core.x + core.width * fountain.x,
+        y: core.y + core.height * 0.8,
+        vx: fountain.direction * (28 + Math.random() * 62) + (Math.random() - 0.5) * 24,
+        vy: -(190 + Math.random() * 105),
+        life: 1.3 + Math.random() * 0.28,
+        age: -(0.96 + particleIndex * 0.02 + fountainIndex * 0.06),
+        radius: 2.8 + Math.random() * 2.4,
+        color: colors[(particleIndex + fountain.colorOffset) % colors.length],
+        sparkle: particleIndex % 5 === 0
+      });
+    }
+  });
+
+  for(let confettiIndex = 0; confettiIndex < 38; confettiIndex += 1){
+    particles.push({
+      type: "confetti",
+      x: core.x + core.width * (0.06 + Math.random() * 0.88),
+      y: core.y + core.height * (0.015 + Math.random() * 0.07),
+      vx: -32 + Math.random() * 64,
+      vy: 62 + Math.random() * 58,
+      life: 1.85 + Math.random() * 0.35,
+      age: -(1.05 + Math.random() * 0.25),
+      sizeX: 5 + Math.random() * 5,
+      sizeY: 2.6 + Math.random() * 2.8,
+      rotation: Math.random() * Math.PI,
+      rotationSpeed: -5 + Math.random() * 10,
+      wobble: Math.random() * Math.PI * 2,
+      color: colors[(confettiIndex + 1) % colors.length]
+    });
+  }
+
+  addPetardoBurst(particles, core, {
+    x: 0.18,
+    y: 0.48,
+    delay: 0.02,
+    count: 9,
+    primary: "#f0bf35",
+    secondary: "#f25a2a",
+    angleOffset: 0
+  });
+  addPetardoBurst(particles, core, {
+    x: 0.82,
+    y: 0.46,
+    delay: 0.16,
+    count: 9,
+    primary: "#2da8d8",
+    secondary: "#d6409c",
+    angleOffset: 0.12
+  });
+  addPetardoBurst(particles, core, {
+    x: 0.5,
+    y: 0.1,
+    delay: 0.31,
+    count: 10,
+    primary: "#ffffff",
+    secondary: "#f0bf35",
+    angleOffset: 0.24
+  });
+
+  return particles;
 }
 
 function animateCelebrationFrame(timestamp){
@@ -4063,67 +4770,364 @@ function animateCelebrationFrame(timestamp){
 
   if(!celebrationLastTime){
     celebrationLastTime = timestamp;
+    celebrationStartTime = timestamp;
   }
 
-  const delta = Math.min(0.028, (timestamp - celebrationLastTime) / 1000);
+  const delta = Math.min(0.05, Math.max(0, (timestamp - celebrationLastTime) / 1000)) * celebrationPlaybackRate;
   celebrationLastTime = timestamp;
+  const elapsed = Math.max(0, (timestamp - celebrationStartTime) / 1000) * celebrationPlaybackRate;
   const width = celebrationCanvas.clientWidth;
   const height = celebrationCanvas.clientHeight;
 
+  if(elapsed >= celebrationEndSeconds){
+    celebrationFrameId = 0;
+    celebrationLastTime = 0;
+    celebrationStartTime = 0;
+    celebrationParticles = [];
+    clearCelebrationCanvas();
+    return;
+  }
+
+  const finaleAlpha = elapsed <= celebrationFadeStartSeconds
+    ? 1
+    : Math.max(
+        0,
+        (celebrationEndSeconds - elapsed) /
+          (celebrationEndSeconds - celebrationFadeStartSeconds)
+      );
+
   context.clearRect(0, 0, width, height);
-  celebrationParticles = celebrationParticles.filter(particle => {
+  context.globalCompositeOperation = "source-over";
+  let aliveCount = 0;
+
+  for(let particleIndex = 0; particleIndex < celebrationParticles.length; particleIndex += 1){
+    const particle = celebrationParticles[particleIndex];
     particle.age += delta;
-    if(particle.age >= particle.life){
-      return false;
+    if(particle.age < 0){
+      celebrationParticles[aliveCount] = particle;
+      aliveCount += 1;
+      continue;
     }
 
-    particle.vy += 105 * delta;
-    particle.x += particle.vx * delta;
-    particle.y += particle.vy * delta;
+    if(particle.age >= particle.life){
+      continue;
+    }
 
     const progress = particle.age / particle.life;
-    const opacity = Math.max(0, 1 - progress);
-    context.globalAlpha = opacity;
-    context.shadowBlur = 12;
     context.shadowColor = particle.color;
-    context.fillStyle = particle.color;
-    context.beginPath();
-    context.arc(particle.x, particle.y, particle.radius * (1 - progress * 0.32), 0, Math.PI * 2);
-    context.fill();
+
+    if(particle.type === "ring"){
+      context.globalAlpha = (particle.petardo ? 0.78 : particle.secondary ? 0.58 : 0.88) * (1 - progress) * finaleAlpha;
+      context.shadowBlur = particle.petardo ? 10 : particle.secondary ? 9 : 14;
+      context.strokeStyle = particle.color;
+      context.lineWidth = particle.petardo
+        ? 2.4 - progress * 1.2
+        : (particle.secondary ? 2.2 : 3.4) - progress;
+      context.beginPath();
+      context.arc(
+        particle.x,
+        particle.y,
+        particle.radius + progress * particle.expansion,
+        0,
+        Math.PI * 2
+      );
+      context.stroke();
+
+      const flashDuration = particle.petardo ? 0.28 : 0.32;
+      if(!particle.secondary && progress < flashDuration){
+        const flashProgress = progress / flashDuration;
+        context.globalAlpha = (particle.petardo ? 0.88 : 0.82) * (1 - flashProgress) * finaleAlpha;
+        context.fillStyle = "#ffffff";
+        context.shadowColor = particle.color;
+        context.shadowBlur = particle.petardo ? 12 : 18;
+        context.beginPath();
+        context.arc(
+          particle.x,
+          particle.y,
+          particle.petardo ? 5 + flashProgress * 11 : 8 + flashProgress * 19,
+          0,
+          Math.PI * 2
+        );
+        context.fill();
+      }
+    }else{
+      if(particle.type === "spark"){
+        const drag = Math.pow(particle.petardo ? 0.958 : 0.977, delta * 60);
+        particle.vx *= drag;
+        particle.vy *= drag;
+        particle.vy += (particle.petardo ? 150 : 88) * delta;
+      }else if(particle.type === "fountain"){
+        const drag = Math.pow(0.988, delta * 60);
+        particle.vx *= drag;
+        particle.vy *= drag;
+        particle.vy += 175 * delta;
+      }
+
+      const horizontalWobble = particle.type === "confetti"
+        ? Math.sin(particle.age * 5.2 + particle.wobble) * 15
+        : 0;
+      particle.x += (particle.vx + horizontalWobble) * delta;
+      particle.y += particle.vy * delta;
+
+      if(particle.type === "confetti"){
+        particle.vy += 28 * delta;
+        particle.rotation += particle.rotationSpeed * delta;
+        const fadeIn = Math.min(1, particle.age / 0.14);
+        context.save();
+        context.translate(particle.x, particle.y);
+        context.rotate(particle.rotation);
+        context.globalAlpha = 0.94 * fadeIn * (1 - progress * 0.58) * finaleAlpha;
+        context.fillStyle = particle.color;
+        context.shadowColor = particle.color;
+        context.shadowBlur = 3;
+        context.fillRect(
+          -particle.sizeX / 2,
+          -particle.sizeY / 2,
+          particle.sizeX,
+          particle.sizeY
+        );
+        context.restore();
+        context.shadowBlur = 0;
+        context.globalAlpha = 1;
+        celebrationParticles[aliveCount] = particle;
+        aliveCount += 1;
+        continue;
+      }
+
+      const opacity = particle.type === "rocket"
+        ? 0.96 * (1 - progress * 0.2)
+        : particle.petardo
+          ? 0.96 * Math.pow(1 - progress, 1.25)
+        : 0.98 * Math.pow(1 - progress, 0.88);
+      const trailScale = particle.type === "rocket"
+        ? 0.046
+        : particle.type === "fountain"
+          ? 0.035
+          : particle.petardo
+            ? 0.02
+          : 0.03;
+      context.globalAlpha = Math.max(0, opacity * finaleAlpha);
+      context.shadowBlur = particle.type === "fountain"
+        ? 9
+        : particle.type === "rocket"
+          ? 10
+          : particle.petardo
+            ? 10
+          : 11;
+      context.fillStyle = particle.color;
+      context.strokeStyle = particle.color;
+      context.lineWidth = particle.type === "rocket"
+        ? 2.5
+        : particle.type === "fountain"
+          ? 2
+          : particle.petardo
+            ? 1.55
+          : 1.85;
+
+      context.beginPath();
+      context.moveTo(particle.x, particle.y);
+      context.lineTo(
+        particle.x - particle.vx * trailScale,
+        particle.y - particle.vy * trailScale
+      );
+      context.stroke();
+
+      if(particle.sparkle){
+        const sparkleSize = particle.radius * (2 - progress * 0.35);
+        context.lineWidth = 1.55;
+        context.beginPath();
+        context.moveTo(particle.x, particle.y - sparkleSize);
+        context.lineTo(particle.x, particle.y + sparkleSize);
+        context.moveTo(particle.x - sparkleSize, particle.y);
+        context.lineTo(particle.x + sparkleSize, particle.y);
+        context.stroke();
+      }else{
+        context.beginPath();
+        context.arc(
+          particle.x,
+          particle.y,
+          particle.radius * (1 - progress * 0.28),
+          0,
+          Math.PI * 2
+        );
+        context.fill();
+      }
+    }
 
     context.shadowBlur = 0;
-    context.strokeStyle = particle.color;
-    context.lineWidth = 1.2;
-    context.beginPath();
-    context.moveTo(particle.x, particle.y);
-    context.lineTo(particle.x - (particle.vx * 0.016), particle.y - (particle.vy * 0.016));
-    context.stroke();
     context.globalAlpha = 1;
-    return true;
-  });
+    celebrationParticles[aliveCount] = particle;
+    aliveCount += 1;
+  }
+
+  celebrationParticles.length = aliveCount;
 
   if(celebrationParticles.length){
     celebrationFrameId = window.requestAnimationFrame(animateCelebrationFrame);
   }else{
     celebrationFrameId = 0;
     celebrationLastTime = 0;
+    celebrationStartTime = 0;
     clearCelebrationCanvas();
   }
 }
 
-function triggerCelebrationEffect(){
-  if(!celebrationCanvas || window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+function drawReducedCelebration(){
+  if(!celebrationCanvas){
     return;
   }
 
-  resizeCelebrationCanvas();
+  const context = celebrationCanvas.getContext("2d");
+  if(!context){
+    return;
+  }
+
+  const width = celebrationCanvas.clientWidth;
+  const height = celebrationCanvas.clientHeight;
+  const core = getCelebrationCoreRect(width, height);
+  const colors = ["#f0bf35", "#f25a2a", "#d6409c", "#2da8d8", "#6db141", "#8a5bd6"];
+  const bursts = [
+    { x: core.x + core.width * 0.13, y: core.y + core.height * 0.18 },
+    { x: core.x + core.width * 0.87, y: core.y + core.height * 0.18 },
+    { x: core.x + core.width * 0.09, y: core.y + core.height * 0.43 },
+    { x: core.x + core.width * 0.91, y: core.y + core.height * 0.43 },
+    { x: core.x + core.width * 0.25, y: core.y + core.height * 0.34 },
+    { x: core.x + core.width * 0.75, y: core.y + core.height * 0.34 }
+  ];
+
+  context.clearRect(0, 0, width, height);
+  context.save();
+  context.globalCompositeOperation = "source-over";
+
+  bursts.forEach((burst, burstIndex) => {
+    const color = colors[burstIndex % colors.length];
+    context.strokeStyle = color;
+    context.fillStyle = color;
+    context.shadowColor = color;
+    context.shadowBlur = 16;
+    context.globalAlpha = 0.92;
+    context.lineWidth = 2.4;
+    context.beginPath();
+    context.arc(burst.x, burst.y, 31, 0, Math.PI * 2);
+    context.stroke();
+
+    for(let rayIndex = 0; rayIndex < 14; rayIndex += 1){
+      const angle = (Math.PI * 2 * rayIndex) / 14 + burstIndex * 0.13;
+      const innerRadius = 17;
+      const outerRadius = 43 + (rayIndex % 3) * 5;
+      const innerX = burst.x + Math.cos(angle) * innerRadius;
+      const innerY = burst.y + Math.sin(angle) * innerRadius;
+      const outerX = burst.x + Math.cos(angle) * outerRadius;
+      const outerY = burst.y + Math.sin(angle) * outerRadius;
+
+      context.beginPath();
+      context.moveTo(innerX, innerY);
+      context.lineTo(outerX, outerY);
+      context.stroke();
+      context.beginPath();
+      context.arc(outerX, outerY, 2.7, 0, Math.PI * 2);
+      context.fill();
+    }
+
+    context.lineWidth = 2.4;
+    context.beginPath();
+    context.moveTo(burst.x, burst.y - 10);
+    context.lineTo(burst.x, burst.y + 10);
+    context.moveTo(burst.x - 10, burst.y);
+    context.lineTo(burst.x + 10, burst.y);
+    context.stroke();
+  });
+
+  [
+    { x: 0.18, y: 0.48, color: "#f0bf35" },
+    { x: 0.82, y: 0.46, color: "#2da8d8" },
+    { x: 0.5, y: 0.1, color: "#ffffff" }
+  ].forEach((petardo, petardoIndex) => {
+    const x = core.x + core.width * petardo.x;
+    const y = core.y + core.height * petardo.y;
+    context.strokeStyle = petardo.color;
+    context.fillStyle = petardo.color;
+    context.shadowColor = petardo.color;
+    context.shadowBlur = 8;
+    context.globalAlpha = 0.82;
+    context.lineWidth = 1.8;
+
+    for(let rayIndex = 0; rayIndex < 8; rayIndex += 1){
+      const angle = (Math.PI * 2 * rayIndex) / 8 + petardoIndex * 0.12;
+      context.beginPath();
+      context.moveTo(x + Math.cos(angle) * 7, y + Math.sin(angle) * 7);
+      context.lineTo(x + Math.cos(angle) * 24, y + Math.sin(angle) * 24);
+      context.stroke();
+    }
+
+    context.beginPath();
+    context.arc(x, y, 3.8, 0, Math.PI * 2);
+    context.fill();
+  });
+
+  for(let confettiIndex = 0; confettiIndex < 30; confettiIndex += 1){
+    const x = core.x + core.width * (0.05 + ((confettiIndex * 37) % 90) / 100);
+    const y = core.y + core.height * (0.05 + ((confettiIndex * 19) % 30) / 100);
+    const color = colors[confettiIndex % colors.length];
+    const tilt = confettiIndex % 2 ? 0.45 : -0.45;
+    context.save();
+    context.translate(x, y);
+    context.rotate(tilt);
+    context.globalAlpha = 0.86;
+    context.fillStyle = color;
+    context.shadowColor = color;
+    context.shadowBlur = 5;
+    context.fillRect(-4, -2, 8, 4);
+    context.restore();
+  }
+
+  context.restore();
+}
+
+function stopCelebrationEffect(){
+  window.clearTimeout(celebrationClearTimeoutId);
+  celebrationClearTimeoutId = 0;
   window.cancelAnimationFrame(celebrationFrameId);
+  celebrationFrameId = 0;
   celebrationLastTime = 0;
+  celebrationStartTime = 0;
+  celebrationParticles = [];
+  clearCelebrationCanvas();
+}
+
+function triggerCelebrationEffect(){
+  if(!celebrationCanvas){
+    stopCelebrationEffect();
+    return;
+  }
+
+  stopCelebrationEffect();
+  resizeCelebrationCanvas();
+
+  if(celebrationMotionQuery.matches){
+    drawReducedCelebration();
+    celebrationClearTimeoutId = window.setTimeout(stopCelebrationEffect, 2200);
+    return;
+  }
+
   celebrationParticles = buildCelebrationParticles(
     celebrationCanvas.clientWidth,
     celebrationCanvas.clientHeight
   );
   celebrationFrameId = window.requestAnimationFrame(animateCelebrationFrame);
+}
+
+function safelyTriggerCelebrationEffect(){
+  try{
+    triggerCelebrationEffect();
+  }catch(error){
+    try{
+      stopCelebrationEffect();
+    }catch(_cleanupError){
+      // La celebración es decorativa y nunca debe afectar el lanzamiento.
+    }
+    console.warn("No se pudo mostrar la celebración visual.", error);
+  }
 }
 
 function setFacilitatorOpen(isOpen){
@@ -4460,6 +5464,7 @@ function setSoundEnabled(enabled){
     let usedFaces={principios1:[],principios2:[],valores:[]};
 
     function setDice(key, { animateSwitch = false } = {}) {
+      stopCelebrationEffect();
       currentDiceKey = key;
       const selectedDice = dice[key];
 
@@ -4541,6 +5546,7 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
         return;
       }
 
+      stopCelebrationEffect();
       const activeParticipant = ensureCurrentParticipant();
 
       const selectedDice = dice[currentDiceKey];
@@ -4607,7 +5613,7 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
           renderSessionStrip();
           setOutcomeVisible(true);
           playResultSound();
-          triggerCelebrationEffect();
+          safelyTriggerCelebrationEffect();
         }catch(error){
           facilitatorState.launches = completionSnapshot.launches;
           facilitatorState.currentParticipantId = completionSnapshot.currentParticipantId;
@@ -4752,19 +5758,31 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
         const file = bankUploadInput.files && bankUploadInput.files[0];
         if(!file) return;
 
+        isBankImporting = true;
+        startBankImportProgress(file.name);
+        syncProtectedControls();
+
         try{
           if(isDiceBusy()){
             throw new Error("Espera a que termine el lanzamiento para cambiar el banco.");
           }
 
           setBankStatus(`Cargando ${file.name}...`, "neutral");
-          const externalBank = await parseExternalBankFile(file);
+          await waitForBankProgressPaint();
+          const externalBank = await parseExternalBankFile(file, (value, stage) => {
+            updateBankImportProgress(value, stage);
+          });
+          updateBankImportProgress(97, "Aplicando banco de preguntas…");
           applyBankData(externalBank, { sourceName: file.name, isCustom: true });
           renderBankState(`Archivo cargado: ${file.name}`, "success");
+          completeBankImportProgress();
         }catch(error){
           setBankStatus(error && error.message ? error.message : "No se pudo cargar el archivo.", "error");
+          failBankImportProgress();
         }finally{
+          isBankImporting = false;
           bankUploadInput.value = "";
+          syncProtectedControls();
         }
       });
     }
@@ -4778,6 +5796,7 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
 
         applyBankData(defaultBank, { sourceName: "Banco base", isCustom: false });
         renderBankState("Banco base restaurado.", "success");
+        resetBankImportProgress();
       });
     }
 
@@ -4861,6 +5880,18 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
 
     window.addEventListener("resize", scheduleStageScale);
     window.addEventListener("orientationchange", scheduleStageScale);
+
+    celebrationMotionQuery.addEventListener?.("change", event => {
+      if(event.matches){
+        stopCelebrationEffect();
+      }
+    });
+
+    document.addEventListener("visibilitychange", () => {
+      if(document.hidden){
+        stopCelebrationEffect();
+      }
+    });
 
     if(window.visualViewport){
       window.visualViewport.addEventListener("resize", scheduleStageScale);

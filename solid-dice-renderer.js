@@ -2,7 +2,9 @@
   "use strict";
 
   const DEG_TO_RAD = Math.PI / 180;
-  const TEXTURE_SIZE = 2048;
+  const STANDARD_TEXTURE_SIZE = 1024;
+  const HIGH_RES_TEXTURE_SIZE = 2048;
+  const OUTPUT_SUPERSAMPLING = 1.3;
 
   function clamp(value, min, max) {
     return Math.min(max, Math.max(min, value));
@@ -87,7 +89,7 @@
     };
   }
 
-  function createRoundedCubeVertices(segments = 18, radius = 0.16) {
+  function createRoundedCubeVertices(segments = 32, radius = 0.16) {
     const vertices = [];
     const faces = [
       (u, v) => [u, v, 1],
@@ -131,7 +133,7 @@
     ];
   }
 
-  function roundedRectangleOutline(halfSize, radius, segmentsPerCorner = 8) {
+  function roundedRectangleOutline(halfSize, radius, segmentsPerCorner = 12) {
     const outline = [];
     const cornerDistance = halfSize - radius;
     const corners = [
@@ -304,7 +306,7 @@
     };
   }
 
-  const rollEase = cubicBezier(0.12, 0.64, 0.16, 1);
+  const rollEase = cubicBezier(0.30, 0.08, 0.70, 1);
   const switchEase = cubicBezier(0.22, 0.68, 0.22, 1);
 
   function createSolidDiceRenderer({ canvas, faceImages }) {
@@ -426,6 +428,7 @@
 
     let currentRotation = { x: -24, y: 38, z: 0 };
     let animationFrame = 0;
+    let resizeFrame = 0;
     let textureRevision = 0;
     let destroyed = false;
 
@@ -442,7 +445,14 @@
     function resize() {
       const width = Math.max(1, canvas.clientWidth);
       const height = Math.max(1, canvas.clientHeight);
-      const pixelRatio = Math.min(global.devicePixelRatio || 1, 4);
+      const rect = canvas.getBoundingClientRect();
+      const visualScale = Math.max(
+        rect.width / width,
+        rect.height / height,
+        1
+      );
+      const physicalScale = (global.devicePixelRatio || 1) * visualScale;
+      const pixelRatio = Math.min(4, Math.max(2, physicalScale * OUTPUT_SUPERSAMPLING));
       const targetWidth = Math.round(width * pixelRatio);
       const targetHeight = Math.round(height * pixelRatio);
 
@@ -450,6 +460,10 @@
         canvas.width = targetWidth;
         canvas.height = targetHeight;
       }
+
+      canvas.dataset.pixelRatio = pixelRatio.toFixed(3);
+      canvas.dataset.outputWidth = String(targetWidth);
+      canvas.dataset.outputHeight = String(targetHeight);
 
       gl.viewport(0, 0, canvas.width, canvas.height);
       return width / height;
@@ -469,7 +483,7 @@
       gl.cullFace(gl.BACK);
       gl.disable(gl.BLEND);
       gl.useProgram(program);
-      gl.uniformMatrix4fv(uniforms.projection, false, perspectiveMatrix(35 * DEG_TO_RAD, aspect, 0.1, 100));
+      gl.uniformMatrix4fv(uniforms.projection, false, perspectiveMatrix(43.541407 * DEG_TO_RAD, aspect, 0.1, 100));
       gl.uniform3f(
         uniforms.rotation,
         currentRotation.x * DEG_TO_RAD,
@@ -500,14 +514,18 @@
     }
 
     function uploadTexture(texture, image) {
+      const sourceSize = Math.max(image.naturalWidth || 0, image.naturalHeight || 0);
+      const textureSize = sourceSize > STANDARD_TEXTURE_SIZE
+        ? HIGH_RES_TEXTURE_SIZE
+        : STANDARD_TEXTURE_SIZE;
       const textureCanvas = document.createElement("canvas");
-      textureCanvas.width = TEXTURE_SIZE;
-      textureCanvas.height = TEXTURE_SIZE;
+      textureCanvas.width = textureSize;
+      textureCanvas.height = textureSize;
       const context = textureCanvas.getContext("2d", { alpha: true });
       context.imageSmoothingEnabled = true;
       context.imageSmoothingQuality = "high";
-      context.clearRect(0, 0, TEXTURE_SIZE, TEXTURE_SIZE);
-      context.drawImage(image, 0, 0, TEXTURE_SIZE, TEXTURE_SIZE);
+      context.clearRect(0, 0, textureSize, textureSize);
+      context.drawImage(image, 0, 0, textureSize, textureSize);
 
       gl.bindTexture(gl.TEXTURE_2D, texture);
       gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
@@ -537,7 +555,7 @@
       render();
     }
 
-    function setRotation(x, y, z = 0, { animate = true, duration = 6400, transition = "roll" } = {}) {
+    function setRotation(x, y, z = 0, { animate = true, duration = 3400, transition = "roll" } = {}) {
       global.cancelAnimationFrame(animationFrame);
       const target = { x, y, z };
 
@@ -572,10 +590,21 @@
       animationFrame = global.requestAnimationFrame(drawFrame);
     }
 
+    function scheduleRender() {
+      global.cancelAnimationFrame(resizeFrame);
+      resizeFrame = global.requestAnimationFrame(() => {
+        resizeFrame = 0;
+        render();
+      });
+    }
+
     const resizeObserver = typeof ResizeObserver === "function"
-      ? new ResizeObserver(render)
+      ? new ResizeObserver(scheduleRender)
       : null;
     resizeObserver?.observe(canvas);
+    global.addEventListener("resize", scheduleRender, { passive: true });
+    global.addEventListener("orientationchange", scheduleRender, { passive: true });
+    global.visualViewport?.addEventListener("resize", scheduleRender, { passive: true });
 
     canvas.addEventListener("webglcontextlost", event => {
       event.preventDefault();
@@ -592,7 +621,11 @@
       destroy() {
         destroyed = true;
         global.cancelAnimationFrame(animationFrame);
+        global.cancelAnimationFrame(resizeFrame);
         resizeObserver?.disconnect();
+        global.removeEventListener("resize", scheduleRender);
+        global.removeEventListener("orientationchange", scheduleRender);
+        global.visualViewport?.removeEventListener("resize", scheduleRender);
         document.documentElement.classList.remove("solid-dice-ready");
       }
     };
