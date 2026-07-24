@@ -1070,7 +1070,7 @@
       background: linear-gradient(180deg, rgba(255, 255, 255, .1), rgba(255, 255, 255, .04));
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08);
       color: #eef6ff;
-      font-size: .98rem;
+      font-size: 1.14rem;
       font-weight: 800;
       letter-spacing: .04em;
     }
@@ -1107,7 +1107,7 @@
       place-items: center;
       border-radius: 50%;
       color: #fff;
-      font-size: .96rem;
+      font-size: 1.02rem;
       font-weight: 800;
       letter-spacing: -.03em;
       box-shadow: inset 0 1px 0 rgba(255, 255, 255, .22);
@@ -1126,10 +1126,10 @@
     }
 
     .tab-copy {
-      font-size: .8rem;
+      font-size: .98rem;
       font-weight: 800;
       text-align: center;
-      line-height: 1.18;
+      line-height: 1.15;
     }
 
     .controls .dice-tab[aria-pressed="true"] {
@@ -1168,7 +1168,7 @@
 
     .howto-card h2 {
       margin: 0;
-      font-size: 1.08rem;
+      font-size: 1.24rem;
       line-height: 1;
     }
 
@@ -1187,7 +1187,7 @@
     .howto-item p {
       margin: 0;
       color: #375679;
-      font-size: .9rem;
+      font-size: 1.06rem;
       line-height: 1.34;
     }
 
@@ -1201,7 +1201,7 @@
       background: linear-gradient(180deg, #ffffff, #edf4fb);
       border: 1px solid rgba(192, 206, 223, .65);
       font-weight: 800;
-      font-size: 1.05rem;
+      font-size: 1.18rem;
     }
 
     .page.is-result-mode .howto-card {
@@ -1220,7 +1220,7 @@
       position: relative;
       min-height: 50px;
       border-radius: 22px;
-      font-size: 1.04rem;
+      font-size: 1.1rem;
       text-transform: uppercase;
       background: linear-gradient(135deg, #78c248, #4f942f);
       box-shadow:
@@ -1290,7 +1290,7 @@
     }
 
     .controls .prompt strong {
-      font-size: .98rem;
+      font-size: 1.14rem;
       line-height: 1.34;
     }
 
@@ -1350,22 +1350,22 @@
     }
 
     .session-strip .session-label {
-      font-size: .74rem;
+      font-size: .92rem;
       font-weight: 800;
       text-transform: uppercase;
-      letter-spacing: .04em;
+      letter-spacing: .02em;
       color: #6a9c49;
     }
 
     .session-value {
-      font-size: 1.1rem;
+      font-size: 1.16rem;
       line-height: 1.08;
       color: #173558;
       text-wrap: pretty;
     }
 
     .session-chip--wide .session-value {
-      font-size: 1.22rem;
+      font-size: 1.28rem;
     }
 
     body .facilitator-toggle {
@@ -1515,7 +1515,7 @@
     body > .page-shell > .page {
       position: absolute;
       inset: 0 auto auto 0;
-      --cube-size: 280px;
+      --cube-size: 340px;
       --half-cube: calc(var(--cube-size) / 2);
       width: var(--design-width);
       height: var(--design-height);
@@ -1758,7 +1758,7 @@
     body > .page-shell > .page > main > .stage .cube-shell {
       position: absolute;
       left: 50%;
-      top: 54px;
+      top: 110px;
       z-index: 3;
       margin: 0;
       transform: translateX(-50%);
@@ -1769,7 +1769,7 @@
       left: 50%;
       bottom: -145px;
       z-index: 1;
-      width: 464px;
+      width: 528px;
       transform: translateX(-50%);
       pointer-events: none;
     }
@@ -1990,7 +1990,7 @@
 
     body > .page-shell > .page > .page-footer .session-meta {
       margin: 0;
-      font-size: .72rem;
+      font-size: .78rem;
       line-height: 1.2;
       font-weight: 700;
       color: #617683;
@@ -2329,14 +2329,14 @@
 
     .current-turn-label {
       color: #607686;
-      font-size: .72rem;
+      font-size: .88rem;
       font-weight: 800;
       letter-spacing: .07em;
       text-transform: uppercase;
     }
 
     .current-turn-name {
-      font-size: 1.02rem;
+      font-size: 1.2rem;
       line-height: 1.18;
       color: #17384b;
       text-wrap: pretty;
@@ -2344,7 +2344,7 @@
 
     .current-turn-hint {
       color: #617683;
-      font-size: .76rem;
+      font-size: .92rem;
       font-weight: 700;
       line-height: 1.3;
     }
@@ -2850,20 +2850,23 @@
     let protectedAccessListening = false;
     let protectedAccessBuffer = "";
     let latestResolvedTopic = "Sin resultado";
+    let currentResolvedTopic = "Sin resultado";
     let scaleFrameId = 0;
     const defaultBank = normalizeBank(window.DADO_INTEGRIDAD_BANCO || createEmptyBank());
     let bankState = loadBankState();
     let banco = cloneBank(bankState.bank);
     let facilitatorState = loadFacilitatorState();
     const imagePreloadCache = new Map();
-    const audioAssetVersion = "3";
-    const rollAudioVolume = 0.82;
+    const audioAssetVersion = "5";
+    const rollAudioVolume = 0.42;
+    const rollAudioPlaybackRate = 0.8;
     const rollAudioFadeOutMs = 180;
-    const rollAudio = new Audio(`assets/audio/freesound_community-dice22-81801.mp3?v=${audioAssetVersion}`);
+    const rollAudio = new Audio(`assets/audio/dice-roll-updated.mp3?v=${audioAssetVersion}`);
     const resultAudio = new Audio(`assets/audio/dice-result.wav?v=${audioAssetVersion}`);
     rollAudio.preload = "auto";
     resultAudio.preload = "auto";
     rollAudio.loop = false;
+    rollAudio.playbackRate = rollAudioPlaybackRate;
     rollAudio.volume = rollAudioVolume;
     resultAudio.volume = 0.82;
 
@@ -5532,6 +5535,7 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
       usedFaces = { principios1: [], principios2: [], valores: [] };
       facilitatorState.launches = 0;
       latestResolvedTopic = "Sin resultado";
+      currentResolvedTopic = "Sin resultado";
       renderParticipantsState();
       renderSessionStrip();
       setResultMode(false);
@@ -5586,7 +5590,9 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
             facilitatorState.participants.map(participant => [participant.id, participant.participations])
           ),
           usedQuestions: [...usedQuestions],
-          usedRetos: [...usedRetos]
+          usedRetos: [...usedRetos],
+          latestResolvedTopic,
+          currentResolvedTopic
         };
 
         try{
@@ -5600,7 +5606,8 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
             throw new Error("No se encontró al participante que inició el lanzamiento.");
           }
 
-          latestResolvedTopic = selected.name;
+          latestResolvedTopic = currentResolvedTopic;
+          currentResolvedTopic = selected.name;
           resultText.textContent = selected.name;
           promptType.textContent = prompt.type;
           promptText.textContent = prompt.text;
@@ -5626,12 +5633,15 @@ return {type:"Pregunta",text:"Agrega preguntas en banco-preguntas.js."};
           });
           usedQuestions = completionSnapshot.usedQuestions;
           usedRetos = completionSnapshot.usedRetos;
+          latestResolvedTopic = completionSnapshot.latestResolvedTopic;
+          currentResolvedTopic = completionSnapshot.currentResolvedTopic;
           usedFaces[currentDiceKey] = usedFaces[currentDiceKey].filter(faceName => faceName !== selected.name);
           stopRollSound();
           resultText.textContent = "Lanzamiento no completado";
           promptType.textContent = "Intenta nuevamente";
           promptText.textContent = "No se registró ninguna participación ni se cambió el turno.";
           setParticipantsStatus("El lanzamiento no se completó. La misma persona conserva el turno.", "error");
+          renderSessionStrip();
           setOutcomeVisible(true);
           console.error("No se pudo completar el lanzamiento del dado.", error);
         }finally{
